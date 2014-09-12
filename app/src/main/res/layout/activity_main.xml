@@ -12,5 +12,95 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#fffffdd7"></RelativeLayout>
+        android:background="#fffffdd7">
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Speed Test"
+            android:id="@+id/button_throughput"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ff58ccff"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Latency Test"
+            android:id="@+id/button_latency"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="#ff58ccff"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Data Usage"
+            android:id="@+id/button_data_usage"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ff58ccff"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp" />
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Traceroute"
+            android:id="@+id/button_traceroute"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="#ff58ccff"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginRight="15dp" />
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Censorship"
+            android:id="@+id/button_censorship"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#ff58ccff"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="HTTP Test"
+            android:id="@+id/button_http"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="#ff58ccff"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp" />
+
+    </RelativeLayout>
 </RelativeLayout>

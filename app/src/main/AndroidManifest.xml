@@ -20,6 +20,10 @@
             android:name=".ThroughputActivity"
             android:label="@string/title_activity_throughput" >
         </activity>
+        <activity
+            android:name=".ThroughputHistoryActivity"
+            android:label="@string/title_activity_throughput_history" >
+        </activity>
     </application>
 
 </manifest>

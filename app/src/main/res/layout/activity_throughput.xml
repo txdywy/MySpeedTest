@@ -67,7 +67,8 @@
             android:layout_alignStart="@+id/text_download"
             android:layout_alignRight="@+id/text_download"
             android:layout_alignEnd="@+id/text_download"
-            android:progressDrawable="@drawable/custom_progress"/>
+            android:progressDrawable="@drawable/custom_progress"
+            android:progress="0" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,7 +81,7 @@
             android:layout_alignStart="@+id/button_history"
             android:layout_alignRight="@+id/button_return"
             android:layout_alignEnd="@+id/button_return"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#ff7b7b7b" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -93,7 +94,21 @@
             android:layout_alignStart="@+id/text_upload"
             android:layout_alignRight="@+id/text_upload"
             android:layout_alignEnd="@+id/text_upload"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#ff7b7b7b" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="0.0 Mbps"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="125dp"
+            android:textColor="#ff7b7b7b"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
     </RelativeLayout>
 
 </RelativeLayout>
