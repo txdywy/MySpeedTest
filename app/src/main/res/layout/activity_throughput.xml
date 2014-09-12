@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BBCDE3"
+    android:padding="10dp"
+    tools:context="com.num.myspeedtest.ThroughputActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#fffffdd7"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:text="History"
+            android:id="@+id/button_history"
+            android:drawableTop="@drawable/ic_action_paste"
+            android:background="#ff0fa10f"
+            android:textColor="#ffffffff"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="10dp" />
+
+        <Button
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:text="Share"
+            android:id="@+id/button_share"
+            android:drawableTop="@drawable/ic_action_share"
+            android:background="#ff0fa10f"
+            android:textColor="#ffffffff"
+            android:enabled="false"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/button_history"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:text="Return"
+            android:id="@+id/button_return"
+            android:drawableTop="@drawable/ic_action_replay"
+            android:background="#0FA10F"
+            android:textColor="#ffffffff"
+            android:padding="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_alignTop="@+id/button_share"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:indeterminate="false"
+            android:layout_above="@+id/text_download"
+            android:layout_alignLeft="@+id/text_download"
+            android:layout_alignStart="@+id/text_download"
+            android:layout_alignRight="@+id/text_download"
+            android:layout_alignEnd="@+id/text_download"
+            android:progressDrawable="@drawable/custom_progress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Upload:"
+            android:id="@+id/text_upload"
+            android:layout_above="@+id/button_history"
+            android:layout_alignLeft="@+id/button_history"
+            android:layout_alignStart="@+id/button_history"
+            android:layout_alignRight="@+id/button_return"
+            android:layout_alignEnd="@+id/button_return"
+            android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Download:"
+            android:id="@+id/text_download"
+            android:layout_above="@+id/text_upload"
+            android:layout_alignLeft="@+id/text_upload"
+            android:layout_alignStart="@+id/text_upload"
+            android:layout_alignRight="@+id/text_upload"
+            android:layout_alignEnd="@+id/text_upload"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
+
+</RelativeLayout>
