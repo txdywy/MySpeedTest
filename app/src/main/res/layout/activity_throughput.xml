@@ -101,13 +101,31 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="0.0 Mbps"
-            android:id="@+id/textView"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="125dp"
+            android:id="@+id/text_speed"
+            android:layout_gravity="center"
             android:textColor="#ff7b7b7b"
+            android:textStyle="bold"
             android:textSize="32dp"
-            android:textStyle="bold" />
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/progressBar2"
+            android:layout_alignStart="@+id/progressBar2"
+            android:layout_alignRight="@+id/progressBar2"
+            android:layout_alignEnd="@+id/progressBar2"
+            android:layout_alignBottom="@+id/progressBar2"
+            android:layout_alignTop="@+id/progressBar2"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar2"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/progressBar"
+            android:layout_alignLeft="@+id/progressBar"
+            android:layout_alignStart="@+id/progressBar"
+            android:layout_alignRight="@+id/progressBar"
+            android:layout_alignEnd="@+id/progressBar" />
 
     </RelativeLayout>
 
