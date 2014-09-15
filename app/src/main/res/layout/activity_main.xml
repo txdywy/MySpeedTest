@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,101 +7,110 @@
     android:background="#BBCDE3"
     android:padding="10dp">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#fffffdd7"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="#fffffdd7">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/main_linearlayout">
 
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:text="Speed Test"
-            android:id="@+id/button_throughput"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="#ff58ccff"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout1">
 
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:text="Latency Test"
-            android:id="@+id/button_latency"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:background="#ff58ccff"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Speed Test"
+                android:id="@+id/button_throughput"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffffff" />
 
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:text="Data Usage"
-            android:id="@+id/button_data_usage"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="#ff58ccff"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Latency Test"
+                android:id="@+id/button_latency"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffffff" />
 
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:text="Traceroute"
-            android:id="@+id/button_traceroute"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:background="#ff58ccff"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginRight="15dp" />
+        </LinearLayout>
 
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:text="Censorship"
-            android:id="@+id/button_censorship"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="#ff58ccff"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout2"
+            android:layout_marginTop="10dp">
 
-        <Button
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:text="HTTP Test"
-            android:id="@+id/button_http"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:background="#ff58ccff"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp" />
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Interference Test"
+                android:id="@+id/button_censorship"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffffff" />
 
-    </RelativeLayout>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="HTTP Test"
+                android:id="@+id/button_http"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout3"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Traceroute"
+                android:id="@+id/button_traceroute"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Data Usage"
+                android:id="@+id/button_data_usage"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffffff" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>

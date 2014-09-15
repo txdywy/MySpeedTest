@@ -27,7 +27,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="95dp"
@@ -40,7 +41,8 @@
             android:enabled="false"
             android:padding="10dp"
             android:layout_alignTop="@+id/button_history"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="95dp"
@@ -54,7 +56,8 @@
             android:layout_marginRight="25dp"
             android:layout_alignTop="@+id/button_share"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold" />
 
         <ProgressBar
             style="@android:style/Widget.ProgressBar.Horizontal"
@@ -81,7 +84,8 @@
             android:layout_alignStart="@+id/button_history"
             android:layout_alignRight="@+id/button_return"
             android:layout_alignEnd="@+id/button_return"
-            android:textColor="#ff7b7b7b" />
+            android:textColor="#ff7b7b7b"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,7 +98,8 @@
             android:layout_alignStart="@+id/text_upload"
             android:layout_alignRight="@+id/text_upload"
             android:layout_alignEnd="@+id/text_upload"
-            android:textColor="#ff7b7b7b" />
+            android:textColor="#ff7b7b7b"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,6 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/progressBar2"
+            android:progress="50"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/progressBar"
             android:layout_alignLeft="@+id/progressBar"
