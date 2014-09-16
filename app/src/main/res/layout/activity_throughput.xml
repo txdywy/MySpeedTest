@@ -6,133 +6,169 @@
     android:padding="10dp"
     tools:context="com.num.myspeedtest.ThroughputActivity">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#fffffdd7"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#fffffdd7"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/main_linearlayout">
 
-        <Button
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:text="History"
-            android:id="@+id/button_history"
-            android:drawableTop="@drawable/ic_action_paste"
-            android:background="#ff0fa10f"
-            android:textColor="#ffffffff"
-            android:layout_marginLeft="25dp"
-            android:layout_marginBottom="25dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="10dp"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3">
 
-        <Button
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:text="Share"
-            android:id="@+id/button_share"
-            android:drawableTop="@drawable/ic_action_share"
-            android:background="#ff0fa10f"
-            android:textColor="#ffffffff"
-            android:enabled="false"
-            android:padding="10dp"
-            android:layout_alignTop="@+id/button_history"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0.0. Mbps"
+                android:id="@+id/text_pvalue"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ff7b7b7b"
+                android:textStyle="bold" />
 
-        <Button
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:text="Return"
-            android:id="@+id/button_return"
-            android:drawableTop="@drawable/ic_action_replay"
-            android:background="#0FA10F"
-            android:textColor="#ffffffff"
-            android:padding="10dp"
-            android:layout_marginRight="25dp"
-            android:layout_alignTop="@+id/button_share"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textStyle="bold" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/progressBar"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:progressDrawable="@drawable/custom_circle"
+                android:indeterminate="false"
+                android:visibility="visible"
+                android:layout_centerInParent="true"
+                android:max="100"
+                android:progress="50" />
+        </RelativeLayout>
 
         <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:indeterminate="false"
-            android:layout_above="@+id/text_download"
-            android:layout_alignLeft="@+id/text_download"
-            android:layout_alignStart="@+id/text_download"
-            android:layout_alignRight="@+id/text_download"
-            android:layout_alignEnd="@+id/text_download"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/bar_progress"
+            android:layout_weight="0.03"
             android:progressDrawable="@drawable/custom_progress"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="5dp"
+            android:indeterminate="false"
             android:progress="0" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Upload:"
-            android:id="@+id/text_upload"
-            android:layout_above="@+id/button_history"
-            android:layout_alignLeft="@+id/button_history"
-            android:layout_alignStart="@+id/button_history"
-            android:layout_alignRight="@+id/button_return"
-            android:layout_alignEnd="@+id/button_return"
-            android:textColor="#ff7b7b7b"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.025">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Download:"
-            android:id="@+id/text_download"
-            android:layout_above="@+id/text_upload"
-            android:layout_alignLeft="@+id/text_upload"
-            android:layout_alignStart="@+id/text_upload"
-            android:layout_alignRight="@+id/text_upload"
-            android:layout_alignEnd="@+id/text_upload"
-            android:textColor="#ff7b7b7b"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Download"
+                android:id="@+id/text_download"
+                android:paddingLeft="35dp"
+                android:password="false"
+                android:textColor="#ff7b7b7b"
+                android:textStyle="bold"
+                android:layout_weight="0.5" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="0.0 Mbps"
-            android:id="@+id/text_speed"
-            android:layout_gravity="center"
-            android:textColor="#ff7b7b7b"
-            android:textStyle="bold"
-            android:textSize="32dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/progressBar2"
-            android:layout_alignStart="@+id/progressBar2"
-            android:layout_alignRight="@+id/progressBar2"
-            android:layout_alignEnd="@+id/progressBar2"
-            android:layout_alignBottom="@+id/progressBar2"
-            android:layout_alignTop="@+id/progressBar2"
-            android:gravity="center_vertical|center_horizontal" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0.0 Mbps"
+                android:id="@+id/text_dvalue"
+                android:paddingRight="35dp"
+                android:layout_weight="0.5"
+                android:textColor="#ff7b7b7b"
+                android:gravity="right" />
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar2"
-            android:progress="50"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/progressBar"
-            android:layout_alignLeft="@+id/progressBar"
-            android:layout_alignStart="@+id/progressBar"
-            android:layout_alignRight="@+id/progressBar"
-            android:layout_alignEnd="@+id/progressBar" />
+        </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.025">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Upload"
+                android:id="@+id/text_upload"
+                android:paddingLeft="35dp"
+                android:textColor="#ff7b7b7b"
+                android:textStyle="bold"
+                android:layout_weight="0.5" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0.0 Mbps"
+                android:id="@+id/text_uvalue"
+                android:layout_weight="0.5"
+                android:layout_gravity="right"
+                android:paddingRight="35dp"
+                android:textColor="#ff7b7b7b"
+                android:textAlignment="gravity"
+                android:gravity="right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.1"
+            android:id="@+id/linearlayout1"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Start"
+                android:id="@+id/button_start"
+                android:layout_weight="0.33"
+                android:background="#ff0fa10f"
+                android:textColor="#ffffffff"
+                android:layout_marginRight="5dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Share"
+                android:id="@+id/button_share"
+                android:layout_weight="0.33"
+                android:background="#ff0fa10f"
+                android:textColor="#ffffffff"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="History"
+                android:id="@+id/button_history"
+                android:layout_weight="0.33"
+                android:background="#ff0fa10f"
+                android:textColor="#ffffffff"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
