@@ -40,26 +40,14 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:progressDrawable="@drawable/custom_circle"
+                android:progressDrawable="@drawable/custom_ring_progress"
                 android:indeterminate="false"
                 android:visibility="visible"
                 android:layout_centerInParent="true"
                 android:max="100"
-                android:progress="50" />
+                android:progress="0"
+                android:background="@drawable/custom_ring_background" />
         </RelativeLayout>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/bar_progress"
-            android:layout_weight="0.03"
-            android:progressDrawable="@drawable/custom_progress"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingBottom="5dp"
-            android:indeterminate="false"
-            android:progress="0" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -141,11 +129,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Start"
+                android:drawableTop="@drawable/ic_action_play"
                 android:id="@+id/button_start"
                 android:layout_weight="0.33"
                 android:background="#ff0fa10f"
                 android:textColor="#ffffffff"
-                android:layout_marginRight="5dp" />
+                android:layout_marginRight="5dp"
+                android:paddingTop="20dp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -154,19 +144,23 @@
                 android:id="@+id/button_share"
                 android:layout_weight="0.33"
                 android:background="#ff0fa10f"
+                android:drawableTop="@drawable/ic_action_share"
                 android:textColor="#ffffffff"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:layout_marginRight="5dp"
+                android:paddingTop="20dp" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="History"
+                android:drawableTop="@drawable/ic_action_paste"
                 android:id="@+id/button_history"
                 android:layout_weight="0.33"
                 android:background="#ff0fa10f"
                 android:textColor="#ffffffff"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:paddingTop="20dp" />
         </LinearLayout>
 
     </LinearLayout>

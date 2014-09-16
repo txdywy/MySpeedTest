@@ -4,8 +4,6 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
@@ -23,6 +21,10 @@
         <activity
             android:name=".ThroughputHistoryActivity"
             android:label="@string/title_activity_throughput_history" >
+        </activity>
+        <activity
+            android:name=".LatencyActivity"
+            android:label="@string/title_activity_latency" >
         </activity>
     </application>
 

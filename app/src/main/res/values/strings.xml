@@ -2,9 +2,10 @@
 <resources>
 
     <string name="app_name">My Speed Test</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_throughput">ThroughputActivity</string>
     <string name="title_activity_throughput_history">ThroughputHistoryActivity</string>
+    <string name="title_activity_latency">LatencyActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
