@@ -1,5 +1,6 @@
 package com.num.myspeedtest.activities;
 
+import android.content.BroadcastReceiver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +22,10 @@ import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 
 import com.num.myspeedtest.R;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class ThroughputActivity extends ActionBarActivity {
     private Button button;
@@ -33,12 +38,20 @@ public class ThroughputActivity extends ActionBarActivity {
         button = (Button) findViewById(R.id.button_start);
 
         mobilyzer = API.getAPI(getApplicationContext(), "My Speed Test");
+        Map<String, String> params = new HashMap<String,String>();
+        params.put("dir_up","true");
         IntentFilter filter = new IntentFilter();
         filter.addAction(mobilyzer.userResultAction);
+        try {
+            mobilyzer.createTask(API.TaskType.TCPTHROUGHPUT, Calendar.getInstance().getTime(),
+                    null, 120, 1, MeasurementTask.USER_PRIORITY, 1, params);
+        }
+        catch (Exception e){
+
+        }
 
         button.setOnClickListener(new OnClickListener(){
             public void onClick(View v){
-
             }
         });
     }

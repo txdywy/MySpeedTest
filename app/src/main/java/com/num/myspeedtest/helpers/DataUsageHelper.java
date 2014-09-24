@@ -1,5 +1,6 @@
 package com.num.myspeedtest.helpers;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import com.num.myspeedtest.models.Application;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -21,15 +23,19 @@ public class DataUsageHelper {
 
     public static Application[] getApplications(Context context){
         PackageManager pm = context.getPackageManager();
+//        ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
         totalUsage = 0;
         maxUsage = 0;
         List<Application> appList = new ArrayList<Application>();
         List<ApplicationInfo> appInfo = pm.getInstalledApplications(0);
+        HashSet<Integer> uids = new HashSet<Integer>();
         for (ApplicationInfo info:appInfo) { // Loop through all installed apps
             Integer uid = info.uid;
+            if(uids.contains(uid)) continue;
+            uids.add(uid);
             long recv = TrafficStats.getUidRxBytes(uid);
             long sent = TrafficStats.getUidTxBytes(uid);
-            if(recv > 0 || sent > 0) { // Only display apps that used data
+            if(recv > 0 || sent > 0) { // Only get apps that used sent or received data
                 String appName = info.loadLabel(pm).toString();
                 String pkgName = info.packageName;
                 Drawable appIcon = info.loadIcon(pm);

@@ -32,6 +32,8 @@ public class Application implements BaseModel, Comparable<Application> {
 
     public void setTotalRecv(long i) { this.totalRecv = i; }
 
+    public void setIsRunning(boolean b) { this.isRunning = b; }
+
     public long getTotal() { return totalRecv + totalSent; }
 
     public String getUsageString() {

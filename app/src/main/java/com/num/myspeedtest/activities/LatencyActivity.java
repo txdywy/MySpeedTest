@@ -1,6 +1,7 @@
 package com.num.myspeedtest.activities;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,27 +13,30 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.mobilyzer.MeasurementTask;
+import com.mobilyzer.api.API;
+import com.mobilyzer.exceptions.MeasurementError;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.LatencyListAdapter;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class LatencyActivity extends ActionBarActivity {
     private ListView lv;
     private String[] targets;
     private float[] latencies;
+    private static API mobilyzer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latency);
+        executePing();
         lv = (ListView) findViewById(R.id.list_view_latency);
-        try {
-            LatencyListAdapter adapter = new LatencyListAdapter(lv.getContext(), targets);
-            lv.setAdapter(adapter);
-        }
-        catch(Exception e) {
-
-        }
+        LatencyListAdapter adapter = new LatencyListAdapter(lv.getContext(), targets);
+        lv.setAdapter(adapter);
     }
 
 
@@ -53,5 +57,21 @@ public class LatencyActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void executePing() {
+        //Initialize Mobilyzer
+        mobilyzer = API.getAPI(this, getString(R.string.app_name));
+        MeasurementTask task = null;
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("target", "www.google.com");
+        try {
+            task = mobilyzer.createTask(API.TaskType.PING, Calendar.getInstance().getTime(),
+                    null, 120, 1, MeasurementTask.USER_PRIORITY, 1, params);
+            mobilyzer.submitTask(task);
+        }
+        catch (MeasurementError e) {
+
+        }
     }
 }
