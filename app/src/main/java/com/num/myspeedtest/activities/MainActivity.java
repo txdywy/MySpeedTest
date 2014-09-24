@@ -1,13 +1,16 @@
-package com.num.myspeedtest;
+package com.num.myspeedtest.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.num.myspeedtest.R;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -30,14 +33,27 @@ public class MainActivity extends ActionBarActivity {
          });
 
         latencyButton = (Button) findViewById(R.id.button_latency);
+        latencyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Intent i = new Intent(activity, LatencyActivity.class);
+                startActivity(i);
+            }
+        });
 
-        censorshipButton = (Button) findViewById(R.id.button_censorship);
+//        censorshipButton = (Button) findViewById(R.id.button_censorship);
 
-        httpButton = (Button) findViewById(R.id.button_http);
+//        httpButton = (Button) findViewById(R.id.button_http);
 
         tracerouteButton = (Button) findViewById(R.id.button_traceroute);
 
         dataUsageButton = (Button) findViewById(R.id.button_data_usage);
+        dataUsageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, DataUsageActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 

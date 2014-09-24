@@ -1,24 +1,26 @@
-package com.num.myspeedtest;
+package com.num.myspeedtest.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.num.myspeedtest.R;
 
-public class LatencyActivity extends ActionBarActivity {
+
+public class ThroughputHistoryActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_latency);
+        setContentView(R.layout.activity_throughput_history);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.latency, menu);
+        getMenuInflater().inflate(R.menu.throughput_history, menu);
         return true;
     }
 

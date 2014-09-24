@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#BBCDE3"
     android:padding="10dp"
-    tools:context="com.num.myspeedtest.ThroughputActivity">
+    tools:context="com.num.myspeedtest.activities.ThroughputActivity">
 
     <LinearLayout
         android:orientation="vertical"

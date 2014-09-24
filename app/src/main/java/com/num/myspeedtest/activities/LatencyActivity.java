@@ -1,24 +1,45 @@
-package com.num.myspeedtest;
+package com.num.myspeedtest.activities;
 
+import android.content.Context;
+import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+
+import com.num.myspeedtest.R;
+import com.num.myspeedtest.adapters.LatencyListAdapter;
 
 
-public class ThroughputHistoryActivity extends ActionBarActivity {
+public class LatencyActivity extends ActionBarActivity {
+    private ListView lv;
+    private String[] targets;
+    private float[] latencies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_throughput_history);
+        setContentView(R.layout.activity_latency);
+        lv = (ListView) findViewById(R.id.list_view_latency);
+        try {
+            LatencyListAdapter adapter = new LatencyListAdapter(lv.getContext(), targets);
+            lv.setAdapter(adapter);
+        }
+        catch(Exception e) {
+
+        }
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.throughput_history, menu);
+        getMenuInflater().inflate(R.menu.latency, menu);
         return true;
     }
 

@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -15,16 +15,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ThroughputActivity"
+            android:name=".activities.ThroughputActivity"
             android:label="@string/title_activity_throughput" >
         </activity>
         <activity
-            android:name=".ThroughputHistoryActivity"
+            android:name=".activities.ThroughputHistoryActivity"
             android:label="@string/title_activity_throughput_history" >
         </activity>
         <activity
-            android:name=".LatencyActivity"
+            android:name=".activities.LatencyActivity"
             android:label="@string/title_activity_latency" >
+        </activity>
+        <activity
+            android:name=".activities.DataUsageActivity"
+            android:label="@string/title_activity_data_usage" >
         </activity>
     </application>
 

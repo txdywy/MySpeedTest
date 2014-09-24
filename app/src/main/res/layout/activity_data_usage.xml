@@ -6,13 +6,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.num.myspeedtest.activities.LatencyActivity"
+    tools:context="com.num.myspeedtest.activities.DataUsageActivity"
     android:background="#BBCDE3">
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_view_latency"
+        android:id="@+id/list_view_data"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
