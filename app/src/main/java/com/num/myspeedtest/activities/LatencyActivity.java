@@ -1,23 +1,22 @@
 package com.num.myspeedtest.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.database.DataSetObserver;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.mobilyzer.MeasurementTask;
-import com.mobilyzer.api.API;
-import com.mobilyzer.exceptions.MeasurementError;
+import com.mobilyzer.MeasurementResult;
+import com.mobilyzer.UpdateIntent;
+import com.mobilyzer.measurements.PingTask;
+import com.mobilyzer.measurements.PingTask.PingDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.LatencyListAdapter;
+import com.num.myspeedtest.models.Ping;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -25,20 +24,17 @@ import java.util.HashMap;
 
 public class LatencyActivity extends ActionBarActivity {
     private ListView lv;
-    private String[] targets;
+    private Ping[] pings;
     private float[] latencies;
-    private static API mobilyzer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latency);
-        executePing();
         lv = (ListView) findViewById(R.id.list_view_latency);
-        LatencyListAdapter adapter = new LatencyListAdapter(lv.getContext(), targets);
+        LatencyListAdapter adapter = new LatencyListAdapter(lv.getContext(), pings);
         lv.setAdapter(adapter);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,19 +55,22 @@ public class LatencyActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void executePing() {
-        //Initialize Mobilyzer
-        mobilyzer = API.getAPI(this, getString(R.string.app_name));
-        MeasurementTask task = null;
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("target", "www.google.com");
-        try {
-            task = mobilyzer.createTask(API.TaskType.PING, Calendar.getInstance().getTime(),
-                    null, 120, 1, MeasurementTask.USER_PRIORITY, 1, params);
-            mobilyzer.submitTask(task);
-        }
-        catch (MeasurementError e) {
+    private class LatencyReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Parcelable[] parcels = intent.getParcelableArrayExtra(UpdateIntent.RESULT_PAYLOAD);
+            String latencyJSON;
+            MeasurementResult[] results;
+            PingDesc desc;
+            if(parcels != null) {
+                results = new MeasurementResult[parcels.length];
+                for(int i=0; i<results.length; i++) {
+                    results[i] = (MeasurementResult) parcels[i];
+                    latencyJSON = results[i].getValues().get("tcp_speed_results");
+                    desc = (PingDesc) results[i].getMeasurementDesc();
+                }
+            }
         }
     }
 }

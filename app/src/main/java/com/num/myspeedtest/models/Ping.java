@@ -10,6 +10,7 @@ public class Ping implements BaseModel {
     private String dstIP;
     private String time;
 
+
     @Override
     public JSONObject toJSON() {
         return null;

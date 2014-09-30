@@ -1,6 +1,5 @@
 package com.num.myspeedtest.helpers;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -13,9 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
- * Created by Andrew on 9/23/2014.
+ * Helper class to retrieve application data usage information.
  */
 public class DataUsageHelper {
     private static long totalUsage;
@@ -23,15 +23,14 @@ public class DataUsageHelper {
 
     public static Application[] getApplications(Context context){
         PackageManager pm = context.getPackageManager();
-//        ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
         totalUsage = 0;
         maxUsage = 0;
         List<Application> appList = new ArrayList<Application>();
         List<ApplicationInfo> appInfo = pm.getInstalledApplications(0);
-        HashSet<Integer> uids = new HashSet<Integer>();
+        Set<Integer> uids = new HashSet<Integer>();
         for (ApplicationInfo info:appInfo) { // Loop through all installed apps
             Integer uid = info.uid;
-            if(uids.contains(uid)) continue;
+            if(uids.contains(uid)) continue; // Skip if an application with same uid is found
             uids.add(uid);
             long recv = TrafficStats.getUidRxBytes(uid);
             long sent = TrafficStats.getUidTxBytes(uid);
@@ -47,7 +46,6 @@ public class DataUsageHelper {
                 appList.add(app);
             }
         }
-
         //Convert to array and sort in descending order of usage
         Application[] appArray = appList.toArray(new Application[appList.size()]);
         Arrays.sort(appArray);
