@@ -11,16 +11,19 @@ import android.widget.TextView;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.models.Ping;
 import com.num.myspeedtest.models.Traceroute;
+import com.num.myspeedtest.models.TracerouteEntry;
+
+import java.util.List;
 
 /**
  * Created by miseonpark on 9/30/14.
  */
-public class TracerouteListAdapter extends ArrayAdapter<Traceroute> {
+public class TracerouteListAdapter extends ArrayAdapter<TracerouteEntry> {
 
     private Context context;
-    private Traceroute[] values;
+    private List<TracerouteEntry> values;
 
-    public TracerouteListAdapter(Context context, Traceroute[] values){
+    public TracerouteListAdapter(Context context, List<TracerouteEntry> values){
         super(context, R.layout.row_traceroute, values);
         this.context = context;
         this.values = values;
@@ -35,7 +38,10 @@ public class TracerouteListAdapter extends ArrayAdapter<Traceroute> {
         TextView address_name = (TextView) rowView.findViewById(R.id.traceroute_address_name);
         TextView time = (TextView) rowView.findViewById(R.id.traceroute_time);
 
-        hop_number.setText(values[pos].toString());
+        hop_number.setText(Integer.toString(values.get(pos).getHopnumber()));
+        address.setText(values.get(pos).getIpAddr());
+        address_name.setText(values.get(pos).getHostname());
+        time.setText(values.get(pos).getRtt());
         return rowView;
     }
 

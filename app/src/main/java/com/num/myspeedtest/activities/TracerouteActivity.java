@@ -5,10 +5,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.adapters.DataUsageListAdapter;
-import com.num.myspeedtest.helpers.DataUsageHelper;
+import com.num.myspeedtest.adapters.TracerouteListAdapter;
+import com.num.myspeedtest.helpers.TracerouteHelper;
 
 public class TracerouteActivity extends ActionBarActivity {
 
@@ -18,15 +17,15 @@ public class TracerouteActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traceroute);
         lv = (ListView) findViewById(R.id.list_view_traceroute);
-        DataUsageListAdapter adapter = new DataUsageListAdapter(this,
-                DataUsageHelper.getApplications(this));
+        TracerouteListAdapter adapter = new TracerouteListAdapter(this,
+                TracerouteHelper.getTracerouteResult(this));
         lv.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.data_usage, menu);
+        getMenuInflater().inflate(R.menu.traceroute, menu);
         return true;
     }
 
