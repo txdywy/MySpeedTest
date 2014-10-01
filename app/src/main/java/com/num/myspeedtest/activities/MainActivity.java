@@ -45,6 +45,12 @@ public class MainActivity extends ActionBarActivity {
 //        httpButton = (Button) findViewById(R.id.button_http);
 
         tracerouteButton = (Button) findViewById(R.id.button_traceroute);
+        tracerouteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Intent i = new Intent(activity, TracerouteActivity.class);
+                startActivity(i);
+            }
+        });
 
         dataUsageButton = (Button) findViewById(R.id.button_data_usage);
         dataUsageButton.setOnClickListener(new View.OnClickListener() {
