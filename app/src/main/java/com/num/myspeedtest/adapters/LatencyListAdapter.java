@@ -31,7 +31,10 @@ public class LatencyListAdapter extends ArrayAdapter<Ping> {
         View rowView = inflater.inflate(R.layout.row_latency, parent, false);
         TextView target = (TextView) rowView.findViewById(R.id.textTarget);
         ProgressBar progressBar = (ProgressBar) rowView.findViewById(R.id.progress_latency);
-        target.setText(values[pos].toString());
+        TextView rtt = (TextView) rowView.findViewById(R.id.textRTT);
+        target.setText(values[pos].getDstIP().getTagname());
+        progressBar.setProgress((int)values[pos].getMeasure().getAverage());
+        rtt.setText((int)values[pos].getMeasure().getAverage() + "ms");
         return rowView;
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="debug" >
+        <source path="C:\Users\Andrew\Documents\GitHub\MySpeedTest\mobilyzer\build\intermediates\bundles\debug\res" >
+            <file
+                path="C:\Users\Andrew\Documents\GitHub\MySpeedTest\mobilyzer\build\intermediates\bundles\debug\res\values\values.xml"
+                qualifiers="" >
+                <string name="scheduler_priority" >2
+                </string>
+                <string name="scheduler_version_name" >1.0
+                </string>
+            </file>
+        </source>
+    </dataSet>
+    <dataSet config="main" >
+        <source path="C:\Users\Andrew\Documents\GitHub\MySpeedTest\mobilyzer\src\androidTest\res" />
+        <source path="C:\Users\Andrew\Documents\GitHub\MySpeedTest\mobilyzer\build\generated\res\rs\test\debug" />
+        <source path="C:\Users\Andrew\Documents\GitHub\MySpeedTest\mobilyzer\build\generated\res\generated\test\debug" />
+    </dataSet>
+
+</merger>

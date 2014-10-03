@@ -5,6 +5,18 @@
     <application
         android:allowBackup="true"
         android:theme="@style/AppTheme" >
+
+<!--        <service android:name="com.mobilyzer.MeasurementScheduler" >
+            <intent-filter android:priority="@string/scheduler_priority">
+                <action android:name="com.mobilyzer.MeasurementScheduler"></action>
+            </intent-filter>
+        </service>
+        <receiver android:name="com.mobilyzer.util.PhoneUtils$ConnectivityChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+-->
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name" >
