@@ -24,12 +24,14 @@ import java.util.HashMap;
  */
 public class LatencyHelper {
     private static API mobilyzer;
+    private static ArrayList<String> taskIDList;
 
     public static void execute(Context c) {
         mobilyzer = API.getAPI(c, "My Speed Test");
         IntentFilter filter = new IntentFilter();
         filter.addAction(mobilyzer.userResultAction);
         ArrayList<Address> pingTargets = (ArrayList<Address>) new Values().getTargets();
+        taskIDList = new ArrayList<String>();
         ArrayList<MeasurementTask> taskList = new ArrayList<MeasurementTask>();
         HashMap<String, String> params = new HashMap<String, String>();
         for(Address a : pingTargets) {
@@ -39,6 +41,7 @@ public class LatencyHelper {
                 task = mobilyzer.createTask(API.TaskType.PING, Calendar.getInstance().getTime()
                         , null, 1, 1, MeasurementTask.USER_PRIORITY, 1, params);
                 taskList.add(task);
+                taskIDList.add(task.getTaskId());
                 mobilyzer.submitTask(task);
             }
             catch (MeasurementError e) {
@@ -54,5 +57,9 @@ public class LatencyHelper {
             e.printStackTrace();
         }
 */
+    }
+
+    public static ArrayList<String> getTaskIDList() {
+        return taskIDList;
     }
 }

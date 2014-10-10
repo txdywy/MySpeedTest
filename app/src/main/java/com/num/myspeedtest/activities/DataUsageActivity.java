@@ -21,9 +21,14 @@ public class DataUsageActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_usage);
         lv = (ListView) findViewById(R.id.list_view_data);
+    }
+
+    @Override
+    protected void onResume() {
         DataUsageListAdapter adapter = new DataUsageListAdapter(this,
                 DataUsageHelper.getApplications(this));
         lv.setAdapter(adapter);
+        super.onResume();
     }
 
     @Override

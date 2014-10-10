@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.mobilyzer.MeasurementResult;
 import com.mobilyzer.UpdateIntent;
 import com.mobilyzer.api.API;
+import com.mobilyzer.exceptions.MeasurementError;
 import com.mobilyzer.measurements.PingTask.PingDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.LatencyListAdapter;
@@ -34,6 +35,8 @@ public class LatencyActivity extends ActionBarActivity {
     private float[] latencies;
     private BroadcastReceiver br;
     private LatencyListAdapter adapter;
+    private API mobilyzer;
+    private ArrayList<String> taskIdList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +45,16 @@ public class LatencyActivity extends ActionBarActivity {
         pings = new ArrayList<Ping>();
         br = new LatencyReceiver();
         IntentFilter filter = new IntentFilter();
-        API mobilyzer = API.getAPI(this, "My Speed Test");
+        mobilyzer = API.getAPI(this, "My Speed Test");
         filter.addAction(mobilyzer.userResultAction);
         this.registerReceiver(br, filter);
-        LatencyHelper.execute(this);
         lv = (ListView) findViewById(R.id.list_view_latency);
+    }
+
+    @Override
+    protected void onResume() {
+        LatencyHelper.execute(this);
+        super.onResume();
     }
 
     @Override
@@ -66,6 +74,18 @@ public class LatencyActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        for(String id : LatencyHelper.getTaskIDList()) {
+            try {
+                mobilyzer.cancelTask(id);
+            } catch (MeasurementError measurementError) {
+                measurementError.printStackTrace();
+            }
+        }
+        super.onStop();
     }
 
     @Override

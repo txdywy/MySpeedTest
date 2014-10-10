@@ -1,5 +1,6 @@
 package com.num.myspeedtest.models;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -52,6 +53,16 @@ public class Measure implements BaseModel {
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        JSONObject json = new JSONObject();
+        try {
+            json.putOpt("max", max);
+            json.putOpt("min", min);
+            json.putOpt("average", average);
+            json.putOpt("stddev", stddev);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 }
