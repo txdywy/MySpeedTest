@@ -3,34 +3,24 @@ package com.num.myspeedtest.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.*;
-import android.content.IntentFilter;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.*;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.mobilyzer.*;
-import com.mobilyzer.api.*;
 import com.mobilyzer.MeasurementResult;
-import com.mobilyzer.MeasurementTask;
 import com.mobilyzer.UpdateIntent;
 import com.mobilyzer.api.API;
-import com.mobilyzer.exceptions.MeasurementError;
-import com.mobilyzer.measurements.PingTask;
-import com.mobilyzer.measurements.TCPThroughputTask;
 import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
-
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.helpers.ThroughputHelper;
-
-import org.json.JSONObject;
 
 public class ThroughputActivity extends ActionBarActivity {
     private TextView downSpeed, upSpeed, percentage;
@@ -87,8 +77,7 @@ public class ThroughputActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        this.unregisterReceiver(br
-        );
+        this.unregisterReceiver(br);
         super.onDestroy();
     }
 

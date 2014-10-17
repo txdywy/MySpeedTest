@@ -7,6 +7,7 @@
     <string name="title_activity_throughput_history">ThroughputHistoryActivity</string>
     <string name="title_activity_latency">LatencyActivity</string>
     <string name="title_activity_data_usage">DataUsageActivity</string>
+    <string name="title_activity_traceroute">Traceroute</string>
     <string name="title_activity_application_detail">ApplicationDetailActivity</string>
     <string name="scheduler_priority">2</string>
 </resources>

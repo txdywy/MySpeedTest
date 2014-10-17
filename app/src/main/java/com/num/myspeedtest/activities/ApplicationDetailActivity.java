@@ -4,14 +4,29 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.num.myspeedtest.R;
 
 public class ApplicationDetailActivity extends ActionBarActivity {
+    private ImageView icon;
+    private TextView name, desc, total, send, recv, percent;
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_detail);
+        icon = (ImageView) findViewById(R.id.icon_application_detail);
+        name = (TextView) findViewById(R.id.individual_app_page_name);
+        desc = (TextView) findViewById(R.id.individual_app_page_description);
+        total = (TextView) findViewById(R.id.individual_app_page_total_data_used_by_app_value);
+        send = (TextView) findViewById(R.id.individual_app_page_sent_data_used_by_app_value);
+        recv = (TextView) findViewById(R.id.individual_app_page_recv_data_used_by_app_value);
+        percent = (TextView) findViewById(R.id.individual_app_page_percentage_used_by_app_value);
+        pb = (ProgressBar) findViewById(R.id.individual_app_page_value);
     }
 
 
