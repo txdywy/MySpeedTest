@@ -1,33 +1,37 @@
 package com.num.myspeedtest.activities;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.DataUsageListAdapter;
 import com.num.myspeedtest.helpers.DataUsageHelper;
-import com.num.myspeedtest.models.Application;
-
-import java.util.List;
 
 
 public class DataUsageActivity extends ActionBarActivity {
     private ListView lv;
+    private ProgressBar pb;
+    private Context c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_usage);
+        c = this;
         lv = (ListView) findViewById(R.id.list_view_data);
+        pb = (ProgressBar) findViewById(R.id.progress_data_usage);
     }
 
     @Override
     protected void onResume() {
-        DataUsageListAdapter adapter = new DataUsageListAdapter(this,
-                DataUsageHelper.getApplications(this));
-        lv.setAdapter(adapter);
+        new LoadDataUsageTask().execute();
         super.onResume();
     }
 
@@ -48,5 +52,19 @@ public class DataUsageActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class LoadDataUsageTask extends AsyncTask<Void, Void, Void> {
+        DataUsageListAdapter adapter;
+        @Override
+        protected Void doInBackground(Void... voids) {
+            adapter = new DataUsageListAdapter(c, DataUsageHelper.getApplications(c));
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            pb.setVisibility(View.INVISIBLE);
+            lv.setAdapter(adapter);
+        }
     }
 }
