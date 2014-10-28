@@ -1,2 +1,0 @@
-int string scheduler_priority 0x7f020000
-int string scheduler_version_name 0x7f020001
