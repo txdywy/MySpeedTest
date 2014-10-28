@@ -94,8 +94,8 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Configure"
-                android:id="@+id/button_configure"
+                android:text="Censorship"
+                android:id="@+id/button_censorship"
                 android:background="@drawable/custom_button"
                 android:layout_weight="0.5"
                 android:layout_marginRight="5dp"

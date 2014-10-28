@@ -39,9 +39,18 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-//        censorshipButton = (Button) findViewById(R.id.button_censorship);
+        censorshipButton = (Button) findViewById(R.id.button_censorship);
+        censorshipButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(activity, CensorshipActivity.class);
+				startActivity(i);
+				
+			}
+		});
 
-//        httpButton = (Button) findViewById(R.id.button_http);
+        //httpButton = (Button) findViewById(R.id.button_http);
 
         tracerouteButton = (Button) findViewById(R.id.button_traceroute);
         tracerouteButton.setOnClickListener(new View.OnClickListener() {
