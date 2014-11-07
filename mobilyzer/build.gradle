@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '20.0.0'
+
+    defaultConfig {
+        applicationId "com.mobilyzer"
+        minSdkVersion 12
+        targetSdkVersion 14
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:18.+'
+    compile files('libs/myjson-1.7.1.jar')
+    compile files('libs/okhttp-2.0.0.jar')
+    compile files('libs/okio-1.0.1.jar')
+    compile 'com.google.android.gms:play-services:6.1.71'
+}

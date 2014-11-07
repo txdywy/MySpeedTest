@@ -1,0 +1,370 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/background_color"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/frame_color"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/main_linearlayout">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout1">
+
+            <LinearLayout
+                android:id="@+id/main_button_throughput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin_half">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_download"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:text="Speed Test"
+                    android:textColor="#3c3c3c" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="@dimen/activity_horizontal_margin_half"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#cccccc"/>
+
+            <LinearLayout
+                android:id="@+id/main_button_latency"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin_half">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_wifi"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:text="Latency Test"
+                    android:textColor="#3c3c3c" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout2">
+
+            <LinearLayout
+                android:id="@+id/main_button_data_usage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin_half">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_bar_graph"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:text="Data Usage"
+                    android:textColor="#3c3c3c" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#cccccc"/>
+
+            <LinearLayout
+                android:id="@+id/main_button_traceroute"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin_half">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_globe"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:text="Traceroute"
+                    android:textColor="#3c3c3c" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout3">
+
+            <LinearLayout
+                android:id="@+id/main_button_configure"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin_half">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_gear"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:text="Configure"
+                    android:textColor="#3c3c3c" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginBottom="@dimen/activity_horizontal_margin_half"
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="#cccccc"/>
+
+            <LinearLayout
+                android:id="@+id/main_button_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin_half">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_info_3"
+                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:text="About Us"
+                    android:textColor="#3c3c3c" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout1">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Speed Test"
+                android:id="@+id/button_throughput"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Latency Test"
+                android:id="@+id/button_latency"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffffff" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout2"
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Data Usage"
+                android:id="@+id/button_data_usage"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Traceroute"
+                android:id="@+id/button_traceroute"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.33"
+            android:id="@+id/linearlayout3"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Censorship"
+                android:id="@+id/button_censorship"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="About Us"
+                android:id="@+id/button_about_us"
+                android:background="@drawable/custom_button"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffffff" />
+        </LinearLayout>
+        -->
+    </LinearLayout>
+</RelativeLayout>
