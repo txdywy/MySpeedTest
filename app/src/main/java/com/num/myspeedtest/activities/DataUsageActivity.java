@@ -1,18 +1,21 @@
 package com.num.myspeedtest.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.DataUsageListAdapter;
 import com.num.myspeedtest.helpers.DataUsageHelper;
+import com.num.myspeedtest.models.Application;
 
 
 public class DataUsageActivity extends ActionBarActivity {
@@ -62,6 +65,14 @@ public class DataUsageActivity extends ActionBarActivity {
         protected void onPostExecute(Void v) {
             progressBar.setVisibility(View.INVISIBLE);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Application application = (Application) adapterView.getItemAtPosition(i);
+                    Intent intent = new Intent(context, ApplicationDetailActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

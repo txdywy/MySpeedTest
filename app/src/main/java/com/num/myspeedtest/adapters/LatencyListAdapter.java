@@ -11,10 +11,6 @@ import android.widget.TextView;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.models.Ping;
 
-/**
- * Created by Andrew on 9/23/2014.
- */
-
 public class LatencyListAdapter extends ArrayAdapter<Ping> {
     private Context context;
     private Ping[] values;

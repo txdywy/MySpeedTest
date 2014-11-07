@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Andrew on 9/30/2014.
- */
 public class Values {
     private static Map<String, Address> pingTargets = new HashMap<String, Address>();
 

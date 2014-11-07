@@ -1,12 +1,11 @@
 package com.num.myspeedtest.models;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-/**
- * Created by Andrew on 9/23/2014.
- */
 public class Application implements BaseModel, Comparable<Application> {
     private String name;
     private String packageName;
@@ -77,4 +76,5 @@ public class Application implements BaseModel, Comparable<Application> {
         else if(this.getTotal() < a.getTotal()) return 1;
         else return 0;
     }
+
 }

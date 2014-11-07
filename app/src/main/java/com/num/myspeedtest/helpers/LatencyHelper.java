@@ -25,14 +25,10 @@ public class LatencyHelper {
             for (Address a : pingTargets) {
                 MeasurementTask task;
                 params.put("target", a.getIp());
-                try {
-                    task = mobilyzer.createTask(API.TaskType.PING, Calendar.getInstance().getTime()
-                            , null, 1, 1, MeasurementTask.USER_PRIORITY, 1, params);
-                    taskList.add(task);
-                    taskIDList.add(task.getTaskId());
-                } catch (MeasurementError e) {
-                    e.printStackTrace();
-                }
+                task = mobilyzer.createTask(API.TaskType.PING, Calendar.getInstance().getTime()
+                        , null, 1, 1, MeasurementTask.USER_PRIORITY, 1, params);
+                taskList.add(task);
+                taskIDList.add(task.getTaskId());
             }
             MeasurementTask task = mobilyzer.composeTasks(API.TaskType.PARALLEL,
                     Calendar.getInstance().getTime(), null, 1, 1, MeasurementTask.USER_PRIORITY,

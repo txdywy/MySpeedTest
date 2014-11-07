@@ -6,54 +6,51 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-/**
- * Created by Andrew on 9/24/2014.
- */
 public class Ping implements BaseModel {
-    private String srcIP;
-    private Address dstIP;
-    private String time;
-    private Measure measure;
+    private String mSrcIP;
+    private Address mDstIP;
+    private String mTime;
+    private Measure mMeasure;
 
     public Ping(String srcIP, Address dstIP, Measure measure) {
-        this.srcIP = srcIP;
-        this.dstIP = dstIP;
-        this.measure = measure;
+        mSrcIP = srcIP;
+        mDstIP = dstIP;
+        mMeasure = measure;
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        this.time = sdf.format(new Date());
+        mTime = sdf.format(new Date());
     }
 
     public String getSrcIP() {
-        return srcIP;
+        return mSrcIP;
     }
 
-    public void setSrcIP(String srcIP) {
-        this.srcIP = srcIP;
+    public void setSrcIP(String mSrcIP) {
+        this.mSrcIP = mSrcIP;
     }
 
     public Address getDstIP() {
-        return dstIP;
+        return mDstIP;
     }
 
-    public void setDstIP(Address dstIP) {
-        this.dstIP = dstIP;
+    public void setDstIP(Address mDstIP) {
+        this.mDstIP = mDstIP;
     }
 
     public String getTime() {
-        return time;
+        return mTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime(String mTime) {
+        this.mTime = mTime;
     }
 
     public Measure getMeasure() {
-        return measure;
+        return mMeasure;
     }
 
-    public void setMeasure(Measure measure) {
-        this.measure = measure;
+    public void setMeasure(Measure mMeasure) {
+        this.mMeasure = mMeasure;
     }
 
     @Override

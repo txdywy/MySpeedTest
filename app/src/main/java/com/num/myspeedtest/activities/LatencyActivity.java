@@ -15,8 +15,6 @@ import android.widget.ProgressBar;
 
 import com.mobilyzer.MeasurementResult;
 import com.mobilyzer.UpdateIntent;
-import com.mobilyzer.api.API;
-import com.mobilyzer.exceptions.MeasurementError;
 import com.mobilyzer.measurements.PingTask.PingDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.LatencyListAdapter;
@@ -29,6 +27,7 @@ import com.num.myspeedtest.models.Values;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 
 public class LatencyActivity extends ActionBarActivity {
@@ -36,7 +35,7 @@ public class LatencyActivity extends ActionBarActivity {
     private ProgressBar progressBar;
     private ArrayList<Ping> pings;
     private BroadcastReceiver broadcastReceiver;
-    private API mobilyzer;
+    private HashSet<String> displayTargets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +43,9 @@ public class LatencyActivity extends ActionBarActivity {
         setContentView(R.layout.activity_latency);
 
         pings = new ArrayList<Ping>();
+        displayTargets = new HashSet<String>();
         broadcastReceiver = new LatencyReceiver();
         IntentFilter filter = new IntentFilter();
-        mobilyzer = API.getAPI(this, "My Speed Test");
-        filter.addAction(mobilyzer.userResultAction);
         this.registerReceiver(broadcastReceiver, filter);
         listView = (ListView) findViewById(R.id.latency_list_view);
         progressBar = (ProgressBar) findViewById(R.id.latency_progress);
@@ -73,18 +71,6 @@ public class LatencyActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStop() {
-        for (String id : LatencyHelper.getTaskIDList()) {
-            try {
-                mobilyzer.cancelTask(id);
-            } catch (MeasurementError measurementError) {
-                measurementError.printStackTrace();
-            }
-        }
-        super.onStop();
     }
 
     @Override
@@ -116,21 +102,25 @@ public class LatencyActivity extends ActionBarActivity {
                     double max = n.doubleValue();
                     n = nf.parse(values.get("stddev_rtt_ms"));
                     double stddev = n.doubleValue();
-                    if (values.get("filtered_mean_rtt_ms") == null)
+                    if (values.get("filtered_mean_rtt_ms") == null) {
                         n = nf.parse(values.get("mean_rtt_ms"));
-                    else
+                    } else {
                         n = nf.parse(values.get("filtered_mean_rtt_ms"));
+                    }
                     double average = n.doubleValue();
                     Values session = new Values();
                     Address dst = session.getAddress(desc.target);
                     Measure m = new Measure(min, max, average, stddev);
                     Ping p = new Ping(src, dst, m);
-                    pings.add(p);
+                    if (!displayTargets.contains(dst.getTagName())) {
+                        pings.add(p);
+                        displayTargets.add(dst.getTagName());
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-            LatencyListAdapter adapter = new LatencyListAdapter(context, pings.toArray(new Ping[0]));
+            LatencyListAdapter adapter = new LatencyListAdapter(context, pings.toArray(new Ping[pings.size()]));
             progressBar.setVisibility(View.INVISIBLE);
             listView.setAdapter(adapter);
         }
