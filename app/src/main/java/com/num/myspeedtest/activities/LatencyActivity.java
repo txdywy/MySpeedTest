@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 
 import com.mobilyzer.MeasurementResult;
 import com.mobilyzer.UpdateIntent;
+import com.mobilyzer.api.API;
 import com.mobilyzer.measurements.PingTask.PingDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.LatencyListAdapter;
@@ -45,7 +46,9 @@ public class LatencyActivity extends ActionBarActivity {
         pings = new ArrayList<Ping>();
         displayTargets = new HashSet<String>();
         broadcastReceiver = new LatencyReceiver();
+        API mobilyzer = API.getAPI(this, "My Speed Test");
         IntentFilter filter = new IntentFilter();
+        filter.addAction(mobilyzer.userResultAction);
         this.registerReceiver(broadcastReceiver, filter);
         listView = (ListView) findViewById(R.id.latency_list_view);
         progressBar = (ProgressBar) findViewById(R.id.latency_progress);

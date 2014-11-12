@@ -75,29 +75,15 @@
                             <TextView
                                 android:id="@+id/individual_app_page_name"
                                 android:layout_width="fill_parent"
-                                android:layout_height="46dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:ellipsize="end"
                                 android:gravity="clip_vertical|left"
                                 android:padding="0px"
                                 android:text="Application"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="40dp" />
-
-                            <TextView
-                                android:id="@+id/individual_app_page_description"
-                                android:layout_width="fill_parent"
-                                android:layout_height="25dp"
-                                android:layout_marginTop="2dp"
-                                android:layout_marginBottom="5dp"
-                                android:layout_below="@id/individual_app_page_name"
-                                android:ellipsize="end"
-                                android:gravity="clip_vertical|left"
-                                android:padding="0px"
-                                android:text="Description"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:textSize="15dp"
-                                android:autoText="true" />
+                                android:textSize="40dp"
+                                android:layout_alignParentBottom="true" />
 
 
                         </RelativeLayout>

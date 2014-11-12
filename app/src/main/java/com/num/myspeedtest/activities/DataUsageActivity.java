@@ -70,6 +70,7 @@ public class DataUsageActivity extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Application application = (Application) adapterView.getItemAtPosition(i);
                     Intent intent = new Intent(context, ApplicationDetailActivity.class);
+                    intent.putExtra("package", application.getPackageName());
                     startActivity(intent);
                 }
             });

@@ -4,37 +4,37 @@ package com.num.myspeedtest.models;
  * Model for IP address
  */
 public class Address {
-    private String mIP;
-    private String mTagName;
-    private String mType;
+    private String ip;
+    private String tagName;
+    private String type;
 
     public Address(String ip, String tagName, String type) {
-        mIP = ip;
-        mTagName = tagName;
-        mType = type;
+        this.ip = ip;
+        this.tagName = tagName;
+        this.type = type;
     }
 
     public String getIp() {
-        return mIP;
+        return ip;
     }
 
     public void setIp(String ip) {
-        mIP = ip;
+        this.ip = ip;
     }
 
     public String getTagName() {
-        return mTagName;
+        return tagName;
     }
 
     public void setTagName(String tagName) {
-        mTagName = tagName;
+        this.tagName = tagName;
     }
 
     public String getType() {
-        return mType;
+        return type;
     }
 
     public void setType(String type) {
-        mType = type;
+        this.type = type;
     }
 }
