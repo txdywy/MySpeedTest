@@ -13,16 +13,19 @@ import com.num.myspeedtest.R;
 
 
 public class MainActivity extends ActionBarActivity {
-    private LinearLayout throughputButton;
-    private LinearLayout latencyButton;
-    private LinearLayout tracerouteButton;
-    private LinearLayout dataUsageButton;
+
     private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout throughputButton;
+        LinearLayout latencyButton;
+        LinearLayout tracerouteButton;
+        LinearLayout dataUsageButton;
+
         activity = this;
 
         throughputButton = (LinearLayout) findViewById(R.id.main_button_throughput);
