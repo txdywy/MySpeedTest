@@ -12,4 +12,7 @@
     <string name="scheduler_priority">2</string>
     <string name="title_activity_censorship">CensorshipActivity</string>
     <string name="loading">PythonAPK running...</string>
+    <string name="title_activity_latency_detail">LatencyDetailActivity</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

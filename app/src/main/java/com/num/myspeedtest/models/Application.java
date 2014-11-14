@@ -13,7 +13,6 @@ public class Application implements BaseModel, Comparable<Application> {
     private long totalRecv;
     private boolean isRunning;
     private Drawable icon;
-    private final String DESCRIPTION = "Shows data sent and received for application";
 
     public Application(String name, String pkg, Drawable icon) {
         this.name = name;
