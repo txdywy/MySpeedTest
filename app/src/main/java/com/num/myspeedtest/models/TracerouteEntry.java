@@ -12,7 +12,7 @@ public class TracerouteEntry implements BaseModel, Comparable<TracerouteEntry>{
 
     public TracerouteEntry(String ipAddr, String hostname, String rtt, int hopnumber){
         this.ipAddr = ipAddr;
-        this.rtt = rtt;
+        this.rtt = rtt.substring(1, rtt.length()-1) + " ms";
         this.hostname= hostname;
         this.hopnumber = hopnumber;
     }
