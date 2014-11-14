@@ -33,6 +33,7 @@ import com.num.myspeedtest.models.Traceroute;
 import com.num.myspeedtest.models.TracerouteEntry;
 import com.num.myspeedtest.models.Values;
 
+import java.net.InetAddress;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class TracerouteActivity extends ActionBarActivity {
         address.setText(default_address);
         enter = (Button) findViewById(R.id.button_traceroute);
         progressBar = (ProgressBar) findViewById(R.id.traceroute_progress);
+        progressBar.setVisibility(View.INVISIBLE);
         lv = (ListView) findViewById(R.id.list_view_traceroute);
 
         address.setOnKeyListener(new View.OnKeyListener() {
@@ -78,6 +80,9 @@ public class TracerouteActivity extends ActionBarActivity {
                     //hide keyboard
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+
+                    progressBar.setVisibility(View.VISIBLE);
+
                     //perform traceroute on this address
                     TracerouteHelper.execute(context, address.getText().toString());
                     return true;
@@ -91,16 +96,13 @@ public class TracerouteActivity extends ActionBarActivity {
             public void onClick(View v) {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                progressBar.setVisibility(View.VISIBLE);
                 TracerouteHelper.execute(context, address.getText().toString());
             }
         });
 
-    }
+//        TracerouteHelper.execute(context, address.getText().toString());
 
-    @Override
-    protected void onResume() {
-        TracerouteHelper.execute(context, address.getText().toString());
-        super.onResume();
     }
 
     @Override
@@ -142,16 +144,26 @@ public class TracerouteActivity extends ActionBarActivity {
                     String n = values.get("num_hops");
                     int num_hops = Integer.parseInt(n);
                     int hostIdx = 1;
-                    String addr[] = new String[num_hops];
-                    String rttms[] = new String[num_hops];
 
                     traceroute = new Traceroute(1,num_hops);
 
                     for(int j=0; j<num_hops; j++){
-                        addr[j] = values.get("hop_" + j + "_addr_" + hostIdx++);
-                        rttms[j] = values.get("hop_" + j + "_rtt_ms");
+                        String addr = values.get("hop_" + j + "_addr_" + hostIdx);
+                        String host = "";
+                        if(addr!= null){
+                            if(addr.length()>=10){
+                                addr = addr.substring(1,addr.length()-1);
+                                // if we want to display canonical host name
+                                // we need to create AsynkTask
+//                                InetAddress inetAddress = InetAddress.getByName(addr);
+//                                host = inetAddress.getCanonicalHostName();
+                            }
+                        }
 
-                        TracerouteEntry entry = new TracerouteEntry(addr[j], "host", rttms[j], j);
+                        String rttms = values.get("hop_" + j + "_rtt_ms");
+                        rttms = rttms.substring(1,rttms.length()-1);
+
+                        TracerouteEntry entry = new TracerouteEntry(addr, host, rttms, j);
                         traceroute.addToList(entry);
                     }
                 }
