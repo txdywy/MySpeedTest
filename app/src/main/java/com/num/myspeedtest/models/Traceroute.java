@@ -20,9 +20,9 @@ public class Traceroute implements BaseModel {
         this.endindex = endindex;
     }
 
-    public List<TracerouteEntry> getTraceroutelist() {
-        return traceroutelist;
-    }
+//    public List<TracerouteEntry> getTraceroutelist() {
+//        return traceroutelist;
+//    }
 
     public void addToList(TracerouteEntry trace_entry) {
 
@@ -46,7 +46,7 @@ public class Traceroute implements BaseModel {
         return obj;
     }
 
-    public List<TracerouteEntry> getDisplayData(Context context) {
+    public List<TracerouteEntry> getDisplayData() {
 
         Collections.sort(traceroutelist);
         return traceroutelist;
