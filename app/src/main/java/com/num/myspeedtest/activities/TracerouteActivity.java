@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,8 +36,10 @@ import com.num.myspeedtest.models.TracerouteEntry;
 import com.num.myspeedtest.models.Values;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 public class TracerouteActivity extends ActionBarActivity {
@@ -44,6 +48,7 @@ public class TracerouteActivity extends ActionBarActivity {
     private EditText address;
     private Button enter;
     private ProgressBar progressBar;
+    private TracerouteListAdapter adapter;
 
     private Context context;
 
@@ -146,35 +151,57 @@ public class TracerouteActivity extends ActionBarActivity {
                     int hostIdx = 1;
 
                     traceroute = new Traceroute(1,num_hops);
+                    adapter = new TracerouteListAdapter(context, traceroute.getDisplayData());
+                    lv.setAdapter(adapter);
 
                     for(int j=0; j<num_hops; j++){
                         String addr = values.get("hop_" + j + "_addr_" + hostIdx);
-                        String host = "";
-                        if(addr!= null){
-                            if(addr.length()>=10){
-                                addr = addr.substring(1,addr.length()-1);
-                                // if we want to display canonical host name
-                                // we need to create AsynkTask
-//                                InetAddress inetAddress = InetAddress.getByName(addr);
-//                                host = inetAddress.getCanonicalHostName();
-                            }
-                        }
-
                         String rttms = values.get("hop_" + j + "_rtt_ms");
                         rttms = rttms.substring(1,rttms.length()-1);
-
-                        TracerouteEntry entry = new TracerouteEntry(addr, host, rttms, j);
+                        if(addr.length()>=10){
+                            addr = addr.substring(1,addr.length()-1);
+                            CanonicalHostNameTask task = new CanonicalHostNameTask();
+                            task.execute(new String[] {addr,rttms,Integer.toString(j)});
+                        }
+                        TracerouteEntry entry = new TracerouteEntry(addr, "", rttms, j);
                         traceroute.addToList(entry);
                     }
+                    adapter.notifyDataSetChanged();
                 }
-                TracerouteListAdapter adapter = new TracerouteListAdapter(context,
-                        traceroute.getDisplayData());
-                lv.setAdapter(adapter);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private class CanonicalHostNameTask extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(String... info) {
+            String host = "";
+            String addr = info[0];
+
+            InetAddress inetAddress = null;
+            try {
+                inetAddress = InetAddress.getByName(addr);
+                host = inetAddress.getHostName();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            return new String[] {addr, host, info[1], info[2]};
+        }
+
+        protected void onPostExecute(String[] info) {
+            Log.d("info : ", info[0] + " , " + info[1] + " , " + info[2] + " , " + info[3]);
+            List<TracerouteEntry> entries = traceroute.getDisplayData();
+            entries.get(Integer.parseInt(info[3])).setHostname(info[1]);
+            adapter.notifyDataSetChanged();
+//            TracerouteListAdapter adapter = new TracerouteListAdapter(context,
+//                    traceroute.getDisplayData());
+//            lv.setAdapter(adapter);
         }
     }
 }
