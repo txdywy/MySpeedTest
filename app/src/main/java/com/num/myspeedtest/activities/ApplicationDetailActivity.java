@@ -45,6 +45,10 @@ public class ApplicationDetailActivity extends ActionBarActivity {
             int percentValue = (int) (totalTraffic*100/globalTraffic);
             int progressValue = (int) (totalTraffic*100/globalMax);
 
+            if(progressValue==0){
+                progressValue = 1;
+            }
+
             icon.setImageDrawable(info.loadIcon(pm));
 
             name.setText(info.loadLabel(pm));
