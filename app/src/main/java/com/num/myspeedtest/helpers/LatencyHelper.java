@@ -6,6 +6,9 @@ import com.mobilyzer.MeasurementTask;
 import com.mobilyzer.api.API;
 import com.mobilyzer.exceptions.MeasurementError;
 import com.num.myspeedtest.models.Address;
+import com.num.myspeedtest.models.CommandLine;
+import com.num.myspeedtest.models.Measure;
+import com.num.myspeedtest.models.Ping;
 import com.num.myspeedtest.models.Values;
 
 import java.util.ArrayList;
@@ -14,6 +17,11 @@ import java.util.HashMap;
 
 public class LatencyHelper {
 
+    private static CommandLine cmdLine;
+    /**
+     * Mobilyzer version of ping test
+     * @param c Context that executed the measurement
+     */
     public static void execute(Context c) {
         API mobilyzer = API.getAPI(c, "My Speed Test");
         ArrayList<Address> pingTargets = new Values().getTargets();
@@ -33,5 +41,20 @@ public class LatencyHelper {
         } catch (MeasurementError e) {
             e.printStackTrace();
         }
+    }
+
+    public static Ping pingIcmp(Address address, int count) {
+        cmdLine = new CommandLine();
+        double timeGap = 0.5;
+        String cmd = "ping";
+        String options = "-c" + count + " -i" + timeGap;
+        String dst = address.getIp();
+        String output = cmdLine.runCommand(cmd, dst, options);
+//        return new Ping(address,);
+        return null;
+    }
+
+    private Measure parsePingResult(String p) {
+        return null;
     }
 }

@@ -11,8 +11,7 @@
     <string name="title_activity_application_detail">ApplicationDetailActivity</string>
     <string name="scheduler_priority">2</string>
     <string name="title_activity_censorship">CensorshipActivity</string>
-    <string name="loading">PythonAPK running...</string>
     <string name="title_activity_latency_detail">LatencyDetailActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
 
 </resources>

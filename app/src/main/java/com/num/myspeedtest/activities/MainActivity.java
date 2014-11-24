@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity {
         LinearLayout latencyButton;
         LinearLayout tracerouteButton;
         LinearLayout dataUsageButton;
+        LinearLayout aboutUsButton;
 
         activity = this;
 
@@ -61,6 +62,14 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        aboutUsButton = (LinearLayout) findViewById(R.id.main_button_about_us);
+        aboutUsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, AboutUsActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 

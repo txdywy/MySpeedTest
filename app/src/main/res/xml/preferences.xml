@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_header_general"
+        android:key="pref_key_general_settings" >
+        <ListPreference
+            android:key="pref_data_cap"
+            android:title="Data Cap"
+            android:summary="Choose how much data you get per cycle"
+            android:entries="@array/data_cap_entries"
+            android:entryValues="@array/data_cap_entries"
+            android:defaultValue="-1" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_header_measurement"
+        android:key="pref_key_measurement_settings" >
+        <CheckBoxPreference
+            android:key="pref_auto_measurement"
+            android:title="Enable Periodic Tests"
+            android:summary="Periodically run throughput tests in the background"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_header_personal"
+        android:key="pref_key_personal_settings" >
+        <EditTextPreference
+            android:key="pref_email"
+            android:title="Email Address"
+            android:summary="Change your email address"
+            android:defaultValue="" />
+    </PreferenceCategory>
+</PreferenceScreen>

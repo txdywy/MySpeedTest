@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="data_cap_entries">
+        <item>Do not have one</item>
+        <item>Do not know</item>
+        <item>Prepaid</item>
+        <item>250 MB</item>
+        <item>500 MB</item>
+        <item>750 MB</item>
+        <item>1 GB</item>
+        <item>2 GB</item>
+        <item>More than 2 GB</item>
+    </string-array>
+    <integer-array name="data_cap_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>250</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>9999</item>
+    </integer-array>
+
+    <string-array name="frequency_entries">
+        <item>Once a day</item>
+        <item>Once a week</item>
+        <item>Once a month</item>
+    </string-array>
+    <integer-array name="frequency_values">
+        <item>1</item>
+        <item>7</item>
+        <item>30</item>
+    </integer-array>
+</resources>
