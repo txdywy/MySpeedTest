@@ -17,7 +17,6 @@ public class CommandLine {
         try {
             process = Runtime.getRuntime().exec(cmd);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            message += "";
             while ((line = bufferedReader.readLine()) != null) {
                 message += line + "\n";
             }

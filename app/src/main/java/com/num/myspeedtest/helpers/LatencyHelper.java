@@ -17,7 +17,56 @@ import java.util.HashMap;
 
 public class LatencyHelper {
 
-    private static CommandLine cmdLine;
+    public ArrayList<Ping> execute() {
+        ArrayList<Ping> results = new ArrayList<Ping>();
+        ArrayList<Address> pingTargets = new Values().getTargets();
+        for(Address dst : pingTargets) {
+            new PingTask(dst,15).run();
+        }
+        return results;
+    }
+
+    private static Measure parsePingResult(String p) {
+        String[] result = p.split("\n");
+        String lastLine = result[result.length-1];
+        System.out.println(lastLine);
+        if(lastLine.contains("rtt")) {
+            return null;
+        }
+        else {
+            return new Measure(-1,-1,-1,-1);
+        }
+    }
+
+    private class PingTask implements Runnable {
+
+        private Address dst;
+        private int count;
+
+        public PingTask(Address dst, int count) {
+            this.dst = dst;
+            this.count = count;
+        }
+
+        @Override
+        public void run() {
+            pingIcmp(dst,count);
+        }
+
+        private Ping pingIcmp(Address address, int count) {
+            CommandLine cmdLine = new CommandLine();
+            double timeGap = 0.5;
+            String cmd = "ping";
+            String options = "-c" + count + " -i" + timeGap;
+            String src = "";
+            String dst = address.getIp();
+            String output = cmdLine.runCommand(cmd, dst, options);
+            Measure measure = parsePingResult(output);
+            return new Ping(src, address, measure);
+        }
+
+    }
+
     /**
      * Mobilyzer version of ping test
      * @param c Context that executed the measurement
@@ -41,20 +90,5 @@ public class LatencyHelper {
         } catch (MeasurementError e) {
             e.printStackTrace();
         }
-    }
-
-    public static Ping pingIcmp(Address address, int count) {
-        cmdLine = new CommandLine();
-        double timeGap = 0.5;
-        String cmd = "ping";
-        String options = "-c" + count + " -i" + timeGap;
-        String dst = address.getIp();
-        String output = cmdLine.runCommand(cmd, dst, options);
-//        return new Ping(address,);
-        return null;
-    }
-
-    private Measure parsePingResult(String p) {
-        return null;
     }
 }

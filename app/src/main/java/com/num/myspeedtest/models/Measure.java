@@ -3,9 +3,6 @@ package com.num.myspeedtest.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Andrew on 9/24/2014.
- */
 public class Measure implements BaseModel {
     private double min;
     private double max;
