@@ -1,12 +1,8 @@
 package com.num.myspeedtest.activities;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,29 +10,20 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.mobilyzer.MeasurementResult;
-import com.mobilyzer.UpdateIntent;
-import com.mobilyzer.api.API;
-import com.mobilyzer.measurements.PingTask.PingDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.adapters.LatencyListAdapter;
 import com.num.myspeedtest.helpers.LatencyHelper;
 import com.num.myspeedtest.models.Address;
-import com.num.myspeedtest.models.CommandLine;
-import com.num.myspeedtest.models.Measure;
 import com.num.myspeedtest.models.Ping;
 import com.num.myspeedtest.models.Values;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
 
 public class LatencyActivity extends ActionBarActivity {
     private ListView listView;
     private ProgressBar progressBar;
     private ArrayList<Ping> pings;
+    private ArrayList<AsyncTask> tasks;
     private Context context;
 
     @Override
@@ -44,21 +31,25 @@ public class LatencyActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latency);
         context = this;
-        pings = new ArrayList<Ping>();
+        pings = new ArrayList<>();
+        tasks = new ArrayList<>();
         listView = (ListView) findViewById(R.id.latency_list_view);
         progressBar = (ProgressBar) findViewById(R.id.latency_progress);
-
+        for(Address dst : new Values().getTargets()) {
+            if(dst.getType().equals("ping")) {
+                AsyncTask<Address, Void, Void> task = new PingTask();
+                tasks.add(task);
+                task.execute(dst);
+            }
+        }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        for(Address dst : new Values().getTargets()) {
-            if(dst.getType().equals("ping")) {
-                System.out.println("Adding: " + dst);
-                new PingTask().execute(dst);
-            }
+    protected void onDestroy() {
+        for(AsyncTask at : tasks) {
+            at.cancel(true);
         }
+        super.onDestroy();
     }
 
     @Override
