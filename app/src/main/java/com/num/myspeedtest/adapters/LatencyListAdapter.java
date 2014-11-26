@@ -30,7 +30,12 @@ public class LatencyListAdapter extends ArrayAdapter<Ping> {
         TextView rtt = (TextView) rowView.findViewById(R.id.textRTT);
         target.setText(values[pos].getDstIP().getTagName());
         progressBar.setProgress((int)values[pos].getMeasure().getAverage());
-        rtt.setText((int)values[pos].getMeasure().getAverage() + "ms");
+        if(values[pos].getMeasure().getAverage()<0) {
+            rtt.setText("No Response");
+        }
+        else {
+            rtt.setText((int) values[pos].getMeasure().getAverage() + "ms");
+        }
         return rowView;
     }
 }

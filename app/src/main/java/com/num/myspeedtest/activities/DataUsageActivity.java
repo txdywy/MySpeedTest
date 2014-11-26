@@ -55,13 +55,16 @@ public class DataUsageActivity extends ActionBarActivity {
     }
 
     private class LoadDataUsageTask extends AsyncTask<Void, Void, Void> {
-        DataUsageListAdapter adapter;
+
+        private DataUsageListAdapter adapter;
+
         @Override
         protected Void doInBackground(Void... voids) {
             adapter = new DataUsageListAdapter(context, DataUsageHelper.getApplications(context));
             return null;
         }
 
+        @Override
         protected void onPostExecute(Void v) {
             progressBar.setVisibility(View.INVISIBLE);
             listView.setAdapter(adapter);
