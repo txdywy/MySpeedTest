@@ -22,36 +22,36 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".80"
         android:id="@+id/scrollView"
         android:layout_gravity="center_horizontal"
         android:background="@android:color/white"
         android:fillViewport="false">
 
-        <TextView
+        <!--TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="terms and conditions"
-            android:id="@+id/terms_and_conditions_text" />
+            android:id="@+id/terms_and_conditions_text" /-->
 
-        <!--WebView
+        <WebView
             android:id="@+id/terms_and_conditions_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone" /-->
+            android:layout_marginTop="10dp"/>
 
     </ScrollView>
-
 
     <RelativeLayout
         android:id="@+id/RelativeLayout01"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".10"
         android:padding="10dp">
 
         <TextView
