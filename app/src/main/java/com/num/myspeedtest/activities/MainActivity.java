@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
             startActivity(myIntent);
         }
-        
+
         setContentView(R.layout.activity_main);
 
         LinearLayout throughputButton;

@@ -20,12 +20,16 @@ public class Traceroute implements BaseModel {
         this.endindex = endindex;
     }
 
+    public Traceroute(int startindex) {
+        this(startindex,0);
+    }
+
 //    public List<TracerouteEntry> getTraceroutelist() {
 //        return traceroutelist;
 //    }
 
     public void addToList(TracerouteEntry trace_entry) {
-
+//        endindex++;
         traceroutelist.add(trace_entry);
     }
 

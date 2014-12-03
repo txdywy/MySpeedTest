@@ -17,6 +17,7 @@
             android:layout_gravity="end"
             android:textAlignment="textEnd"
             android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="1"
             android:id="@+id/traceroute_number" />
@@ -33,6 +34,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="255.255.255.255"
                 android:textStyle="bold"
+                android:textColor="@android:color/black"
                 android:id="@+id/traceroute_address" />
 
             <TextView
@@ -40,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="some.example.com"
+                android:singleLine="true"
                 android:textColor="@color/text_gray_color"
                 android:id="@+id/traceroute_address_name" />
 
@@ -48,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="1.234 ms"
+                android:textStyle="bold"
                 android:textColor="@color/text_gray_color"
                 android:id="@+id/traceroute_time" />
 
