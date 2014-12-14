@@ -12,6 +12,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:name="com.num.myspeedtest.activities.TermsAndConditionsActivity"
+            android:label="@string/title_activity_terms_and_conditions"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.num.myspeedtest.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >

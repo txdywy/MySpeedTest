@@ -1,7 +1,9 @@
 package com.num.myspeedtest.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -19,6 +21,16 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedpreferences = getSharedPreferences("pref_key_terms_and_conditions", Context.MODE_PRIVATE);
+
+        if (!sharedpreferences.contains("accept"))
+        {
+            finish();
+            Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
+            startActivity(myIntent);
+        }
+
         setContentView(R.layout.activity_main);
 
         LinearLayout throughputButton;

@@ -13,5 +13,6 @@
     <string name="title_activity_censorship">CensorshipActivity</string>
     <string name="title_activity_latency_detail">LatencyDetailActivity</string>
     <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="title_activity_terms_and_conditions">AboutUsActivity</string>
 
 </resources>
