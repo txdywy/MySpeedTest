@@ -217,20 +217,20 @@ public class TracerouteActivity extends ActionBarActivity {
             }
 
             /* Getting host name*/
-//            String host = "";
-//            String addr = "";
-//
-//            InetAddress inetAddress = null;
-//            if(entry.getIpAddr()!="*") {
-//                try {
-//                    inetAddress = InetAddress.getByName(entry.getIpAddr());
-//                    host = inetAddress.getHostName();
-//                    addr = inetAddress.getHostAddress();
-//                    entry.setHostname(host);
-//                    entry.setIpAddr(addr);
-//                } catch (UnknownHostException e) {
-//                }
-//            }
+            String host = "";
+            String addr = "";
+
+            InetAddress inetAddress = null;
+            if(entry.getIpAddr()!="*" && entry.getIpAddr().equals(entry.getHostname())) {
+                try {
+                    inetAddress = InetAddress.getByName(entry.getIpAddr());
+                    host = inetAddress.getHostName();
+                    addr = inetAddress.getHostAddress();
+                    entry.setHostname(host);
+                    entry.setIpAddr(addr);
+                } catch (UnknownHostException e) {
+                }
+            }
 
             return entry;
         }
