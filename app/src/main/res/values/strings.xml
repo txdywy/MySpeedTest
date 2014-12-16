@@ -3,16 +3,16 @@
 
     <string name="app_name">My Speed Test</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_throughput">ThroughputActivity</string>
-    <string name="title_activity_throughput_history">ThroughputHistoryActivity</string>
-    <string name="title_activity_latency">LatencyActivity</string>
-    <string name="title_activity_data_usage">DataUsageActivity</string>
+    <string name="title_activity_throughput">Speed Test</string>
+    <string name="title_activity_throughput_history">Speed Test History</string>
+    <string name="title_activity_latency">Latency Test</string>
+    <string name="title_activity_data_usage">Data Usage</string>
     <string name="title_activity_traceroute">Traceroute</string>
-    <string name="title_activity_application_detail">ApplicationDetailActivity</string>
+    <string name="title_activity_application_detail">Application Detail</string>
     <string name="scheduler_priority">2</string>
-    <string name="title_activity_censorship">CensorshipActivity</string>
-    <string name="title_activity_latency_detail">LatencyDetailActivity</string>
-    <string name="title_activity_about_us">AboutUsActivity</string>
-    <string name="title_activity_terms_and_conditions">AboutUsActivity</string>
+    <string name="title_activity_censorship">Censorship</string>
+    <string name="title_activity_latency_detail">Latency Detail</string>
+    <string name="title_activity_about_us">About Us</string>
+    <string name="title_activity_terms_and_conditions">Terms and Conditions</string>
 
 </resources>
