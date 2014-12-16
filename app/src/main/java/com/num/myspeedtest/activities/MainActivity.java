@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity {
         LinearLayout latencyButton;
         LinearLayout tracerouteButton;
         LinearLayout dataUsageButton;
+        LinearLayout configureButton;
         LinearLayout aboutUsButton;
 
         activity = this;
@@ -70,6 +71,15 @@ public class MainActivity extends ActionBarActivity {
         tracerouteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent i = new Intent(activity, TracerouteActivity.class);
+                startActivity(i);
+            }
+        });
+
+        configureButton = (LinearLayout) findViewById(R.id.main_button_configure);
+        configureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, SettingsActivity.class);
                 startActivity(i);
             }
         });
