@@ -25,6 +25,7 @@ public class LatencyActivity extends ActionBarActivity {
     private ArrayList<Ping> pings;
     private ArrayList<AsyncTask> tasks;
     private Context context;
+    private int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,14 @@ public class LatencyActivity extends ActionBarActivity {
         tasks = new ArrayList<>();
         listView = (ListView) findViewById(R.id.latency_list_view);
         progressBar = (ProgressBar) findViewById(R.id.latency_progress);
+        counter = 0;
         for(Address dst : new Values().getTargets()) {
             if(dst.getType().equals("ping")) {
                 AsyncTask<Address, Void, Void> task = new PingTask();
                 tasks.add(task);
                 task.execute(dst);
             }
+            counter++;
         }
     }
 
@@ -74,13 +77,15 @@ public class LatencyActivity extends ActionBarActivity {
 
         @Override
         protected Void doInBackground(Address... addresses) {
-            pings.add(LatencyHelper.pingIcmp(addresses[0], 15));
+            pings.add(LatencyHelper.pingIcmp(addresses[0], 3));
             return null;
         }
 
         @Override
         protected void onPostExecute(Void v) {
-            progressBar.setVisibility(View.INVISIBLE);
+            if(pings.size()>=counter){
+                progressBar.setVisibility(View.INVISIBLE);
+            }
             adapter = new LatencyListAdapter(context, pings.toArray(new Ping[pings.size()]));
             listView.setAdapter(adapter);
         }

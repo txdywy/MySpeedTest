@@ -12,8 +12,9 @@ import java.util.List;
 
 public class Traceroute implements BaseModel {
 
-    List<TracerouteEntry> traceroutelist = new ArrayList<TracerouteEntry>();
-    int startindex, endindex;
+    public static final int MaxHop = 20;
+    private List<TracerouteEntry> traceroutelist = new ArrayList<TracerouteEntry>();
+    private int startindex, endindex;
 
     public Traceroute(int startindex, int endindex) {
         this.startindex = startindex;
@@ -53,6 +54,19 @@ public class Traceroute implements BaseModel {
     public List<TracerouteEntry> getDisplayData() {
 
         Collections.sort(traceroutelist);
+
+        /* Check if there is multiple entries for the last one */
+        if(traceroutelist.size()==MaxHop){
+            String address = traceroutelist.get(MaxHop-1).getIpAddr();
+            for (int i=MaxHop-2; i>0; i--){
+                if(address.equals(traceroutelist.get(i).getIpAddr())){
+                    traceroutelist.remove(i+1);
+                }
+            }
+        }
+
+
+
         return traceroutelist;
 
     }

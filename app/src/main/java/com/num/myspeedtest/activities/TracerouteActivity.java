@@ -98,7 +98,18 @@ public class TracerouteActivity extends ActionBarActivity {
                     progressBar.setVisibility(View.VISIBLE);
 
                     //perform traceroute on this address
-                    TracerouteHelper.execute(context, address.getText().toString());
+                    /* with Mobilyzer: send request to mobilyzer using TracerouteHelper */
+//                    TracerouteHelper.execute(context, address.getText().toString());
+
+                    traceroute = new Traceroute(1,Traceroute.MaxHop);
+
+                    for(int i=1; i<=Traceroute.MaxHop; i++){
+//                    runTraceroute(address.getText().toString(), i);
+                        AsyncTask<String, Void, TracerouteEntry> task = new TracerouteTask();
+                        tasks.add(task);
+                        task.execute(address.getText().toString(), Integer.toString(i));
+                    }
+
                     return true;
                 }
 
@@ -111,9 +122,9 @@ public class TracerouteActivity extends ActionBarActivity {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                 progressBar.setVisibility(View.VISIBLE);
-                traceroute = new Traceroute(1,16);
+                traceroute = new Traceroute(1,Traceroute.MaxHop);
 
-                for(int i=1; i<=16; i++){
+                for(int i=1; i<=Traceroute.MaxHop; i++){
 //                    runTraceroute(address.getText().toString(), i);
                     AsyncTask<String, Void, TracerouteEntry> task = new TracerouteTask();
                     tasks.add(task);
@@ -197,11 +208,20 @@ public class TracerouteActivity extends ActionBarActivity {
         protected TracerouteEntry doInBackground(String... info) {
             TracerouteEntry entry = TracerouteHelper.tracerouteHelper(info[0], Integer.parseInt(info[1]));
 
+            Log.d("TraceHelpActivity", entry.toString());
+
+            /* Need to perform ping to in-between hops because otherwise it returns Time to live exceeded */
+            if(entry.getRtt().equals("0.0 ms")){
+                entry = TracerouteHelper.tracerouteHelper(entry.getIpAddr(), entry.getHopnumber());
+                Log.d("TraceHelpActivity", "Edited :" + entry.toString());
+            }
+
+            /* Getting host name*/
             String host = "";
             String addr = "";
 
             InetAddress inetAddress = null;
-            if(entry.getIpAddr()!="*") {
+            if(entry.getIpAddr()!="*" && entry.getIpAddr().equals(entry.getHostname())) {
                 try {
                     inetAddress = InetAddress.getByName(entry.getIpAddr());
                     host = inetAddress.getHostName();

@@ -65,4 +65,9 @@ public class TracerouteEntry implements BaseModel, Comparable<TracerouteEntry>{
         return -1;
 
     }
+
+    @Override
+    public String toString(){
+        return "IP Address: " + ipAddr + " Hostname: " + hostname + " RTT: " + rtt + " Hop Number: " + hopnumber;
+    }
 }
