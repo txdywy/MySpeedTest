@@ -54,49 +54,72 @@ public class TracerouteHelper {
 
     public static TracerouteEntry tracerouteHelper(String address, int index) {
         CommandLine cmdLine = new CommandLine();
-        double timeGap = 0.5;
         String cmd = "ping";
-        String options = "-c " + 1 + " -i " + timeGap + " -t " + index;
-//        String options = "-c " + 3 + " -t " + index;
+        String options = "-c " + 1 + " -t " + index;
         String output = "";
-        long startTime = System.nanoTime();
         output = cmdLine.runCommand(cmd, address, options);
-        float endTime = (System.nanoTime() - startTime) / 1000000.0f;
-        TracerouteEntry hop = parseResult(output, index, endTime);
+        TracerouteEntry hop = parseResult(output, index);
         return hop;
     }
 
-    static TracerouteEntry parseResult(String result, int index, float endTime)
+    static TracerouteEntry parseResult(String result, int index)
     {
-        String ipAddr = "";
-        String ipName="";
-        String ipBits = "";
         boolean found = false;
-        String parsedResult= "";
-        int pos;
-        //int hop = startindex;
-        for(pos=0; pos<result.length(); pos++)
-        {
-            parsedResult = "";
-            if(result.charAt(pos)=='F')
-            {
+        String hostName = "";
+        String hostAddress = "";
+
+        Log.d("TraceHelp", "index: " + index);
+        String[] output = result.split("\n");
+        int count = 0;
+        for(String a: output){
+            Log.d("TraceHelp", count + " : " + a);
+            count++;
+        }
+
+        String secondLine = output[1];
+        if(secondLine.length()>0) {
+            String[] split = secondLine.split(" ");
+            if (secondLine.contains("Time to live exceeded")) {
+                if (split[2].contains("(") && split[2].contains(")")) {
+                    hostName = split[1];
+                    hostAddress = split[2].substring(1, split[2].length() - 2);
+                } else {
+                    hostName = split[1].substring(0, split[1].length() - 1);
+                    hostAddress = split[1].substring(0, split[1].length() - 1);
+                }
+                found = true;
+            } else if (secondLine.contains("bytes from")) {
+                if (split[2].contains("(") && split[2].contains(")")) {
+                    hostName = split[3];
+                    hostAddress = split[4].substring(1, split[4].length() - 2);
+                } else {
+                    hostName = split[3].substring(0, split[3].length() - 1);
+                    hostAddress = split[3].substring(0, split[3].length() - 1);
+                }
                 found = true;
             }
-            if(found==true){
-                pos+=5;
+        }
 
-                while(result.charAt(pos)!=' '&&result.charAt(pos)!=':')
-                {
-                    parsedResult += result.charAt(pos);
-                    pos++;
-                }
-                break;
+        String lastLine = output[output.length-1];
+        NumberFormat nf = NumberFormat.getInstance();
+
+        double avg=0;
+        if(lastLine.contains("rtt")) {
+            lastLine = lastLine.substring(23,lastLine.length()-3);
+            String[] split = lastLine.split("/");
+            try {
+                Number n = nf.parse(split[1]);
+                avg = n.doubleValue();
+                found = true;
+            } catch (ParseException e) {
+                avg = 0;
             }
         }
+
         if(found==true)
         {
-//            Log.d("TraceHelp", "Parsed result " + parsedResult + " endTime: " + endTime + " index: " + index);
-            return new TracerouteEntry(parsedResult,parsedResult, ""+endTime, index);
+//            return new TracerouteEntry(parsedResult,parsedResult, ""+endTime, index);
+            return new TracerouteEntry(hostAddress,hostName, ""+avg, index);
         }
         else
         {
