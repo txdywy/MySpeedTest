@@ -1,4 +1,4 @@
-package com.num.myspeedtest.activities;
+package com.num.myspeedtest.view.activities;
 
 import android.app.Activity;
 import android.content.Context;

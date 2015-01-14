@@ -1,4 +1,4 @@
-package com.num.myspeedtest.receivers;
+package com.num.myspeedtest.controller.receivers;
 
 /**
  * Created by miseonpark on 12/16/14.
