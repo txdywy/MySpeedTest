@@ -24,14 +24,13 @@ public class ThroughputHelper {
         ArrayList<MeasurementTask> taskList = new ArrayList<MeasurementTask>();
 
         try {
-            params.put("dir_up", "false");
             task = mobilyzer.createTask(API.TaskType.TCPTHROUGHPUT, Calendar.getInstance().getTime(),
-                    endTime, 120, 1, priority, contextIntervalSec, params);
+                    endTime, 60, 1, priority, contextIntervalSec, params);
             mobilyzer.submitTask(task);
 
             params.put("dir_up", "true");
             task = mobilyzer.createTask(API.TaskType.TCPTHROUGHPUT, Calendar.getInstance().getTime(),
-                    endTime, 120, 1, priority, contextIntervalSec, params);
+                    endTime, 60, 1, priority, contextIntervalSec, params);
             mobilyzer.submitTask(task);
         }
         catch (MeasurementError e) {
@@ -51,7 +50,8 @@ public class ThroughputHelper {
             return n + " Mbps";
         }
         else {
-            String n = String.format("%.3f", l);
+            double d = (double) l;
+            String n = String.format("%.3f", d);
             return n + " Kbps";
         }
     }

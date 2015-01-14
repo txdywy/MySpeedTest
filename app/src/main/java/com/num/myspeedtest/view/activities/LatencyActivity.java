@@ -33,6 +33,7 @@ public class LatencyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latency);
+
         context = this;
         listView = (ListView) findViewById(R.id.latency_list_view);
         progressBar = (ProgressBar) findViewById(R.id.latency_progress);
@@ -41,6 +42,7 @@ public class LatencyActivity extends Activity {
     @Override
     protected void onResume() {
         pings = new ArrayList<>();
+        counter = 0;
         for(Address dst : new Values().getTargets()) {
             if(dst.getType().equals("ping")) {
                 PingTask task = new PingTask();

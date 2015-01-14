@@ -1,14 +1,9 @@
 package com.num.myspeedtest.view.activities;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -20,34 +15,49 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.helpers.TracerouteHelper;
+import com.num.myspeedtest.model.Traceroute;
+import com.num.myspeedtest.model.TracerouteEntry;
+import com.num.myspeedtest.view.adapters.TracerouteListAdapter;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+/* when using Mobilyzer API
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Parcelable;
+import android.content.BroadcastReceiver;
 import com.mobilyzer.MeasurementResult;
 import com.mobilyzer.UpdateIntent;
 import com.mobilyzer.api.API;
 import com.mobilyzer.measurements.TracerouteTask;
-import com.num.myspeedtest.R;
-import com.num.myspeedtest.view.adapters.TracerouteListAdapter;
-import com.num.myspeedtest.controller.helpers.TracerouteHelper;
-import com.num.myspeedtest.model.Traceroute;
-import com.num.myspeedtest.model.TracerouteEntry;
+*/
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Map;
+
 
 public class TracerouteActivity extends Activity {
 
+    private Context context;
+
+    /* variables for UI */
     private ListView lv;
     private EditText address;
     private Button enter;
     private ProgressBar progressBar;
     private TracerouteListAdapter adapter;
 
-    private Context context;
-
-    private String default_address = "www.google.com";
-    private BroadcastReceiver broadcastReceiver;
+    /* variables for getting traceroute */
     private Traceroute traceroute;
+    private String default_address = "www.google.com";
+
+    /* variables when using Mobilyzer */
+//    private BroadcastReceiver broadcastReceiver;
+
+    /* variables when not using Mobilyzer */
+    private ArrayList<AsyncTask> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +65,15 @@ public class TracerouteActivity extends Activity {
         context = this.getApplicationContext();
         setContentView(R.layout.activity_traceroute);
 
-        /* setup for receiver */
-        broadcastReceiver = new TracerouteReceiver();
-        API mobilyzer = API.getAPI(this, "My Speed Test");
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(mobilyzer.userResultAction);
-        this.registerReceiver(broadcastReceiver, filter);
+        /* setup for non-mobilyzer */
+        tasks = new ArrayList<>();
+
+        /* setup for Mobilyzer receiver */
+//        broadcastReceiver = new TracerouteReceiver();
+//        API mobilyzer = API.getAPI(this, "My Speed Test");
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(mobilyzer.userResultAction);
+//        this.registerReceiver(broadcastReceiver, filter);
 
         /* setup for UI */
         address = (EditText) findViewById(R.id.editText_traceroute);
@@ -82,7 +95,18 @@ public class TracerouteActivity extends Activity {
                     progressBar.setVisibility(View.VISIBLE);
 
                     //perform traceroute on this address
-                    TracerouteHelper.execute(context, address.getText().toString());
+                    /* with Mobilyzer: send request to mobilyzer using TracerouteHelper */
+//                    TracerouteHelper.execute(context, address.getText().toString());
+
+                    traceroute = new Traceroute(1,Traceroute.MaxHop);
+
+                    for(int i=1; i<=Traceroute.MaxHop; i++){
+//                    runTraceroute(address.getText().toString(), i);
+                        AsyncTask<String, Void, TracerouteEntry> task = new TracerouteTask();
+                        tasks.add(task);
+                        task.execute(address.getText().toString(), Integer.toString(i));
+                    }
+
                     return true;
                 }
 
@@ -95,7 +119,17 @@ public class TracerouteActivity extends Activity {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                 progressBar.setVisibility(View.VISIBLE);
-                TracerouteHelper.execute(context, address.getText().toString());
+                traceroute = new Traceroute(1,Traceroute.MaxHop);
+
+                for(int i=1; i<=Traceroute.MaxHop; i++){
+//                    runTraceroute(address.getText().toString(), i);
+                    AsyncTask<String, Void, TracerouteEntry> task = new TracerouteTask();
+                    tasks.add(task);
+                    task.execute(address.getText().toString(), Integer.toString(i));
+                }
+
+                /* with Mobilyzer: send request to mobilyzer using TracerouteHelper */
+//                TracerouteHelper.execute(context, address.getText().toString());
             }
         });
 
@@ -105,7 +139,10 @@ public class TracerouteActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        this.unregisterReceiver(broadcastReceiver);
+//        this.unregisterReceiver(broadcastReceiver);
+        for(AsyncTask at : tasks) {
+            at.cancel(true);
+        }
         super.onDestroy();
     }
 
@@ -128,6 +165,86 @@ public class TracerouteActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void runTraceroute(final String address, int index){
+        //TracerouteListAdapter adapter;
+        final String addr = new String(address);
+        final int idx = index;
+        Thread thread = new Thread(){
+            public void run(){
+                try{
+                    synchronized (this) {
+                        wait(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TracerouteEntry entry = TracerouteHelper.tracerouteHelper(addr, idx);
+                                traceroute.addToList(entry);
+                                adapter = new TracerouteListAdapter(context, traceroute.getDisplayData());
+                                lv.setAdapter(adapter);
+                            }
+                        });
+
+                    }
+                }catch (IllegalStateException e) {
+                    e.printStackTrace();
+                    Log.d("Error happened here", "Error");
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Log.d("Error happened here2", "Error2");
+                }
+            }
+        };
+        thread.start();
+    }
+
+    private class TracerouteTask extends AsyncTask<String, Void, TracerouteEntry> {
+
+        private TracerouteListAdapter adapter;
+
+        @Override
+        protected TracerouteEntry doInBackground(String... info) {
+            TracerouteEntry entry = TracerouteHelper.tracerouteHelper(info[0], Integer.parseInt(info[1]));
+
+            Log.d("TraceHelpActivity", entry.toString());
+
+            /* Need to perform ping to in-between hops because otherwise it returns Time to live exceeded */
+            if(entry.getRtt().equals("0.0 ms")){
+                entry = TracerouteHelper.tracerouteHelper(entry.getIpAddr(), entry.getHopnumber());
+                Log.d("TraceHelpActivity", "Edited :" + entry.toString());
+            }
+
+            /* Getting host name*/
+            String host = "";
+            String addr = "";
+
+            InetAddress inetAddress = null;
+            if(entry.getIpAddr()!="*" && entry.getIpAddr().equals(entry.getHostname())) {
+                try {
+                    inetAddress = InetAddress.getByName(entry.getIpAddr());
+                    host = inetAddress.getHostName();
+                    addr = inetAddress.getHostAddress();
+                    entry.setHostname(host);
+                    entry.setIpAddr(addr);
+                } catch (UnknownHostException e) {
+                }
+            }
+
+            return entry;
+        }
+
+        @Override
+        protected void onPostExecute(TracerouteEntry entry) {
+            traceroute.addToList(entry);
+            progressBar.setVisibility(View.INVISIBLE);
+            adapter = new TracerouteListAdapter(context, traceroute.getDisplayData());
+            lv.setAdapter(adapter);
+        }
+    }
+
+    /**
+     * For use with Mobilyzer API
+     */
+    /*
     private class TracerouteReceiver extends BroadcastReceiver {
 
         @Override
@@ -203,4 +320,6 @@ public class TracerouteActivity extends Activity {
 //            lv.setAdapter(adapter);
         }
     }
+    */
+
 }
