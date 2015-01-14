@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.num.myspeedtest.activities.MainActivity"
+            android:name=".view.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -22,41 +22,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.ThroughputActivity"
+            android:name=".view.activities.ThroughputActivity"
             android:label="@string/title_activity_throughput"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.ThroughputHistoryActivity"
+            android:name=".view.activities.ThroughputHistoryActivity"
             android:label="@string/title_activity_throughput_history"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.LatencyActivity"
+            android:name=".view.activities.LatencyActivity"
             android:label="@string/title_activity_latency"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.DataUsageActivity"
+            android:name=".view.activities.DataUsageActivity"
             android:label="DataUsageActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.TracerouteActivity"
+            android:name=".view.activities.TracerouteActivity"
             android:label="@string/title_activity_traceroute"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.ApplicationDetailActivity"
+            android:name=".view.activities.ApplicationDetailActivity"
             android:label="@string/title_activity_application_detail"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.AboutUsActivity"
+            android:name=".view.activities.AboutUsActivity"
             android:label="@string/title_activity_about_us" >
         </activity>
         <activity
-            android:name="com.num.myspeedtest.activities.SettingsActivity"
+            android:name=".view.activities.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>
