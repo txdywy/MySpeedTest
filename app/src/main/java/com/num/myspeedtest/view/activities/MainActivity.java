@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
 
 
@@ -19,9 +20,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedpreferences = getSharedPreferences("pref_key_terms_and_conditions", Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        if (!sharedpreferences.contains("accept"))
+        if (!sharedpreferences.contains("terms_and_conditions") || !sharedpreferences.getBoolean("terms_and_conditions", false))
         {
             finish();
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);

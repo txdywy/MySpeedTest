@@ -9,6 +9,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.view.activities.MainActivity;
 
@@ -32,9 +33,10 @@ public class TermsAndConditionsActivity extends Activity {
         accept.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedpreferences = getSharedPreferences("pref_key_terms_and_conditions", Context.MODE_PRIVATE);
+                SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor e = sharedpreferences.edit();
-                e.putBoolean("accept", true);
+                e.putBoolean("terms_and_conditions", true);
+                e.putBoolean("background_service", true); //default
                 e.commit();
                 finish();
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
