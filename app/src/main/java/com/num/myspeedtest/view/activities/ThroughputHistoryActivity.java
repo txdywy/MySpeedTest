@@ -32,6 +32,10 @@ public class ThroughputHistoryActivity extends Activity {
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         List<Throughput> values = dbHelper.getThroughput();
+        if(values.size()==0){
+            Throughput throughput = new Throughput("No History", "Download", "Upload");
+            values.add(throughput);
+        }
         adapter = new ThroughputHistoryListAdapter(getApplicationContext(), values);
         listView = (ListView) findViewById(R.id.list_view_throughput_history);
         listView.setAdapter(adapter);
