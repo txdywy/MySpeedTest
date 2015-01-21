@@ -12,17 +12,31 @@ import android.widget.TextView;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.DataUsageHelper;
 import com.num.myspeedtest.model.Application;
+import com.num.myspeedtest.db.datasource.*;
 
 /**
  * Created by Andrew on 9/23/2014.
+ * Modified by Joseph on 1/14/2014.
  */
 public class DataUsageListAdapter extends ArrayAdapter<Application>{
     private Context context;
     private Application[] applications;
+    private DataUsageDataSource db;
+
     public DataUsageListAdapter(Context context, Application[] applications){
         super(context, R.layout.row_data_usage, applications);
         this.context = context;
-        this.applications = applications;
+        db = new DataUsageDataSource(context);
+        db.open();
+        Application[] temp_apps = new Application[applications.length];
+
+        int counter = 0;
+        for (Application app : applications) {
+            temp_apps[counter++] = (Application) db.insertBaseModelandReturn(app);
+        }
+
+        this.applications = temp_apps;
+
     }
 
     public View getView(int pos, View convertView, ViewGroup parent){
