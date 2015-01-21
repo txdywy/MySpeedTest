@@ -32,13 +32,19 @@ import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.Logger;
 import com.num.myspeedtest.controller.helpers.ThroughputHelper;
+import com.num.myspeedtest.db.DatabaseHelper;
+import com.num.myspeedtest.model.Throughput;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class ThroughputActivity extends ActionBarActivity {
 
+    private DatabaseHelper dbHelper;
     private TextView downSpeed, upSpeed, percentage;
     private TextView startButtonTxt;
     private ProgressBar progressBar;
-    private LinearLayout startButton;
+    private LinearLayout startButton, historyButton;
     private ImageView startButtonImage;
     private API mobilyzer;
     private Context context;
@@ -58,6 +64,8 @@ public class ThroughputActivity extends ActionBarActivity {
 
         this.context = this;
 
+        dbHelper = new DatabaseHelper(this);
+
         API mobilyzer = API.getAPI(this, "My Speed Test");
         br = new ThroughputReceiver();
         IntentFilter filter = new IntentFilter();
@@ -73,6 +81,7 @@ public class ThroughputActivity extends ActionBarActivity {
         startButton = (LinearLayout) findViewById(R.id.button_start);
         startButtonImage = (ImageView) findViewById(R.id.button_start_image);
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
+        historyButton = (LinearLayout) findViewById(R.id.button_history);
 
         startButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -91,6 +100,14 @@ public class ThroughputActivity extends ActionBarActivity {
                     isRunningDown = false;
                     unregisterReceiver(br);
                 }
+            }
+        });
+
+        historyButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ThroughputHistoryActivity.class);
+                startActivity(i);
             }
         });
 
@@ -117,6 +134,9 @@ public class ThroughputActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
+        /* update database */
+        dbHelper.updateThroughput();
+        dbHelper.close();
         this.unregisterReceiver(br);
         super.onDestroy();
     }
@@ -158,6 +178,10 @@ public class ThroughputActivity extends ActionBarActivity {
                         isRunningUp = false;
                     }
                     if(!isRunningDown && !isRunningUp){
+                        /* add result to database */
+                        String dateTime = dbHelper.getDateTime();
+                        Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
+                        dbHelper.insertThroughput(throughput);
                         startButtonImage.setImageResource(R.drawable.ic_action_replay);
                         startButtonTxt.setText("Start");
                         startButton.setClickable(true);

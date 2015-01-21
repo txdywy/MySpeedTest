@@ -4,6 +4,11 @@ import org.json.JSONObject;
 
 public class Throughput implements BaseModel{
 
+    private String download;
+    private String upload;
+    private String datetime;
+    private String connectionType;
+
     private Link downLink;
     private Link upLink;
     private boolean isComplete = false;
@@ -11,8 +16,26 @@ public class Throughput implements BaseModel{
     public Throughput() {
         Link downLink = new Link();
         Link upLink = new Link();
-
     }
+
+    public Throughput(String datetime, String download, String upload){
+        this.datetime = datetime;
+//        this.connectionType = connectionType;
+        this.download = download;
+        this.upload = upload;
+    }
+
+    public String getDownload(){ return download; }
+    public void setDownload(String download){ this.download = download; }
+
+    public String getUpload(){ return upload; }
+    public void setUpload(String upload){ this.upload = upload; }
+
+    public String getDatetime(){ return datetime; }
+    public void setDatetime(String datetime){ this.datetime = datetime; }
+
+    public String getConnectionType(){ return connectionType; }
+    public void setConnectionType(String connectionType){ this.connectionType = connectionType; }
 
     public Link getDownLink() {
         return downLink;

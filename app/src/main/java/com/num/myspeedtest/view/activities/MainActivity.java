@@ -1,14 +1,19 @@
 package com.num.myspeedtest.view.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
 
 
@@ -20,9 +25,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedpreferences = getSharedPreferences("pref_key_terms_and_conditions", Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        if (!sharedpreferences.contains("accept"))
+        if (!sharedpreferences.contains("terms_and_conditions") || !sharedpreferences.getBoolean("terms_and_conditions", false))
         {
             finish();
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
@@ -35,6 +40,19 @@ public class MainActivity extends ActionBarActivity {
                 configureButton, aboutUsButton;
 
         activity = this;
+
+        /* Check Internet Connection */
+        if(!isInternetAvailable()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Internet Warning")
+                    .setMessage("You are not currently connected to the Internet. Some features may not work.")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue
+                        }
+                    }).setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
 
         throughputButton = (LinearLayout) findViewById(R.id.main_button_throughput);
         throughputButton.setOnClickListener(new View.OnClickListener() {
@@ -86,5 +104,25 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(i);
             }
         });
+    }
+
+    public boolean isInternetAvailable() {
+        boolean status=false;
+        try{
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getNetworkInfo(0);
+            if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+                status= true;
+            }else {
+                netInfo = cm.getNetworkInfo(1);
+                if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+                    status= true;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return status;
+
     }
 }
