@@ -20,6 +20,8 @@ import com.num.myspeedtest.view.activities.ThroughputActivity;
 public class ThroughputReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        /* Not done yet, dont use it !! */
 //        ThroughputActivity.getInstace();
 //        TextView percentage = (TextView) findViewById(R.id.text_pvalue);
 //        Parcelable[] parcels = intent.getParcelableArrayExtra(UpdateIntent.RESULT_PAYLOAD);

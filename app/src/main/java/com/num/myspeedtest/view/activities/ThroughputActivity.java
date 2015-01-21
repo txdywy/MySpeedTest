@@ -40,11 +40,10 @@ public class ThroughputActivity extends Activity {
     private ProgressBar progressBar;
     private LinearLayout startButton;
     private ImageView startButtonImage;
-//    private CountDownTimer countDownTimer;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private API mobilyzer;
     private Context context;
     private BroadcastReceiver br;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final long progressLength = 60000; //1 mins
     private final long progressInterval = 1000; //.5 seconds
     private int count = 0;
@@ -74,24 +73,6 @@ public class ThroughputActivity extends Activity {
         startButton = (LinearLayout) findViewById(R.id.button_start);
         startButtonImage = (ImageView) findViewById(R.id.button_start_image);
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
-
-//
-//        countDownTimer = new CountDownTimer(progressLength,progressInterval) {
-//            @Override
-//            public void onTick(long millisUntilFinished_) {
-////                System.out.println("Throughput Activity Timer: " + millisUntilFinished_);
-//                if(millisUntilFinished_>progressInterval && (isRunningUp || isRunningDown)) {
-//                    int percentage = 100 - (int)(millisUntilFinished_/600);
-//                    System.out.println("Throughput Activity Timer: " + percentage);
-//                    progressBar.setProgress(percentage);
-//                }
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                // wait
-//            }
-//        };
 
         startButton.setOnClickListener(new OnClickListener() {
             @Override
