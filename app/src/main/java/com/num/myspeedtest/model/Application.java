@@ -1,6 +1,8 @@
 package com.num.myspeedtest.model;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONObject;
 
@@ -45,6 +47,10 @@ public class Application implements BaseModel, Comparable<Application> {
     public long getTotal() {
         return totalRecv + totalSent;
     }
+
+    public long getTotalSent() { return totalSent; }
+
+    public long getTotalRecv() { return totalRecv; }
 
     public String getUsageString() {
         long total = getTotal();
@@ -91,5 +97,10 @@ public class Application implements BaseModel, Comparable<Application> {
         if(this.getTotal() > a.getTotal()) return -1;
         else if(this.getTotal() < a.getTotal()) return 1;
         else return 0;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + packageName + ") => rcv: " + totalRecv +", snd: " + totalSent;
     }
 }

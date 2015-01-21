@@ -5,7 +5,6 @@ android {
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        applicationId "com.mobilyzer"
         minSdkVersion 12
         targetSdkVersion 14
     }
