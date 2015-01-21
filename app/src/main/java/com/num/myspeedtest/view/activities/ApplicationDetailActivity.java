@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.DataUsageHelper;
 
-public class ApplicationDetailActivity extends Activity {
+public class ApplicationDetailActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

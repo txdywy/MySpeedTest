@@ -19,7 +19,7 @@ import com.num.myspeedtest.controller.helpers.DataUsageHelper;
 import com.num.myspeedtest.model.Application;
 
 
-public class DataUsageActivity extends Activity {
+public class DataUsageActivity extends ActionBarActivity {
     private ListView listView;
     private ProgressBar progressBar;
     private Context context;

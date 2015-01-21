@@ -27,7 +27,7 @@ import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.ThroughputHelper;
 
-public class ThroughputActivity extends Activity {
+public class ThroughputActivity extends ActionBarActivity {
 
     private TextView downSpeed, upSpeed, percentage;
     private TextView startButtonTxt;

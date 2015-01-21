@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,7 +39,7 @@ import com.mobilyzer.measurements.TracerouteTask;
 
 
 
-public class TracerouteActivity extends Activity {
+public class TracerouteActivity extends ActionBarActivity {
 
     private Context context;
 

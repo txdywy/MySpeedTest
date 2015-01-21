@@ -1,9 +1,12 @@
 package com.num.myspeedtest.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Measure implements BaseModel {
+public class Measure implements BaseModel, Parcelable {
     private double min;
     private double max;
     private double average;
@@ -61,5 +64,37 @@ public class Measure implements BaseModel {
             e.printStackTrace();
         }
         return json;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(max);
+        dest.writeDouble(min);
+        dest.writeDouble(average);
+        dest.writeDouble(stddev);
+    }
+
+    public static final Creator CREATOR = new Creator() {
+        @Override
+        public Measure createFromParcel(Parcel source) {
+            return new Measure(source);
+        }
+
+        @Override
+        public Measure[] newArray(int size) {
+            return new Measure[size];
+        }
+    };
+
+    private Measure(Parcel source) {
+        max = source.readDouble();
+        min = source.readDouble();
+        average = source.readDouble();
+        stddev = source.readDouble();
     }
 }

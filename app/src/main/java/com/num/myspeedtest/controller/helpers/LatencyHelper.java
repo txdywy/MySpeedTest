@@ -1,15 +1,31 @@
 package com.num.myspeedtest.controller.helpers;
 
+import android.os.Handler;
+
+import com.num.myspeedtest.controller.managers.LatencyManager;
 import com.num.myspeedtest.controller.utils.PingUtil;
+import com.num.myspeedtest.controller.utils.ServerUtil;
 import com.num.myspeedtest.model.Address;
 import com.num.myspeedtest.model.Ping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LatencyHelper {
 
-    public static Ping ping(Address dst) {
-        return PingUtil.pingIcmp(dst, 15);
+    private Handler handler;
+
+    public LatencyHelper(Handler handler) {
+        this.handler = handler;
     }
+
+    public void execute() {
+        List<Address> targets = ServerUtil.getTargets();
+        LatencyManager latencyManager = new LatencyManager(handler);
+        latencyManager.execute(targets);
+    }
+
     /**
      * Mobilyzer version of ping test
      * @param c Context that executed the measurement
