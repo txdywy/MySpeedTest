@@ -1,5 +1,9 @@
 package com.num.myspeedtest.view.activities;
 
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Executors;
+import static java.util.concurrent.TimeUnit.*;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,8 +27,10 @@ import android.widget.TextView;
 import com.mobilyzer.MeasurementResult;
 import com.mobilyzer.UpdateIntent;
 import com.mobilyzer.api.API;
+import com.mobilyzer.measurements.TCPThroughputTask;
 import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.helpers.Logger;
 import com.num.myspeedtest.controller.helpers.ThroughputHelper;
 
 public class ThroughputActivity extends Activity {
@@ -34,14 +40,17 @@ public class ThroughputActivity extends Activity {
     private ProgressBar progressBar;
     private LinearLayout startButton;
     private ImageView startButtonImage;
-    private CountDownTimer countDownTimer;
+//    private CountDownTimer countDownTimer;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private API mobilyzer;
     private Context context;
     private BroadcastReceiver br;
     private final long progressLength = 60000; //1 mins
     private final long progressInterval = 1000; //.5 seconds
+    private int count = 0;
     private boolean isRunningUp;
     private boolean isRunningDown;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +75,23 @@ public class ThroughputActivity extends Activity {
         startButtonImage = (ImageView) findViewById(R.id.button_start_image);
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
 
-        countDownTimer = new CountDownTimer(progressLength,progressInterval) {
-            @Override
-            public void onTick(long millisUntilFinished_) {
-//                System.out.println("Throughput Activity Timer: " + millisUntilFinished_);
-                if(millisUntilFinished_>progressInterval && (isRunningUp || isRunningDown)) {
-                    int percentage = 100 - (int)(millisUntilFinished_/600);
-                    System.out.println("Throughput Activity Timer: " + percentage);
-                    progressBar.setProgress(percentage);
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                // wait
-            }
-        };
+//
+//        countDownTimer = new CountDownTimer(progressLength,progressInterval) {
+//            @Override
+//            public void onTick(long millisUntilFinished_) {
+////                System.out.println("Throughput Activity Timer: " + millisUntilFinished_);
+//                if(millisUntilFinished_>progressInterval && (isRunningUp || isRunningDown)) {
+//                    int percentage = 100 - (int)(millisUntilFinished_/600);
+//                    System.out.println("Throughput Activity Timer: " + percentage);
+//                    progressBar.setProgress(percentage);
+//                }
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                // wait
+//            }
+//        };
 
         startButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -94,7 +104,7 @@ public class ThroughputActivity extends Activity {
                     startButton.setClickable(false);
                     percentage.setText("In progress...");
                     ThroughputHelper.execute(context);
-                    countDownTimer.start();
+                    scheduler.scheduleAtFixedRate(update, progressLength, progressInterval, MILLISECONDS);
                 }else{
                     isRunningUp = false;
                     isRunningDown = false;
@@ -130,27 +140,39 @@ public class ThroughputActivity extends Activity {
         super.onDestroy();
     }
 
+    private Runnable update = new Runnable() {
+        public void run(){
+            if(isRunningUp || isRunningDown) {
+                int percentage = 100 - (int)((count* progressInterval)/600);
+                Logger.show("Throughput Activity Timer: " + percentage);
+                progressBar.setProgress(percentage);
+                count++;
+            }
+        }
+    };
+
     private class ThroughputReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            TextView percentage = (TextView) findViewById(R.id.text_pvalue);
             Parcelable[] parcels = intent.getParcelableArrayExtra(UpdateIntent.RESULT_PAYLOAD);
             MeasurementResult[] results;
-            TCPThroughputDesc desc;
-            System.out.println("Throughput Activity Received");
+            TCPThroughputTask.TCPThroughputDesc desc;
+            Logger.show("Throughput Activity Received");
             if(parcels != null) {
                 results = new MeasurementResult[parcels.length];
                 for(int i=0; i<results.length; i++) {
                     results[i] = (MeasurementResult) parcels[i];
                     String throughputJSON = results[i].getValues().get("tcp_speed_results");
-                    desc = (TCPThroughputDesc) results[i].getMeasurementDesc();
+                    desc = (TCPThroughputTask.TCPThroughputDesc) results[i].getMeasurementDesc();
                     long tp = (long) (desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON));
 //                    System.out.println("Throughput Activity: " + desc.dir_up + " tp: " + ThroughputHelper.outputString(tp) + " timeout: " + desc.tcp_timeout_sec + "down: " + desc.data_limit_mb_down + "up: " + desc.data_limit_mb_up);
                     if(!desc.dir_up) {
-                        System.out.println("Throughput Activity Down");
+                        Logger.show("Throughput Activity Down");
                         downSpeed.setText(ThroughputHelper.outputString(tp));
                         isRunningDown = false;
                     }else {
-                        System.out.println("Throughput Activity Up");
+                        Logger.show("Throughput Activity Up");
                         upSpeed.setText(ThroughputHelper.outputString(tp));
                         isRunningUp = false;
                     }
