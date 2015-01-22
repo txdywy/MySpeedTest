@@ -39,7 +39,10 @@ public class ThroughputHelper {
     }
 
     public static String outputString(long l) {
-        if(l >= 1000000) {
+        if(l <= 0){
+            return "0.0 Mbps";
+        }
+        else if(l >= 1000000) {
             double d = (double) l / 1000000;
             String n = String.format("%.3f", d);
             return n + " Gbps";

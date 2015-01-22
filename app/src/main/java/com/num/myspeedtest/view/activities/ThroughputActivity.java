@@ -1,8 +1,10 @@
 package com.num.myspeedtest.view.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.Image;
@@ -26,13 +28,14 @@ import com.mobilyzer.api.API;
 import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.ThroughputHelper;
+import com.num.myspeedtest.controller.utils.DeviceUtil;
 import com.num.myspeedtest.db.DatabaseHelper;
 import com.num.myspeedtest.model.Throughput;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ThroughputActivity extends Activity {
+public class ThroughputActivity extends ActionBarActivity {
 
     private DatabaseHelper dbHelper;
     private TextView downSpeed, upSpeed, percentage;
@@ -48,6 +51,7 @@ public class ThroughputActivity extends Activity {
     private final long progressInterval = 1000; //.5 seconds
     private boolean isRunningUp;
     private boolean isRunningDown;
+    private boolean testSuccessful;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class ThroughputActivity extends Activity {
 
         isRunningUp = false;
         isRunningDown = false;
+        testSuccessful = false;
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         percentage = (TextView) findViewById(R.id.text_pvalue);
         downSpeed = (TextView) findViewById(R.id.text_dvalue);
@@ -88,26 +93,46 @@ public class ThroughputActivity extends Activity {
 
             @Override
             public void onFinish() {
-                // wait
+                progressBar.setProgress(100);
+                if(!testSuccessful) {
+                    percentage.setText("Connection Failed");
+                    startButtonImage.setImageResource(R.drawable.ic_action_play);
+                    startButtonTxt.setText("Start");
+                    startButton.setClickable(true);
+                    downSpeed.setText("0.0 Mbps");
+                    upSpeed.setText("0.0 Mbps");
+                }else{
+                    testSuccessful = false;
+                }
+                /* add result to database */
+                String dateTime = dbHelper.getDateTime();
+                Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
+                dbHelper.insertThroughput(throughput);
             }
         };
 
         startButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isRunningUp && !isRunningDown) {
-                    isRunningUp = true;
-                    isRunningDown = true;
-                    startButtonImage.setImageResource(R.drawable.ic_action_stop);
-                    startButtonTxt.setText("Running");
-                    startButton.setClickable(false);
-                    percentage.setText("In progress...");
-                    ThroughputHelper.execute(context);
-                    countDownTimer.start();
-                }else{
-                    isRunningUp = false;
-                    isRunningDown = false;
-                    unregisterReceiver(br);
+                if(!DeviceUtil.getInstance().isInternetAvailable(context)) {
+                    percentage.setText("No Connection");
+                }else {
+                    if (!isRunningUp && !isRunningDown) {
+                        isRunningUp = true;
+                        isRunningDown = true;
+                        startButtonImage.setImageResource(R.drawable.ic_action_stop);
+                        startButtonTxt.setText("Running");
+                        startButton.setClickable(false);
+                        percentage.setText("In progress...");
+                        downSpeed.setText("Running");
+                        upSpeed.setText("Running");
+                        ThroughputHelper.execute(context);
+                        countDownTimer.start();
+                    } else {
+                        isRunningUp = false;
+                        isRunningDown = false;
+                        unregisterReceiver(br);
+                    }
                 }
             }
         });
@@ -120,25 +145,6 @@ public class ThroughputActivity extends Activity {
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.throughput, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -175,10 +181,7 @@ public class ThroughputActivity extends Activity {
                         isRunningUp = false;
                     }
                     if(!isRunningDown && !isRunningUp){
-                        /* add result to database */
-                        String dateTime = dbHelper.getDateTime();
-                        Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
-                        dbHelper.insertThroughput(throughput);
+                        testSuccessful = true;
                         startButtonImage.setImageResource(R.drawable.ic_action_replay);
                         startButtonTxt.setText("Start");
                         startButton.setClickable(true);

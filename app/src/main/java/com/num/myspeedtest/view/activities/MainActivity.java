@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.utils.DeviceUtil;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -42,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
         activity = this;
 
         /* Check Internet Connection */
-        if(!isInternetAvailable()) {
+        if(!DeviceUtil.getInstance().isInternetAvailable(this)) {
             new AlertDialog.Builder(this)
                     .setTitle("Internet Warning")
                     .setMessage("You are not currently connected to the Internet. Some features may not work.")
@@ -60,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
                 Intent i = new Intent(activity, ThroughputActivity.class);
                 startActivity(i);
             }
-         });
+        });
 
         latencyButton = (LinearLayout) findViewById(R.id.main_button_latency);
         latencyButton.setOnClickListener(new View.OnClickListener() {
@@ -104,25 +105,5 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(i);
             }
         });
-    }
-
-    public boolean isInternetAvailable() {
-        boolean status=false;
-        try{
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = cm.getNetworkInfo(0);
-            if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
-                status= true;
-            }else {
-                netInfo = cm.getNetworkInfo(1);
-                if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
-                    status= true;
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return status;
-
     }
 }
