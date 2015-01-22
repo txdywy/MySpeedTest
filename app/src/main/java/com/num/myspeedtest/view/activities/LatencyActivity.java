@@ -53,7 +53,9 @@ public class LatencyActivity extends ActionBarActivity {
             Ping[] pingArray = Arrays.copyOf(parcelables, parcelables.length, Ping[].class);
             LatencyListAdapter adapter = new LatencyListAdapter(context, pingArray);
             listView.setAdapter(adapter);
-            progressBar.setVisibility(View.INVISIBLE);
+            if(msg.getData().getBoolean("isDone")) {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

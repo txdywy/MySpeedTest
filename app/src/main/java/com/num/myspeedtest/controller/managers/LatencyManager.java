@@ -20,6 +20,7 @@ public class LatencyManager {
     private static ThreadPoolExecutor latencyThreadPool;
     private static BlockingQueue<Runnable> workQueue;
     private final List<Ping> pingList;
+    private int count;
     private Handler activityHandler;
     private Handler managerHandler;
 
@@ -36,10 +37,18 @@ public class LatencyManager {
      * @param targets Targets to ping
      */
     public void execute(List<Address> targets) {
+        count = targets.size();
         for(Address dst : targets) {
             LatencyTask task = new LatencyTask(dst, managerHandler);
             latencyThreadPool.execute(task);
         }
+    }
+
+    private boolean isDone() {
+        if(pingList.size() >= count) {
+            return true;
+        }
+        return false;
     }
 
     private class ManagerHandler extends Handler {
@@ -51,6 +60,7 @@ public class LatencyManager {
 
             Bundle bundle = new Bundle();
             bundle.putParcelableArray("pingArray", pingArray);
+            bundle.putBoolean("isDone", isDone());
             Message activityMsg = new Message();
             activityMsg.setData(bundle);
             activityHandler.sendMessage(activityMsg);
