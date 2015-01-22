@@ -144,11 +144,10 @@
                     android:id="@+id/button_start_image"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.7"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_play"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+                    android:src="@drawable/ic_action_play"/>
 
                 <TextView
                     android:id="@+id/button_start_txt"
@@ -215,11 +214,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.7"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_action_paste"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"/>
+                    android:src="@drawable/ic_action_paste"/>
 
                 <TextView
                     android:layout_width="wrap_content"

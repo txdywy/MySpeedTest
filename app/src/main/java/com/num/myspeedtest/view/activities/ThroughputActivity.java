@@ -1,9 +1,5 @@
 package com.num.myspeedtest.view.activities;
 
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.Executors;
-import static java.util.concurrent.TimeUnit.*;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,10 +23,8 @@ import android.widget.TextView;
 import com.mobilyzer.MeasurementResult;
 import com.mobilyzer.UpdateIntent;
 import com.mobilyzer.api.API;
-import com.mobilyzer.measurements.TCPThroughputTask;
 import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.Logger;
 import com.num.myspeedtest.controller.helpers.ThroughputHelper;
 import com.num.myspeedtest.db.DatabaseHelper;
 import com.num.myspeedtest.model.Throughput;
@@ -38,7 +32,7 @@ import com.num.myspeedtest.model.Throughput;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ThroughputActivity extends ActionBarActivity {
+public class ThroughputActivity extends Activity {
 
     private DatabaseHelper dbHelper;
     private TextView downSpeed, upSpeed, percentage;
@@ -46,16 +40,14 @@ public class ThroughputActivity extends ActionBarActivity {
     private ProgressBar progressBar;
     private LinearLayout startButton, historyButton;
     private ImageView startButtonImage;
+    private CountDownTimer countDownTimer;
     private API mobilyzer;
     private Context context;
     private BroadcastReceiver br;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final long progressLength = 60000; //1 mins
     private final long progressInterval = 1000; //.5 seconds
-    private int count = 0;
     private boolean isRunningUp;
     private boolean isRunningDown;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +75,23 @@ public class ThroughputActivity extends ActionBarActivity {
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
         historyButton = (LinearLayout) findViewById(R.id.button_history);
 
+        countDownTimer = new CountDownTimer(progressLength,progressInterval) {
+            @Override
+            public void onTick(long millisUntilFinished_) {
+//                System.out.println("Throughput Activity Timer: " + millisUntilFinished_);
+                if(millisUntilFinished_>progressInterval && (isRunningUp || isRunningDown)) {
+                    int percentage = 100 - (int)(millisUntilFinished_/600);
+                    System.out.println("Throughput Activity Timer: " + percentage);
+                    progressBar.setProgress(percentage);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                // wait
+            }
+        };
+
         startButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +103,7 @@ public class ThroughputActivity extends ActionBarActivity {
                     startButton.setClickable(false);
                     percentage.setText("In progress...");
                     ThroughputHelper.execute(context);
-                    scheduler.scheduleAtFixedRate(update, progressLength, progressInterval, MILLISECONDS);
+                    countDownTimer.start();
                 }else{
                     isRunningUp = false;
                     isRunningDown = false;
@@ -114,6 +123,25 @@ public class ThroughputActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.throughput, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onDestroy() {
         /* update database */
         dbHelper.updateThroughput();
@@ -122,39 +150,27 @@ public class ThroughputActivity extends ActionBarActivity {
         super.onDestroy();
     }
 
-    private Runnable update = new Runnable() {
-        public void run(){
-            if(isRunningUp || isRunningDown) {
-                int percentage = 100 - (int)((count* progressInterval)/600);
-                Logger.show("Throughput Activity Timer: " + percentage);
-                progressBar.setProgress(percentage);
-                count++;
-            }
-        }
-    };
-
     private class ThroughputReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            TextView percentage = (TextView) findViewById(R.id.text_pvalue);
             Parcelable[] parcels = intent.getParcelableArrayExtra(UpdateIntent.RESULT_PAYLOAD);
             MeasurementResult[] results;
-            TCPThroughputTask.TCPThroughputDesc desc;
-            Logger.show("Throughput Activity Received");
+            TCPThroughputDesc desc;
+            System.out.println("Throughput Activity Received");
             if(parcels != null) {
                 results = new MeasurementResult[parcels.length];
                 for(int i=0; i<results.length; i++) {
                     results[i] = (MeasurementResult) parcels[i];
                     String throughputJSON = results[i].getValues().get("tcp_speed_results");
-                    desc = (TCPThroughputTask.TCPThroughputDesc) results[i].getMeasurementDesc();
+                    desc = (TCPThroughputDesc) results[i].getMeasurementDesc();
                     long tp = (long) (desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON));
 //                    System.out.println("Throughput Activity: " + desc.dir_up + " tp: " + ThroughputHelper.outputString(tp) + " timeout: " + desc.tcp_timeout_sec + "down: " + desc.data_limit_mb_down + "up: " + desc.data_limit_mb_up);
                     if(!desc.dir_up) {
-                        Logger.show("Throughput Activity Down");
+                        System.out.println("Throughput Activity Down");
                         downSpeed.setText(ThroughputHelper.outputString(tp));
                         isRunningDown = false;
                     }else {
-                        Logger.show("Throughput Activity Up");
+                        System.out.println("Throughput Activity Up");
                         upSpeed.setText(ThroughputHelper.outputString(tp));
                         isRunningUp = false;
                     }
