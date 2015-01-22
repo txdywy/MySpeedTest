@@ -5,7 +5,8 @@
 /.idea/gradle.xml
 /.idea/misc.xml
 /app/app.iml
-MySpeedTest.iml
 .DS_Store
 /build
 /mobilyzer/build
+MySpeedTest.iml
+/gradle
