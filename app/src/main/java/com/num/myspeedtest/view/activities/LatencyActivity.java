@@ -9,7 +9,9 @@ import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.LatencyHelper;
@@ -24,6 +26,7 @@ public class LatencyActivity extends ActionBarActivity {
 
     private Context context;
     private ListView listView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class LatencyActivity extends ActionBarActivity {
 
         context = this;
         listView = (ListView) findViewById(R.id.latency_list_view);
+        progressBar = (ProgressBar) findViewById(R.id.latency_progress);
     }
 
     @Override
@@ -42,18 +46,6 @@ public class LatencyActivity extends ActionBarActivity {
         helper.execute();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.latency, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
-    }
-
     private class LatencyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -61,6 +53,7 @@ public class LatencyActivity extends ActionBarActivity {
             Ping[] pingArray = Arrays.copyOf(parcelables, parcelables.length, Ping[].class);
             LatencyListAdapter adapter = new LatencyListAdapter(context, pingArray);
             listView.setAdapter(adapter);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 }

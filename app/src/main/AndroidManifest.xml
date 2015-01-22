@@ -43,7 +43,7 @@
         </activity>
         <activity
             android:name=".view.activities.DataUsageActivity"
-            android:label="DataUsageActivity"
+            android:label="Data Usage"
             android:screenOrientation="portrait" >
         </activity>
         <activity
