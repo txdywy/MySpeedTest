@@ -35,7 +35,7 @@ public class TermsAndConditionsActivity extends Activity {
             public void onClick(View view) {
                 SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor e = sharedpreferences.edit();
-                e.putBoolean("terms_and_conditions", true);
+                e.putBoolean("acceptConditions", true);
                 e.putBoolean("background_service", true); //default
                 e.commit();
                 finish();
