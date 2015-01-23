@@ -2,7 +2,8 @@ package com.num.myspeedtest;
 
 public class Constants {
 
-    public static final String SHARED_PREFERENCES_NAME = "com.num.myspeedtest";
+//    public static final String SHARED_PREFERENCES_NAME = "com.num.myspeedtest";
+    public static final String SHARED_PREFERENCES_NAME = "com.num"; //old name
 
     /* Threads */
     public static final int CORE_POOL_SIZE = 10;
