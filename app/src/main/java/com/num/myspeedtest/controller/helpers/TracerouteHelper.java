@@ -1,11 +1,13 @@
 package com.num.myspeedtest.controller.helpers;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.mobilyzer.MeasurementTask;
 import com.mobilyzer.api.API;
 import com.mobilyzer.exceptions.MeasurementError;
+import com.num.myspeedtest.controller.managers.TracerouteManager;
 import com.num.myspeedtest.controller.utils.CommandLineUtil;
 import com.num.myspeedtest.model.Traceroute;
 import com.num.myspeedtest.model.TracerouteEntry;
@@ -18,31 +20,15 @@ import java.util.List;
 
 public class TracerouteHelper {
 
-//    private static String address;
-//
-//    public TracerouteHelper(String address){
-//        this.address = address;
-//    }
+    private Handler handler;
 
-    /**
-     * For use with Mobilyzer API
-     * @param c
-     * @param address address to be traceroute to
-     */
-    public static void execute(Context c, String address) {
-        API mobilyzer = API.getAPI(c, "My Speed Test");
+    public TracerouteHelper(Handler handler){
+        this.handler = handler;
+    }
 
-        HashMap<String, String> params = new HashMap<String, String>();
-
-        try{
-            params.put("target", address);
-            params.put("max_hop_count", "15"); //for now
-            MeasurementTask task = mobilyzer.createTask(API.TaskType.TRACEROUTE, Calendar.getInstance().getTime(),
-                    null, 1, 1, MeasurementTask.USER_PRIORITY, 1, params);
-            mobilyzer.submitTask(task);
-        }catch(MeasurementError e){
-            e.printStackTrace();
-        }
+    public void execute(String address){
+        TracerouteManager tracerouteManager = new TracerouteManager(handler);
+        tracerouteManager.execute(address);
     }
 
     public static TracerouteEntry tracerouteHelper(String address, int index) {
@@ -120,24 +106,4 @@ public class TracerouteHelper {
         }
     }
 
-    /**
-     * For testing purposes
-     * @param context
-     * @return
-     */
-    public static List<TracerouteEntry> getTracerouteResult(Context context){
-
-        //HARD CODED JUST FOR NOW; FOR TESTING PURPOSES
-        Traceroute traceroute = new Traceroute(1, 3);
-
-        TracerouteEntry entry1 = new TracerouteEntry("111.111.111.111", "some.src.com", "1.111 ms", 1);
-        TracerouteEntry entry2 = new TracerouteEntry("222.222.222.222", "some.place.com", "2.222 ms", 2);
-        TracerouteEntry entry3 = new TracerouteEntry("333.333.333.333", "some.dst.com", "3.333 ms", 3);
-
-        traceroute.addToList(entry1);
-        traceroute.addToList(entry2);
-        traceroute.addToList(entry3);
-
-        return traceroute.getDisplayData();
-    }
 }

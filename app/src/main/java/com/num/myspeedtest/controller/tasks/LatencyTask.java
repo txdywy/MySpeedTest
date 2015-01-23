@@ -10,6 +10,8 @@ import com.num.myspeedtest.model.Address;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.view.activities.LatencyActivity;
 
+import java.util.HashMap;
+
 public class LatencyTask implements Runnable {
 
     private Address target;
@@ -22,9 +24,14 @@ public class LatencyTask implements Runnable {
 
     @Override
     public void run() {
-        Ping ping = PingUtil.pingICMP(target, 15);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("-c", "15");
+        params.put("-i", "0.5");
+        Ping ping = PingUtil.pingICMP(target, params);
+
         Bundle bundle = new Bundle();
         bundle.putParcelable("ping", ping);
+
         Message msg = new Message();
         msg.setData(bundle);
         handler.sendMessage(msg);
