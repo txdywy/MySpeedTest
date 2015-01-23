@@ -36,7 +36,7 @@ public class TracerouteListAdapter extends ArrayAdapter<Traceroute> {
         TextView address_name = (TextView) rowView.findViewById(R.id.traceroute_address_name);
         TextView time = (TextView) rowView.findViewById(R.id.traceroute_time);
 
-        if(values[pos].getIpAddr().length()>0 || values[pos].getHostname().length()>0){
+        if(values[pos].getHostname().length()>0){
             hop_number.setText(Integer.toString(values[pos].getHopnumber()));
             address.setText(values[pos].getIpAddr());
             address_name.setText(values[pos].getHostname());
