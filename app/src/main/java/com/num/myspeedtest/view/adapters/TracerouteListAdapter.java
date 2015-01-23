@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.model.Traceroute;
 import com.num.myspeedtest.model.TracerouteEntry;
 
 import java.util.List;
@@ -15,12 +16,12 @@ import java.util.List;
 /**
  * Created by miseonpark on 9/30/14.
  */
-public class TracerouteListAdapter extends ArrayAdapter<TracerouteEntry> {
+public class TracerouteListAdapter extends ArrayAdapter<Traceroute> {
 
     private Context context;
-    private List<TracerouteEntry> values;
+    private Traceroute[] values;
 
-    public TracerouteListAdapter(Context context, List<TracerouteEntry> values){
+    public TracerouteListAdapter(Context context, Traceroute[] values){
         super(context, R.layout.row_traceroute, values);
         this.context = context;
         this.values = values;
@@ -35,10 +36,13 @@ public class TracerouteListAdapter extends ArrayAdapter<TracerouteEntry> {
         TextView address_name = (TextView) rowView.findViewById(R.id.traceroute_address_name);
         TextView time = (TextView) rowView.findViewById(R.id.traceroute_time);
 
-        hop_number.setText(Integer.toString(values.get(pos).getHopnumber()));
-        address.setText(values.get(pos).getIpAddr());
-        address_name.setText(values.get(pos).getHostname());
-        time.setText(values.get(pos).getRtt());
+        if(values[pos].getIpAddr().length()>0 || values[pos].getHostname().length()>0){
+            hop_number.setText(Integer.toString(values[pos].getHopnumber()));
+            address.setText(values[pos].getIpAddr());
+            address_name.setText(values[pos].getHostname());
+            time.setText(values[pos].getRtt());
+        }
+
         return rowView;
     }
 

@@ -76,7 +76,7 @@ public class Ping implements BaseModel, Parcelable {
 
     public static final Creator CREATOR = new Creator() {
         @Override
-        public Object createFromParcel(Parcel source) {
+        public Ping createFromParcel(Parcel source) {
             return new Ping(source);
         }
 

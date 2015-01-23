@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="255.255.255.255"
+                android:text="Unknown Host"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:id="@+id/traceroute_address" />
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="some.example.com"
+                android:text=""
                 android:singleLine="true"
                 android:textColor="@color/text_gray_color"
                 android:id="@+id/traceroute_address_name" />
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="1.234 ms"
+                android:text=""
                 android:textStyle="bold"
                 android:textColor="@color/text_gray_color"
                 android:id="@+id/traceroute_time" />
