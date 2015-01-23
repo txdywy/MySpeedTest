@@ -2,11 +2,6 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
-/.idea/gradle.xml
-/.idea/misc.xml
-/app/app.iml
 .DS_Store
 /build
 /mobilyzer/build
-MySpeedTest.iml
-/gradle
