@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.model.Traceroute;
-import com.num.myspeedtest.model.TracerouteEntry;
-
-import java.util.List;
 
 /**
  * Created by miseonpark on 9/30/14.
@@ -36,7 +33,12 @@ public class TracerouteListAdapter extends ArrayAdapter<Traceroute> {
         TextView address_name = (TextView) rowView.findViewById(R.id.traceroute_address_name);
         TextView time = (TextView) rowView.findViewById(R.id.traceroute_time);
 
-        if(values[pos].getHostname().length()>0){
+        if(values[pos].getIpAddr().equals("") && values.length<=1){
+            hop_number.setText("1");
+            address.setText("Unknown Host");
+            address_name.setText("");
+            time.setText("");
+        }else{
             hop_number.setText(Integer.toString(values[pos].getHopnumber()));
             address.setText(values[pos].getIpAddr());
             address_name.setText(values[pos].getHostname());
