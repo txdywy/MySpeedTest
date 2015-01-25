@@ -1,17 +1,12 @@
 package com.num.myspeedtest.view.activities;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -20,18 +15,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.TracerouteHelper;
 import com.num.myspeedtest.controller.managers.TracerouteManager;
 import com.num.myspeedtest.model.Traceroute;
-import com.num.myspeedtest.model.TracerouteEntry;
 import com.num.myspeedtest.view.adapters.TracerouteListAdapter;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /* when using Mobilyzer API
 import android.content.Intent;

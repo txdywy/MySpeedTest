@@ -28,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        if (!sharedpreferences.contains("terms_and_conditions") || !sharedpreferences.getBoolean("terms_and_conditions", false))
+        if (!sharedpreferences.contains("acceptConditions") || !sharedpreferences.getBoolean("acceptConditions", false))
         {
             finish();
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
