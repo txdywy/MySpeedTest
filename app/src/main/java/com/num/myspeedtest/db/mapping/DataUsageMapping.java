@@ -3,7 +3,6 @@ package com.num.myspeedtest.db.mapping;
 import android.content.Context;
 
 import com.num.myspeedtest.db.DatabaseColumns;
-import com.num.myspeedtest.controller.helpers.Logger;
 
 /**
  * Created by joseph on 1/2/15.

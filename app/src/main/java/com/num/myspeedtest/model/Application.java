@@ -1,23 +1,37 @@
 package com.num.myspeedtest.model;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-public class Application implements BaseModel, Comparable<Application> {
+public class Application implements BaseModel, Comparable<Application>, Parcelable {
     private String name;
     private String packageName;
     private long totalSent;
     private long totalRecv;
     private boolean isRunning;
     private Drawable icon;
+    private Context context;
 
-    public Application(String name, String pkg, Drawable icon) {
+    public Application(String name, String pkg, Drawable icon,
+                       long sent, long recv, boolean isRunning) {
         this.name = name;
         this.packageName = pkg;
         this.icon = icon;
+        this.totalSent = sent;
+        this.totalRecv = recv;
+        this.isRunning = isRunning;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public String getPackageName() {
@@ -28,29 +42,21 @@ public class Application implements BaseModel, Comparable<Application> {
         return this.name;
     }
 
-    public Drawable getIcon() {
-        return this.icon;
-    }
-
-    public void setTotalSent(long i) {
-        this.totalSent = i;
-    }
-
-    public void setTotalRecv(long i) {
-        this.totalRecv = i;
-    }
-
-    public void setIsRunning(boolean b) {
-        this.isRunning = b;
-    }
-
     public long getTotal() {
         return totalRecv + totalSent;
     }
 
     public long getTotalSent() { return totalSent; }
 
+    public void setTotalSent(long totalSent) {
+        this.totalSent = totalSent;
+    }
+
     public long getTotalRecv() { return totalRecv; }
+
+    public void setTotalRecv(long totalRecv) {
+        this.totalRecv = totalRecv;
+    }
 
     public String getUsageString() {
         long total = getTotal();
@@ -86,6 +92,14 @@ public class Application implements BaseModel, Comparable<Application> {
         }
     }
 
+    public Drawable getIcon() {
+        return this.icon;
+    }
+
+    public void setIcon(Drawable drawable) {
+        this.icon = drawable;
+    }
+
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
@@ -101,6 +115,40 @@ public class Application implements BaseModel, Comparable<Application> {
 
     @Override
     public String toString() {
-        return name + " (" + packageName + ") => rcv: " + totalRecv +", snd: " + totalSent;
+        return name + " (" + packageName + ") => recv: " + totalRecv +", send: " + totalSent;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(packageName);
+        dest.writeLong(totalSent);
+        dest.writeLong(totalRecv);
+        dest.writeValue(new Boolean(isRunning));
+    }
+
+    public static final Creator CREATOR = new Creator() {
+        @Override
+        public Application createFromParcel(Parcel source) {
+            return new Application(source);
+        }
+
+        @Override
+        public Application[] newArray(int size) {
+            return new Application[size];
+        }
+    };
+
+    private Application(Parcel source) {
+        name = source.readString();
+        packageName = source.readString();
+        totalSent = source.readLong();
+        totalRecv = source.readLong();
+        isRunning = (Boolean) source.readValue(getClass().getClassLoader());
     }
 }

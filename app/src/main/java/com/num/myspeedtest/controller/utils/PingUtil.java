@@ -1,15 +1,11 @@
 package com.num.myspeedtest.controller.utils;
 
-import android.util.Log;
-
 import com.num.myspeedtest.model.Address;
 import com.num.myspeedtest.model.Measure;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.model.Traceroute;
-import com.num.myspeedtest.model.TracerouteEntry;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -17,7 +13,6 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.HashMap;

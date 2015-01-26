@@ -170,7 +170,6 @@ public class ThroughputActivity extends ActionBarActivity {
                     String throughputJSON = results[i].getValues().get("tcp_speed_results");
                     desc = (TCPThroughputDesc) results[i].getMeasurementDesc();
                     long tp = (long) (desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON));
-//                    System.out.println("Throughput Activity: " + desc.dir_up + " tp: " + ThroughputHelper.outputString(tp) + " timeout: " + desc.tcp_timeout_sec + "down: " + desc.data_limit_mb_down + "up: " + desc.data_limit_mb_up);
                     if(!desc.dir_up) {
                         System.out.println("Throughput Activity Down");
                         downSpeed.setText(ThroughputHelper.outputString(tp));

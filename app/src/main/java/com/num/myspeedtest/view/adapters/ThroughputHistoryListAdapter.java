@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.model.Throughput;
-import com.num.myspeedtest.model.TracerouteEntry;
 
 import java.util.List;
 

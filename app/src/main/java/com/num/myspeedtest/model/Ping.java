@@ -61,10 +61,10 @@ public class Ping implements BaseModel, Parcelable {
     public JSONObject toJSON(){
         JSONObject obj = new JSONObject();
         try {
-            obj.putOpt("mSrcIP", mSrcIP);
-            obj.putOpt("mDstIP", mDstIP.getIp());
-            obj.putOpt("mTime", mTime);
-            obj.putOpt("mMeasure", mMeasure.toJSON());
+            obj.putOpt("srcIP", srcIP);
+            obj.putOpt("dstIP", dstIP.getIp());
+            obj.putOpt("time", time);
+            obj.putOpt("measure", measure.toJSON());
         } catch (JSONException e) {
             e.printStackTrace();
         }

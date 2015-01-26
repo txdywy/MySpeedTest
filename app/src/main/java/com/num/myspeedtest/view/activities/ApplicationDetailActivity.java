@@ -1,19 +1,18 @@
 package com.num.myspeedtest.view.activities;
 
-import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.DataUsageHelper;
+import com.num.myspeedtest.model.Application;
+import com.num.myspeedtest.model.Usage;
 
 public class ApplicationDetailActivity extends ActionBarActivity {
 
@@ -21,10 +20,6 @@ public class ApplicationDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_detail);
-
-        Bundle extras = getIntent().getExtras();
-        String packageName = extras.getString("package");
-        PackageManager pm = this.getPackageManager();
 
         ImageView icon = (ImageView) findViewById(R.id.icon_application_detail);
         TextView name = (TextView) findViewById(R.id.individual_app_page_name);
@@ -34,43 +29,36 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         TextView percent = (TextView) findViewById(R.id.individual_app_page_percentage_used_by_app_value);
         ProgressBar progress = (ProgressBar) findViewById(R.id.individual_app_page_value);
 
+        Bundle extras = getIntent().getExtras();
+        PackageManager pm = getPackageManager();
+        Application application = extras.getParcelable("application");
+        Drawable appIcon = null;
         try {
-            ApplicationInfo info = this.getPackageManager().getApplicationInfo(packageName, 0);
-            int uid = info.uid;
-            long recvTraffic = TrafficStats.getUidRxBytes(uid);
-            long sentTraffic = TrafficStats.getUidTxBytes(uid);
-            long totalTraffic = recvTraffic + sentTraffic;
-            long globalTraffic = DataUsageHelper.getTotalUsage();
-            long globalMax = DataUsageHelper.getMaxUsage();
-            int percentValue = (int) (totalTraffic*100/globalTraffic);
-            int progressValue = (int) (totalTraffic*100/globalMax);
-
-            if(progressValue==0){
-                progressValue = 1;
-            }
-
-            icon.setImageDrawable(info.loadIcon(pm));
-
-            name.setText(info.loadLabel(pm));
-
-            total.setText(getUsageString(totalTraffic));
-
-            send.setText(getUsageString(sentTraffic));
-
-            recv.setText(getUsageString(recvTraffic));
-
-            percent.setText(percentValue+"%");
-
-            progress.setProgress(progressValue);
-
+            ApplicationInfo info = pm.getApplicationInfo(application.getPackageName(), 0);
+            appIcon = info.loadIcon(pm);
+            application.setIcon(appIcon);
         } catch (PackageManager.NameNotFoundException e) {
-            name.setText("Unknown");
-            total.setText("0");
-            send.setText("0");
-            recv.setText("0");
-            percent.setText("0%");
-            progress.setProgress(0);
+            e.printStackTrace();
+            return;
         }
+
+
+        long recvTraffic = application.getTotalRecv();
+        long sentTraffic = application.getTotalSent();
+        long totalTraffic = application.getTotal();
+        long globalTraffic = Usage.getTotalUsage();
+        long globalMax = Usage.getMaxUsage();
+        int percentValue = (int) (totalTraffic*100/globalTraffic);
+        int progressValue = (int) (totalTraffic*100/globalMax);
+
+        icon.setImageDrawable(application.getIcon());
+        name.setText(application.getName());
+        total.setText(getUsageString(totalTraffic));
+        send.setText(getUsageString(sentTraffic));
+        recv.setText(getUsageString(recvTraffic));
+        percent.setText(percentValue+"%");
+        progress.setProgress(progressValue);
+
     }
 
     private String getUsageString(long usage) {

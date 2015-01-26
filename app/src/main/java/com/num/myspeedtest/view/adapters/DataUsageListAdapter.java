@@ -10,22 +10,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.DataUsageHelper;
+import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
-import com.num.myspeedtest.db.datasource.*;
+import com.num.myspeedtest.model.Usage;
 
-/**
- * Created by Andrew on 9/23/2014.
- * Modified by Joseph on 1/14/2014.
- */
 public class DataUsageListAdapter extends ArrayAdapter<Application>{
     private Context context;
+    private Usage usage;
     private Application[] applications;
     private DataUsageDataSource db;
 
-    public DataUsageListAdapter(Context context, Application[] applications){
-        super(context, R.layout.row_data_usage, applications);
+    public DataUsageListAdapter(Context context, Usage usage) {
+        super(context, R.layout.row_data_usage, usage.getApplications());
         this.context = context;
+
+        this.usage = usage;
+        applications = usage.getApplications();
         db = new DataUsageDataSource(context);
         db.open();
         Application[] temp_apps = new Application[applications.length];
@@ -42,8 +42,9 @@ public class DataUsageListAdapter extends ArrayAdapter<Application>{
     public View getView(int pos, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        long totalUsage = DataUsageHelper.getTotalUsage();
-        long maxUsage = DataUsageHelper.getMaxUsage();
+        long totalUsage = usage.getTotalRecv() + usage.getTotalSent();
+        long maxUsage = usage.getMaxUsage();
+        Application[] applications = usage.getApplications();
         View rowView = inflater.inflate(R.layout.row_data_usage, parent, false);
         TextView appName = (TextView) rowView.findViewById(R.id.text_app_name);
         ImageView appIcon = (ImageView) rowView.findViewById(R.id.icon_data_usage);

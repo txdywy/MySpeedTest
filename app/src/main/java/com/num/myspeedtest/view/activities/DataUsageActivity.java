@@ -1,33 +1,34 @@
 package com.num.myspeedtest.view.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.view.adapters.DataUsageListAdapter;
-import com.num.myspeedtest.controller.helpers.DataUsageHelper;
+import com.num.myspeedtest.controller.managers.DataUsageManager;
 import com.num.myspeedtest.model.Application;
+import com.num.myspeedtest.model.Usage;
+import com.num.myspeedtest.view.adapters.DataUsageListAdapter;
 
 
 public class DataUsageActivity extends ActionBarActivity {
+
+    private Context context;
     private ListView listView;
     private ProgressBar progressBar;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_usage);
+
         context = this;
         listView = (ListView) findViewById(R.id.data_usage_list);
         progressBar = (ProgressBar) findViewById(R.id.data_usage_progress);
@@ -35,22 +36,17 @@ public class DataUsageActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
-        new LoadDataUsageTask().execute();
         super.onResume();
+        DataUsageHandler handler = new DataUsageHandler();
+        DataUsageManager manager = new DataUsageManager(handler);
+        manager.execute(context);
     }
 
-    private class LoadDataUsageTask extends AsyncTask<Void, Void, Void> {
-
-        private DataUsageListAdapter adapter;
-
+    private class DataUsageHandler extends Handler {
         @Override
-        protected Void doInBackground(Void... voids) {
-            adapter = new DataUsageListAdapter(context, DataUsageHelper.getApplications(context));
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void v) {
+        public void handleMessage(Message msg) {
+            final Usage usage = msg.getData().getParcelable("usage");
+            DataUsageListAdapter adapter = new DataUsageListAdapter(context, usage);
             progressBar.setVisibility(View.INVISIBLE);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,7 +54,7 @@ public class DataUsageActivity extends ActionBarActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Application application = (Application) adapterView.getItemAtPosition(i);
                     Intent intent = new Intent(context, ApplicationDetailActivity.class);
-                    intent.putExtra("package", application.getPackageName());
+                    intent.putExtra("application", application);
                     startActivity(intent);
                 }
             });

@@ -1,4 +1,4 @@
-package com.num.myspeedtest.controller.helpers;
+package com.num.myspeedtest.controller.utils;
 
 import android.util.Log;
 

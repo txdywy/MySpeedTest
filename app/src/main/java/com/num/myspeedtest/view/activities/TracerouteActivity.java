@@ -21,30 +21,18 @@ import com.num.myspeedtest.view.adapters.TracerouteListAdapter;
 
 import java.util.Arrays;
 
-/* when using Mobilyzer API
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Parcelable;
-import android.content.BroadcastReceiver;
-import com.mobilyzer.MeasurementResult;
-import com.mobilyzer.UpdateIntent;
-import com.mobilyzer.api.API;
-import com.mobilyzer.measurements.TracerouteTask;
-*/
-
-
 public class TracerouteActivity extends ActionBarActivity {
 
     private Context context;
 
     /* variables for UI */
-    private ListView lv;
+    private ListView listView;
     private EditText address;
     private Button enter;
     private ProgressBar progressBar;
 
     /* variables for getting traceroute */
-    private String default_address = "www.google.com";
+    private final String default_address = "www.google.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +46,7 @@ public class TracerouteActivity extends ActionBarActivity {
         enter = (Button) findViewById(R.id.button_traceroute);
         progressBar = (ProgressBar) findViewById(R.id.traceroute_progress);
         progressBar.setVisibility(View.INVISIBLE);
-        lv = (ListView) findViewById(R.id.list_view_traceroute);
+        listView = (ListView) findViewById(R.id.list_view_traceroute);
 
         address.setOnKeyListener(new View.OnKeyListener() {
 
@@ -104,7 +92,7 @@ public class TracerouteActivity extends ActionBarActivity {
             Parcelable[] parcelables = msg.getData().getParcelableArray("tracerouteArray");
             Traceroute[] traceroutes = Arrays.copyOf(parcelables, parcelables.length, Traceroute[].class);
             TracerouteListAdapter adapter = new TracerouteListAdapter(context, traceroutes);
-            lv.setAdapter(adapter);
+            listView.setAdapter(adapter);
             if(msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
             }

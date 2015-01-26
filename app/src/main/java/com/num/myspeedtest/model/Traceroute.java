@@ -65,13 +65,6 @@ public class Traceroute implements BaseModel, Parcelable {
         return obj;
     }
 
-    public int compareTo(TracerouteEntry another) {
-        if(this.hopnumber > another.hopnumber) return 1;
-        if(this.hopnumber == another.hopnumber) return 0;
-        return -1;
-
-    }
-
     @Override
     public String toString(){
         return "IP Address: " + ipAddr + " Hostname: " + hostname + " RTT: " + rtt + " Hop Number: " + hopnumber;

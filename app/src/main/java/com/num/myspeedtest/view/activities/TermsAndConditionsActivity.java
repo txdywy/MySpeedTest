@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.view.activities.MainActivity;
 
 public class TermsAndConditionsActivity extends Activity {
 
@@ -35,7 +34,7 @@ public class TermsAndConditionsActivity extends Activity {
             public void onClick(View view) {
                 SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor e = sharedpreferences.edit();
-                e.putBoolean("acceptConditions", true);
+                e.putBoolean("accept_conditions", true);
                 e.putBoolean("background_service", true); //default
                 e.commit();
                 finish();

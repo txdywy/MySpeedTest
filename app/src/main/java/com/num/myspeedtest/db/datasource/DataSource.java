@@ -21,7 +21,6 @@ import com.num.myspeedtest.db.DatabaseOutput;
 import com.num.myspeedtest.db.mapping.BaseMapping;
 import com.num.myspeedtest.db.mapping.ApplicationMapping;
 import com.num.myspeedtest.db.mapping.LatencyMapping;
-import com.num.myspeedtest.controller.helpers.Logger;
 import com.num.myspeedtest.model.BaseModel;
 import com.num.myspeedtest.model.GraphPoint;
 

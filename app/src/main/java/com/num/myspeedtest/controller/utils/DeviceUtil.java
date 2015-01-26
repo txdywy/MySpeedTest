@@ -4,10 +4,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.num.myspeedtest.model.Device;
+
 public class DeviceUtil {
-    private static DeviceUtil ourInstance = new DeviceUtil();
+    private static DeviceUtil sInstance = new DeviceUtil();
     public static DeviceUtil getInstance() {
-        return ourInstance;
+        return sInstance;
     }
 
     public boolean isInternetAvailable(Context context) {

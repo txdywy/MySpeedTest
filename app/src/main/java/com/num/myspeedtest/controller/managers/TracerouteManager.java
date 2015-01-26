@@ -1,21 +1,17 @@
 package com.num.myspeedtest.controller.managers;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.controller.tasks.TracerouteTask;
-import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.model.Traceroute;
-import com.num.myspeedtest.model.TracerouteEntry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -27,7 +23,7 @@ public class TracerouteManager {
     private static BlockingQueue<Runnable> workQueue;
     private final HashMap<Integer, Traceroute> tracerouteHashMap;
 
-    private Handler activityHandler;
+    private Handler parentHandler;
     private Handler managerHandler;
 
 
@@ -36,7 +32,7 @@ public class TracerouteManager {
         workQueue = new LinkedBlockingQueue<>();
         tracerouteThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
-        this.activityHandler = handler;
+        this.parentHandler = handler;
         this.managerHandler = new ManagerHandler();
     }
 
@@ -99,7 +95,7 @@ public class TracerouteManager {
             bundle.putBoolean("isDone", isDone());
             Message activityMsg = new Message();
             activityMsg.setData(bundle);
-            activityHandler.sendMessage(activityMsg);
+            parentHandler.sendMessage(activityMsg);
         }
     }
 

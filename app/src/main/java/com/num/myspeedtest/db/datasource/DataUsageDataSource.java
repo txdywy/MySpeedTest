@@ -10,15 +10,13 @@ import java.util.Map;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.num.myspeedtest.db.DatabaseOutput;
 import com.num.myspeedtest.db.mapping.DataUsageMapping;
-import com.num.myspeedtest.controller.helpers.Logger;
+import com.num.myspeedtest.controller.utils.Logger;
 import com.num.myspeedtest.model.Application;
 import com.num.myspeedtest.model.BaseModel;
 import com.num.myspeedtest.model.GraphPoint;
-import com.num.myspeedtest.model.BaseModel;
 
 
 public class DataUsageDataSource extends DataSource {

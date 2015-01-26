@@ -3,16 +3,6 @@ package com.num.myspeedtest.controller.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.widget.TextView;
-
-import com.mobilyzer.MeasurementResult;
-import com.mobilyzer.UpdateIntent;
-import com.mobilyzer.measurements.TCPThroughputTask;
-import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.Logger;
-import com.num.myspeedtest.controller.helpers.ThroughputHelper;
-import com.num.myspeedtest.view.activities.ThroughputActivity;
 
 /**
  * Created by joseph on 1/21/15.
