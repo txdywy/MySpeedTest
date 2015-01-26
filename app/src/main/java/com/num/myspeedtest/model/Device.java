@@ -82,8 +82,6 @@ public class Device implements BaseModel {
         }
     }
 
-
-
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();

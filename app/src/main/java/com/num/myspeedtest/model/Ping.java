@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import org.json.JSONException;
 
 public class Ping implements BaseModel, Parcelable {
     private String srcIP;
@@ -57,8 +58,17 @@ public class Ping implements BaseModel, Parcelable {
     }
 
     @Override
-    public JSONObject toJSON() {
-        return null;
+    public JSONObject toJSON(){
+        JSONObject obj = new JSONObject();
+        try {
+            obj.putOpt("mSrcIP", mSrcIP);
+            obj.putOpt("mDstIP", mDstIP.getIp());
+            obj.putOpt("mTime", mTime);
+            obj.putOpt("mMeasure", mMeasure.toJSON());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
     @Override

@@ -49,8 +49,9 @@ public class TracerouteEntry implements BaseModel, Comparable<TracerouteEntry>{
         try {
 
             obj.putOpt("ipAddr",  ipAddr);
+            obj.putOpt("hostname", hostname);
             obj.putOpt("hopnumber", hopnumber);
-
+            obj.putOpt("rtt", rtt);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,10 +1,14 @@
 package com.num.myspeedtest.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Values {
+public class Values implements BaseModel {
     private static Map<String, Address> pingTargets = new HashMap<String, Address>();
 
     public Values() {
@@ -33,5 +37,20 @@ public class Values {
 
     public Address getAddress(String ip) {
         return pingTargets.get(ip);
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject obj = new JSONObject();
+        try {
+            JSONArray array = new JSONArray();
+            for (Map.Entry<String, Address> e : pingTargets.entrySet()) {
+                array.put(e.getValue().toJSON());
+            }
+            obj.putOpt("pingTargets", array);
+        }catch (JSONException e) {
+            e.getStackTrace();
+        }
+        return obj;
     }
 }

@@ -1,5 +1,6 @@
 package com.num.myspeedtest.model;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Link implements BaseModel{
@@ -79,7 +80,7 @@ public class Link implements BaseModel{
             obj.putOpt("speedInBits", speedInBits());
             obj.put("dstIp", dstIp);
             obj.put("dstPort", dstPort);
-        } catch (Exception e) {
+        } catch (JSONException e) {
             obj = new JSONObject();
         }
 

@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
 import org.json.JSONObject;
+import org.json.JSONException;
 
 /**
  * Created by Andrew on 10/7/2014.
@@ -27,6 +28,27 @@ public class Network implements BaseModel {
     }
     @Override
     public JSONObject toJSON() {
-        return null;
+        JSONObject obj = new JSONObject();
+        try {
+            obj.putOpt("networkOperatorId", networkOperatorId);
+            obj.putOpt("networkType", networkType);
+            obj.putOpt("connectionType", connectionType);
+            obj.putOpt("wifiState", wifiState);
+            obj.putOpt("cellType",cellType );
+            obj.putOpt("cellId", cellId);
+            obj.putOpt("cellLac", cellLac);
+            obj.putOpt("mobileNetworkInfo",mobileNetworkInfo );
+            obj.putOpt("baseStationLong", baseStationLong);
+            obj.putOpt("baseStationLat", baseStationLat);
+            obj.putOpt("networkId",networkId );
+            obj.putOpt("systemId", systemId);
+            obj.putOpt("dataState", dataState);
+            obj.putOpt("dataActivity", dataActivity);
+            obj.putOpt("signalStrength", signalStrength);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 }
