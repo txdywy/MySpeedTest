@@ -64,6 +64,11 @@
             android:name=".view.activities.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <service
+            android:name=".controller.services.BackgroundService"
+            android:enabled="true"
+            android:permission="android.permission.INTERNET" >
+        </service>
     </application>
 
 </manifest>

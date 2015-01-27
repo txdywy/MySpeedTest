@@ -60,17 +60,17 @@ public class TracerouteManager {
         String prevIp = "";
         for(Integer hop : hops){
             if(hop==1){
-                prevIp = tracerouteHashMap.get(hop).getIpAddr();
+                prevIp = tracerouteHashMap.get(hop).getAddress();
                 traceroutes.add(tracerouteHashMap.get(hop));
             }else {
                 if (hop == i) {
-                    String currentIp = tracerouteHashMap.get(hop).getIpAddr();
+                    String currentIp = tracerouteHashMap.get(hop).getAddress();
                     if ((!prevIp.equals(currentIp)
                             && !currentIp.equals("")) || currentIp.equals("***")) {
                         hopCount++;
                         prevIp = currentIp;
                         Traceroute traceroute = tracerouteHashMap.get(hop);
-                        traceroute.setHopnumber(hopCount);
+                        traceroute.setHopNumber(hopCount);
                         traceroutes.add(traceroute);
                     }
                 }else{
@@ -86,7 +86,7 @@ public class TracerouteManager {
         @Override
         public void handleMessage(Message msg) {
             Traceroute traceroute = msg.getData().getParcelable("traceroute");
-            tracerouteHashMap.put(traceroute.getHopnumber(), traceroute);
+            tracerouteHashMap.put(traceroute.getHopNumber(), traceroute);
             Traceroute[] traceroutes = convertToArray();
 
             Bundle bundle = new Bundle();

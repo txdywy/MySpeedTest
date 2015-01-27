@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.num.myspeedtest.controller.utils.PingUtil;
+import com.num.myspeedtest.controller.utils.TracerouteUtil;
 import com.num.myspeedtest.model.Traceroute;
 
 import java.util.HashMap;
@@ -26,13 +27,11 @@ public class TracerouteTask implements Runnable {
         HashMap<String, String> params = new HashMap<>();
         params.put("-c", "1");
         params.put("-t", index+"");
-        Traceroute traceroute = PingUtil.traceroute(address, params);
-
-        System.out.println(traceroute);
+        Traceroute[] traceroutes = TracerouteUtil.traceroute(address, params);
 
         Bundle bundle = new Bundle();
         bundle.putString("type", "traceroute");
-        bundle.putParcelable("traceroute", traceroute);
+        bundle.putParcelableArray("traceroute", traceroutes);
 
         Message msg = new Message();
         msg.setData(bundle);

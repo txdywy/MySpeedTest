@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.PhoneStateListener;
@@ -30,47 +28,23 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-        if (!sharedpreferences.contains("accept_conditions") || !sharedpreferences.getBoolean("accept_conditions", false))
-        {
-            finish();
-            Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
-            startActivity(myIntent);
-        }
-
         setContentView(R.layout.activity_main);
 
         LinearLayout throughputButton, latencyButton, tracerouteButton, dataUsageButton,
                 configureButton, aboutUsButton;
-
         activity = this;
 
         SignalListener listener = new SignalListener();
         TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         tm.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
-        if(!TracerouteInstallHelper.isTracerouteInstalled()) {
+        if (!TracerouteInstallHelper.isTracerouteInstalled()) {
             TracerouteInstallHelper.installExecutable(this);
-        }
-
-        /* Check Internet Connection */
-        if(!DeviceUtil.getInstance().isInternetAvailable(this)) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Internet Warning")
-                    .setMessage("You are not currently connected to the Internet. Some features may not work.")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // continue
-                        }
-                    }).setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
         }
 
         throughputButton = (LinearLayout) findViewById(R.id.main_button_throughput);
         throughputButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent i = new Intent(activity, ThroughputActivity.class);
                 startActivity(i);
             }
@@ -78,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
 
         latencyButton = (LinearLayout) findViewById(R.id.main_button_latency);
         latencyButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent i = new Intent(activity, LatencyActivity.class);
                 startActivity(i);
             }
@@ -95,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
 
         tracerouteButton = (LinearLayout) findViewById(R.id.main_button_traceroute);
         tracerouteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent i = new Intent(activity, TracerouteActivity.class);
                 startActivity(i);
             }
@@ -121,19 +95,44 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        if (!prefs.contains("accept_conditions") || prefs.getBoolean("accept_conditions", false)) {
+            finish();
+            Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
+            startActivity(myIntent);
+        }
+
+        /* Check Internet Connection */
+        if (!DeviceUtil.getInstance().isInternetAvailable(this)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Internet Warning")
+                    .setMessage("You are not currently connected to the Internet. Some features may not work.")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue
+                        }
+                    }).setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+    }
+
     private class SignalListener extends PhoneStateListener {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signal) {
             String signalStrength = "-1";
-            if(signal != null) {
-                if(signal.isGsm()) {
+            if (signal != null) {
+                if (signal.isGsm()) {
                     signalStrength = "" + signal.getGsmSignalStrength();
-                }
-                else if(signal.getCdmaDbm() > -120) {
+                } else if (signal.getCdmaDbm() > -120) {
                     signalStrength = signal.getCdmaDbm() + "dBm ";
                     signalStrength += signal.getCdmaEcio() + "Ec/Io";
-                }
-                else if(signal.getEvdoDbm() > -120) {
+                } else if (signal.getEvdoDbm() > -120) {
                     signalStrength = signal.getEvdoDbm() + "dBm ";
                     signalStrength += signal.getEvdoEcio() + "Ec/Io";
                     signalStrength += signal.getEvdoSnr() + "snr";

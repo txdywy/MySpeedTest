@@ -30,7 +30,7 @@ public class LatencyTask implements Runnable {
         params.put("-c", "15");
         params.put("-i", "0.5");
 
-        Ping ping = PingUtil.pingICMP(target, params);
+        Ping ping = PingUtil.ping(target, params);
 
         Bundle bundle = new Bundle();
         bundle.putString("type", type);

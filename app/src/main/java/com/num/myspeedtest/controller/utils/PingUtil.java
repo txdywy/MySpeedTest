@@ -19,30 +19,20 @@ import java.util.HashMap;
 
 public class PingUtil {
 
-    public static Ping pingICMP(Address address, HashMap<String, String> params) {
+    public static Ping ping(Address address, HashMap<String, String> params) {
         String src = getSrcIp();
-        String output = ping(address.getIp(), params);
+        String output = executePing(address.getIp(), params);
         Measure measure = parsePingResult(output);
         return new Ping(src, address, measure);
     }
 
-    public static Traceroute traceroute(String address, HashMap<String, String> params) {
-        int hop = Integer.parseInt(params.get("-t"));
-        String output = ping(address, params);
-        Traceroute traceroute = parseTracerouteResult(output, hop);
-        output = ping(traceroute.getHostname(), params);
-        return parseTracerouteResult(output, hop);
-    }
-
-    public static String ping(String address, HashMap<String, String> params){
-        CommandLineUtil cmdLine = new CommandLineUtil();
-        String cmd = "ping";
+    public static String executePing(String address, HashMap<String, String> params){
+        String cmd = "/system/bin/ping ";
         String options = "";
         for(String flag : params.keySet()){
             options += (flag + " " + params.get(flag) + " ");
         }
-        String dst = address;
-        return cmdLine.runCommand(cmd, dst, options);
+        return CommandLineUtil.runCommand(cmd + options + address);
     }
 
     private static String getSrcIp() {
@@ -66,23 +56,22 @@ public class PingUtil {
         return ip;
     }
 
-    private static Measure parsePingResult(String p) {
-        String[] output = p.split("\n");
+    private static Measure parsePingResult(String result) {
+        String[] output = result.split("\n");
         String lastLine = output[output.length - 1];
-        System.out.println(lastLine);
         if (lastLine.contains("rtt")) {
             NumberFormat nf = NumberFormat.getInstance();
             double min, avg, max, dev;
             lastLine = lastLine.substring(23, lastLine.length() - 3);
-            String[] result = lastLine.split("/");
+            String[] split = lastLine.split("/");
             try {
-                Number n = nf.parse(result[0]);
+                Number n = nf.parse(split[0]);
                 min = n.doubleValue();
-                n = nf.parse(result[1]);
+                n = nf.parse(split[1]);
                 avg = n.doubleValue();
-                n = nf.parse(result[2]);
+                n = nf.parse(split[2]);
                 max = n.doubleValue();
-                n = nf.parse(result[3]);
+                n = nf.parse(split[3]);
                 dev = n.doubleValue();
             } catch (ParseException e) {
                 return new Measure(-1, -1, -1, -1);
@@ -93,7 +82,15 @@ public class PingUtil {
         }
     }
 
-    private static Traceroute parseTracerouteResult(String result, int index){
+
+/*      public static Traceroute traceroute(String address, HashMap<String, String> params) {
+        int hop = Integer.parseInt(params.get("-t"));
+        String output = ping(address, params);
+        Traceroute traceroute = parseTracerouteResult(output, hop);
+        output = ping(traceroute.getHostname(), params);
+        return parseTracerouteResult(output, hop);
+
+        private static Traceroute parseTracerouteResult(String result, int index){
         boolean found = false;
         String hostName = "";
         String hostAddress = "";
@@ -152,6 +149,6 @@ public class PingUtil {
         {
             return new Traceroute("***","*", "*", index);
         }
-    }
+    }*/
 
 }

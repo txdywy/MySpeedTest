@@ -3,26 +3,21 @@ package com.num.myspeedtest.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Traceroute implements BaseModel, Parcelable {
 
     private String hostname = "";
-    private String ipAddr = "";
-    private String rtt = "";
-    private int hopnumber = -1;
+    private String address = "";
+    private double rtt = -1;
+    private int hopNumber = -1;
 
-    public Traceroute(String ipAddr, String hostname, String rtt, int hopnumber){
-        this.ipAddr = ipAddr;
+    public Traceroute(String address, String hostname, double rtt, int hopNumber){
+        this.address = address;
         this.rtt = rtt;
         this.hostname= hostname;
-        this.hopnumber = hopnumber;
+        this.hopNumber = hopNumber;
     }
 
     public String getHostname() {
@@ -31,23 +26,23 @@ public class Traceroute implements BaseModel, Parcelable {
     public void setHostname(String hostname) {
         this.hostname = hostname;
     }
-    public String getIpAddr() {
-        return ipAddr;
+    public String getAddress() {
+        return address;
     }
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
+    public void setAddress(String address) {
+        this.address = address;
     }
-    public String getRtt() {
+    public double getRtt() {
         return rtt;
     }
-    public void setRtt(String rtt) {
+    public void setRtt(double rtt) {
         this.rtt = rtt;
     }
-    public int getHopnumber() {
-        return hopnumber;
+    public int getHopNumber() {
+        return hopNumber;
     }
-    public void setHopnumber(int hopnumber) {
-        this.hopnumber = hopnumber;
+    public void setHopNumber(int hopNumber) {
+        this.hopNumber = hopNumber;
     }
 
     @Override
@@ -55,8 +50,8 @@ public class Traceroute implements BaseModel, Parcelable {
         JSONObject obj = new JSONObject();
         try {
 
-            obj.putOpt("ipAddr",  ipAddr);
-            obj.putOpt("hopnumber", hopnumber);
+            obj.putOpt("address",  address);
+            obj.putOpt("hopNumber", hopNumber);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -67,7 +62,7 @@ public class Traceroute implements BaseModel, Parcelable {
 
     @Override
     public String toString(){
-        return "IP Address: " + ipAddr + " Hostname: " + hostname + " RTT: " + rtt + " Hop Number: " + hopnumber;
+        return "IP Address: " + address + " Hostname: " + hostname + " RTT: " + rtt + " Hop Number: " + hopNumber;
     }
 
     @Override
@@ -78,9 +73,9 @@ public class Traceroute implements BaseModel, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(hostname);
-        dest.writeString(ipAddr);
-        dest.writeString(rtt);
-        dest.writeInt(hopnumber);
+        dest.writeString(address);
+        dest.writeDouble(rtt);
+        dest.writeInt(hopNumber);
     }
 
     public static final Creator CREATOR = new Creator() {
@@ -97,9 +92,9 @@ public class Traceroute implements BaseModel, Parcelable {
 
     private Traceroute(Parcel source) {
         hostname = source.readString();
-        ipAddr = source.readString();
-        rtt = source.readString();
-        hopnumber = source.readInt();
+        address = source.readString();
+        rtt = source.readDouble();
+        hopNumber = source.readInt();
     }
 
 }
