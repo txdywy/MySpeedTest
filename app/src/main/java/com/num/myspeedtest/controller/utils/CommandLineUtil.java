@@ -11,7 +11,8 @@ public class CommandLineUtil {
         String message = "";
         try {
             process = Runtime.getRuntime().exec(cmd);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader bufferedReader =
+                    new BufferedReader(new InputStreamReader(process.getInputStream()));
             while ((line = bufferedReader.readLine()) != null) {
                 message += line + "\n";
             }

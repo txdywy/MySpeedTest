@@ -72,7 +72,7 @@ public class Measurement implements BaseModel {
         Logger.show("Battery",battery.toJSON().toString());
 
         this.gps = new GPS(context);
-        Logger.show("GPS", gps.toJSON().toString());
+//        Logger.show("GPS", gps.toJSON().toString());
 
         this.isComplete = false;
         this.isManual = isManual;

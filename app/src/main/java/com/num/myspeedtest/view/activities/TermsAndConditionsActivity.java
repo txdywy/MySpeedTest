@@ -29,10 +29,11 @@ public class TermsAndConditionsActivity extends Activity {
         accept = (TextView) findViewById(R.id.terms_and_conditions_accept);
         reject = (TextView) findViewById(R.id.terms_and_conditions_reject);
 
-        accept.setOnClickListener(new View.OnClickListener(){
+        accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                SharedPreferences sharedpreferences =
+                        getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor e = sharedpreferences.edit();
                 e.putBoolean("accept_conditions", true);
                 e.putBoolean("background_service", true); //default
@@ -43,7 +44,7 @@ public class TermsAndConditionsActivity extends Activity {
             }
         });
 
-        reject.setOnClickListener(new View.OnClickListener(){
+        reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

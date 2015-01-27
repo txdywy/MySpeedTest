@@ -5,7 +5,14 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\Development\Android Studio\gradle\gradle-2.2" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../Android Studio/gradle/gradle-2.2" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/mobilyzer" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

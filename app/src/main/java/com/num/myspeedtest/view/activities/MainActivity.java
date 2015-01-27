@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.TracerouteInstallHelper;
 import com.num.myspeedtest.controller.utils.DeviceUtil;
 import com.num.myspeedtest.model.Signal;
 
@@ -30,17 +29,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LinearLayout throughputButton, latencyButton, tracerouteButton, dataUsageButton,
-                configureButton, aboutUsButton;
+        LinearLayout throughputButton, latencyButton, tracerouteButton, dataUsageButton, configureButton, aboutUsButton;
         activity = this;
-
-        SignalListener listener = new SignalListener();
-        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        tm.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-
-        if (!TracerouteInstallHelper.isTracerouteInstalled()) {
-            TracerouteInstallHelper.installExecutable(this);
-        }
 
         throughputButton = (LinearLayout) findViewById(R.id.main_button_throughput);
         throughputButton.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +83,22 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        /* Check Internet Connection */
+        if (!DeviceUtil.getInstance().isInternetAvailable(this)) {
+            String message =
+                    "You are not currently connected to the Internet. Some features may not work.";
+            new AlertDialog.Builder(this).setTitle("Internet Warning")
+                    .setMessage(message)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).setIcon(android.R.drawable.ic_dialog_alert).show();
+        }
+
+        SignalListener listener = new SignalListener();
+        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        tm.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+
     }
 
     @Override
@@ -100,24 +106,10 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
 
         SharedPreferences prefs = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-
-        if (!prefs.contains("accept_conditions") || prefs.getBoolean("accept_conditions", false)) {
+        if (!prefs.contains("accept_conditions") || !prefs.getBoolean("accept_conditions", false)) {
             finish();
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
             startActivity(myIntent);
-        }
-
-        /* Check Internet Connection */
-        if (!DeviceUtil.getInstance().isInternetAvailable(this)) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Internet Warning")
-                    .setMessage("You are not currently connected to the Internet. Some features may not work.")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // continue
-                        }
-                    }).setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
         }
 
     }
