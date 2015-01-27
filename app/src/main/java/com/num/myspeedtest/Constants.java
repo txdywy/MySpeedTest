@@ -1,9 +1,12 @@
 package com.num.myspeedtest;
 
+import com.num.myspeedtest.model.Address;
+
 public class Constants {
 
 //  public static final String SHARED_PREFERENCES_NAME = "com.num.myspeedtest";
     public static final String SHARED_PREFERENCES_NAME = "com.num"; //old name
+    public static final String API_SERVER_ADDRESS = "https://ruggles.gtnoise.net";
 
     /* Threads */
     public static final int CORE_POOL_SIZE = 10;
@@ -13,4 +16,13 @@ public class Constants {
     /* Traceroute */
     public static final int MAX_HOP = 16;
 
+    /* Ping */
+    public static final double PING_WARMUP_SEQUENCE_GAP = 0.2f;
+    public static final Address PING_SEQUENCE_ADDRESS = new Address("143.215.131.173", "Atlanta, GA", "ping");
+    public static final int PING_SEQUENCE_TOTAL = 20;
+    public static final String PING_SEQUENCE_VERSION = "1";
+
+    /* Network */
+    public static final String UNAVAILABLE_CELLID = "65535";
+    public static final String UNAVAILABLE_CELLLAC = "65535";
 }

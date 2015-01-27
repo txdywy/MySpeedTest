@@ -28,7 +28,10 @@ public class TracerouteTask implements Runnable {
         params.put("-t", index+"");
         Traceroute traceroute = PingUtil.traceroute(address, params);
 
+        System.out.println(traceroute);
+
         Bundle bundle = new Bundle();
+        bundle.putString("type", "traceroute");
         bundle.putParcelable("traceroute", traceroute);
 
         Message msg = new Message();

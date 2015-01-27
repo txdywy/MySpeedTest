@@ -37,7 +37,6 @@ public class TracerouteManager {
     }
 
     public void execute(String address){
-
         for(int i=1; i<= Constants.MAX_HOP; i++){
             TracerouteTask task = new TracerouteTask(address, i, managerHandler);
             tracerouteThreadPool.execute(task);
@@ -45,7 +44,7 @@ public class TracerouteManager {
     }
 
     private boolean isDone() {
-        if(tracerouteHashMap.size() >= Constants.MAX_HOP) {
+        if(tracerouteHashMap.size() >= Constants.MAX_HOP-1) {
             return true;
         }
         return false;
@@ -88,10 +87,10 @@ public class TracerouteManager {
         public void handleMessage(Message msg) {
             Traceroute traceroute = msg.getData().getParcelable("traceroute");
             tracerouteHashMap.put(traceroute.getHopnumber(), traceroute);
-            Traceroute[] tracerouteArray = convertToArray();
+            Traceroute[] traceroutes = convertToArray();
 
             Bundle bundle = new Bundle();
-            bundle.putParcelableArray("tracerouteArray", tracerouteArray);
+            bundle.putParcelableArray("tracerouteArray", traceroutes);
             bundle.putBoolean("isDone", isDone());
             Message activityMsg = new Message();
             activityMsg.setData(bundle);

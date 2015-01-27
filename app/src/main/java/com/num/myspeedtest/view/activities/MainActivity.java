@@ -10,12 +10,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.helpers.TracerouteInstallHelper;
 import com.num.myspeedtest.controller.utils.DeviceUtil;
+import com.num.myspeedtest.model.Signal;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences sharedpreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 
-        if (!sharedpreferences.contains("acceptConditions") || !sharedpreferences.getBoolean("acceptConditions", false))
+        if (!sharedpreferences.contains("accept_conditions") || !sharedpreferences.getBoolean("accept_conditions", false))
         {
             finish();
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
@@ -41,6 +46,14 @@ public class MainActivity extends ActionBarActivity {
                 configureButton, aboutUsButton;
 
         activity = this;
+
+        SignalListener listener = new SignalListener();
+        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        tm.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+
+        if(!TracerouteInstallHelper.isTracerouteInstalled()) {
+            TracerouteInstallHelper.installExecutable(this);
+        }
 
         /* Check Internet Connection */
         if(!DeviceUtil.getInstance().isInternetAvailable(this)) {
@@ -105,5 +118,28 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(i);
             }
         });
+
+    }
+
+    private class SignalListener extends PhoneStateListener {
+        @Override
+        public void onSignalStrengthsChanged(SignalStrength signal) {
+            String signalStrength = "-1";
+            if(signal != null) {
+                if(signal.isGsm()) {
+                    signalStrength = "" + signal.getGsmSignalStrength();
+                }
+                else if(signal.getCdmaDbm() > -120) {
+                    signalStrength = signal.getCdmaDbm() + "dBm ";
+                    signalStrength += signal.getCdmaEcio() + "Ec/Io";
+                }
+                else if(signal.getEvdoDbm() > -120) {
+                    signalStrength = signal.getEvdoDbm() + "dBm ";
+                    signalStrength += signal.getEvdoEcio() + "Ec/Io";
+                    signalStrength += signal.getEvdoSnr() + "snr";
+                }
+            }
+            Signal.setSignal(signalStrength);
+        }
     }
 }

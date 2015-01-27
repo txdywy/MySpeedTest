@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Application implements BaseModel, Comparable<Application>, Parcelable {
@@ -18,7 +19,6 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
     private long totalRecv;
     private boolean isRunning;
     private Drawable icon;
-    private Context context;
 
     public Application(String name, String pkg, Drawable icon,
                        long sent, long recv, boolean isRunning) {
@@ -28,10 +28,6 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
         this.totalSent = sent;
         this.totalRecv = recv;
         this.isRunning = isRunning;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
     }
 
     public String getPackageName() {
@@ -103,6 +99,21 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
+        try {
+            json.putOpt("name", name);
+            json.putOpt("packageName", packageName);
+            json.putOpt("total_sent", totalSent);
+            json.putOpt("total_recv", totalRecv);
+            if(isRunning) {
+                json.putOpt("isRunning", 1);
+            }
+            else {
+                json.putOpt("isRunning", 0);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return json;
     }
 

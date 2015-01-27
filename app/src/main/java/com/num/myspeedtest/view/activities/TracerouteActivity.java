@@ -91,6 +91,7 @@ public class TracerouteActivity extends ActionBarActivity {
         public void handleMessage(Message msg) {
             Parcelable[] parcelables = msg.getData().getParcelableArray("tracerouteArray");
             Traceroute[] traceroutes = Arrays.copyOf(parcelables, parcelables.length, Traceroute[].class);
+            System.out.println(Arrays.toString(traceroutes));
             TracerouteListAdapter adapter = new TracerouteListAdapter(context, traceroutes);
             listView.setAdapter(adapter);
             if(msg.getData().getBoolean("isDone")) {

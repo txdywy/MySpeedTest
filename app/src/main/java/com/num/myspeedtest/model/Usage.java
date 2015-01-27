@@ -4,6 +4,8 @@ import android.net.TrafficStats;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -42,21 +44,27 @@ public class Usage implements BaseModel, Parcelable {
         return totalRecv;
     }
 
-    public long getMobileSent() {
-        return mobileSent;
-    }
-
-    public long getMobileRecv() {
-        return mobileRecv;
-    }
-
     public static long getMaxUsage() {
         return maxUsage;
     }
 
     @Override
     public JSONObject toJSON() {
-        return null;
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray();
+        for(Application app : applications) {
+            array.put(app.toJSON());
+        }
+        try {
+            json.putOpt("applications", array);
+            json.putOpt("total_sent", totalSent);
+            json.putOpt("total_recv", totalRecv);
+            json.putOpt("mobile_sent", mobileSent);
+            json.putOpt("mobile_recv", mobileRecv);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
 
     @Override

@@ -24,12 +24,16 @@ public class LatencyTask implements Runnable {
 
     @Override
     public void run() {
+        String type = target.getType();
+
         HashMap<String, String> params = new HashMap<>();
         params.put("-c", "15");
         params.put("-i", "0.5");
+
         Ping ping = PingUtil.pingICMP(target, params);
 
         Bundle bundle = new Bundle();
+        bundle.putString("type", type);
         bundle.putParcelable("ping", ping);
 
         Message msg = new Message();

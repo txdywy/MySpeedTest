@@ -35,6 +35,7 @@ public class DataUsageTask implements Runnable {
         Usage usage = new Usage(applications);
 
         Bundle bundle = new Bundle();
+        bundle.putString("type", "usage");
         bundle.putParcelable("usage", usage);
 
         Message msg = new Message();
@@ -63,7 +64,6 @@ public class DataUsageTask implements Runnable {
                     boolean isRunning = runningApps.contains(pm.getPackagesForUid(uid)[0]);
 
                     Application app = new Application(appName, pkgName, appIcon, sent, recv, isRunning);
-                    app.setContext(context);
                     applications.add(app);
                 }
             }

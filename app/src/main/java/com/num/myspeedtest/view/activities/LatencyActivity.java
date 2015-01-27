@@ -12,14 +12,17 @@ import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.managers.LatencyManager;
+import com.num.myspeedtest.controller.managers.MeasurementManager;
 import com.num.myspeedtest.controller.utils.ServerUtil;
+import com.num.myspeedtest.model.LastMile;
+import com.num.myspeedtest.model.Measurement;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.view.adapters.LatencyListAdapter;
 
 import java.util.Arrays;
 
 /**
- * Ping test activity
+ * Latency test activity
  */
 public class LatencyActivity extends ActionBarActivity {
 
@@ -48,12 +51,22 @@ public class LatencyActivity extends ActionBarActivity {
     private class LatencyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
+            /* Extract ping results */
             Parcelable[] parcelables = msg.getData().getParcelableArray("pings");
             Ping[] pings = Arrays.copyOf(parcelables, parcelables.length, Ping[].class);
+
+            /* Update user view with the ping results */
             LatencyListAdapter adapter = new LatencyListAdapter(context, pings);
             listView.setAdapter(adapter);
+
+            /* Finish up if the test is complete */
             if(msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
+                Measurement measurement = new Measurement(context, true);
+                measurement.setPings(Arrays.asList(pings));
+                System.out.println(measurement.toJSON());
+                MeasurementManager measurementManager = new MeasurementManager();
+                measurementManager.sendMeasurement(measurement);
             }
         }
     }

@@ -7,6 +7,7 @@ import android.os.Message;
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.controller.tasks.LatencyTask;
 import com.num.myspeedtest.model.Address;
+import com.num.myspeedtest.model.LastMile;
 import com.num.myspeedtest.model.Ping;
 
 import java.util.ArrayList;
@@ -34,10 +35,6 @@ public class LatencyManager {
         managerHandler = new ManagerHandler();
     }
 
-    /**
-     * Ping all targets at once
-     * @param targets Targets to ping
-     */
     public void execute(List<Address> targets) {
         count = targets.size();
         for(Address dst : targets) {
@@ -61,11 +58,12 @@ public class LatencyManager {
             Ping[] pings = pingList.toArray(new Ping[pingList.size()]);
 
             Bundle bundle = new Bundle();
+            bundle.putString("type", "ping");
             bundle.putParcelableArray("pings", pings);
             bundle.putBoolean("isDone", isDone());
-            Message activityMsg = new Message();
-            activityMsg.setData(bundle);
-            parentHandler.sendMessage(activityMsg);
+            Message parentMsg = new Message();
+            parentMsg.setData(bundle);
+            parentHandler.sendMessage(parentMsg);
         }
     }
 }

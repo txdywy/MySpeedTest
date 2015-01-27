@@ -170,14 +170,12 @@ public class ThroughputActivity extends ActionBarActivity {
                     String throughputJSON = results[i].getValues().get("tcp_speed_results");
                     desc = (TCPThroughputDesc) results[i].getMeasurementDesc();
                     long tp = (long) (desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON));
-                    if(!desc.dir_up) {
-                        System.out.println("Throughput Activity Down");
-                        downSpeed.setText(ThroughputHelper.outputString(tp));
-                        isRunningDown = false;
-                    }else {
-                        System.out.println("Throughput Activity Up");
+                    if(desc.dir_up) {
                         upSpeed.setText(ThroughputHelper.outputString(tp));
                         isRunningUp = false;
+                    }else {
+                        downSpeed.setText(ThroughputHelper.outputString(tp));
+                        isRunningDown = false;
                     }
                     if(!isRunningDown && !isRunningUp){
                         testSuccessful = true;
