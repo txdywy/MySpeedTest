@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.DataUsageHelper;
+import com.num.myspeedtest.controller.managers.DataUsageManager;
 
 public class ApplicationDetailActivity extends Activity {
 
@@ -40,8 +41,8 @@ public class ApplicationDetailActivity extends Activity {
             long recvTraffic = TrafficStats.getUidRxBytes(uid);
             long sentTraffic = TrafficStats.getUidTxBytes(uid);
             long totalTraffic = recvTraffic + sentTraffic;
-            long globalTraffic = DataUsageHelper.getTotalUsage();
-            long globalMax = DataUsageHelper.getMaxUsage();
+            long globalTraffic = DataUsageManager.getTotalUsage();
+            long globalMax = DataUsageManager.getMaxUsage();
             int percentValue = (int) (totalTraffic*100/globalTraffic);
             int progressValue = (int) (totalTraffic*100/globalMax);
 

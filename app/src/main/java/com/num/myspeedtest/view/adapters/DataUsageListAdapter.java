@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.helpers.DataUsageHelper;
+import com.num.myspeedtest.controller.helpers.Logger;
+import com.num.myspeedtest.controller.managers.DataUsageManager;
 import com.num.myspeedtest.model.Application;
 import com.num.myspeedtest.db.datasource.*;
 
@@ -26,24 +28,14 @@ public class DataUsageListAdapter extends ArrayAdapter<Application>{
     public DataUsageListAdapter(Context context, Application[] applications){
         super(context, R.layout.row_data_usage, applications);
         this.context = context;
-        db = new DataUsageDataSource(context);
-        db.open();
-        Application[] temp_apps = new Application[applications.length];
-
-        int counter = 0;
-        for (Application app : applications) {
-            temp_apps[counter++] = (Application) db.insertBaseModelandReturn(app);
-        }
-
-        this.applications = temp_apps;
-
+        this.applications = applications;
     }
 
     public View getView(int pos, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        long totalUsage = DataUsageHelper.getTotalUsage();
-        long maxUsage = DataUsageHelper.getMaxUsage();
+        long totalUsage = DataUsageManager.getTotalUsage();
+        long maxUsage = DataUsageManager.getMaxUsage();
         View rowView = inflater.inflate(R.layout.row_data_usage, parent, false);
         TextView appName = (TextView) rowView.findViewById(R.id.text_app_name);
         ImageView appIcon = (ImageView) rowView.findViewById(R.id.icon_data_usage);

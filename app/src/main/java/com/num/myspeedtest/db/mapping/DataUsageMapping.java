@@ -23,7 +23,9 @@ public class DataUsageMapping  extends BaseMapping {
     public static final String COLUMN_RECV = "recv";
     public static final String COLUMN_SENT = "sent";
     public static final String COLUMN_PREV_RECV = "prevrecv";
+    public static final String COLUMN_BOOT_RECV = "bootrecv";
     public static final String COLUMN_PREV_SENT = "prevsent";
+    public static final String COLUMN_BOOT_SENT = "bootsent";
 
 
     public void setColumnMap() {
@@ -35,6 +37,8 @@ public class DataUsageMapping  extends BaseMapping {
         columns.add(COLUMN_SENT,"integer");
         columns.add(COLUMN_PREV_RECV,"integer");
         columns.add(COLUMN_PREV_SENT,"integer");
+        columns.add(COLUMN_BOOT_RECV,"integer");
+        columns.add(COLUMN_BOOT_SENT,"integer");
     }
 
 }

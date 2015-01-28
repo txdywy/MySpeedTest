@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.managers.DataUsageManager;
 import com.num.myspeedtest.view.adapters.DataUsageListAdapter;
 import com.num.myspeedtest.controller.helpers.DataUsageHelper;
 import com.num.myspeedtest.model.Application;
@@ -61,7 +62,7 @@ public class DataUsageActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            adapter = new DataUsageListAdapter(context, DataUsageHelper.getApplications(context));
+            adapter = new DataUsageListAdapter(context, DataUsageManager.checkDB(context));
             return null;
         }
 

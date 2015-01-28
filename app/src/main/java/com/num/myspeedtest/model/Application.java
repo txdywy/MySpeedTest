@@ -44,6 +44,12 @@ public class Application implements BaseModel, Comparable<Application> {
         this.isRunning = b;
     }
 
+    public void setName(String name) { this.name = name;}
+
+    public void setpackageName(String packageName) { this.packageName = packageName;}
+
+    public void setIcon(Drawable icon) { this.icon = icon; }
+
     public long getTotal() {
         return totalRecv + totalSent;
     }

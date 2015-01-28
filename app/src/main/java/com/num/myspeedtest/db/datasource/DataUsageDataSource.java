@@ -32,6 +32,53 @@ public class DataUsageDataSource extends DataSource {
 		setDBHelper(new DataUsageMapping(context));
 	}
 
+    public void updateOnBoot(Application app) {
+        if (!database.isOpen()) {
+            database = dbHelper.getWritableDatabase();
+        }
+
+        String[] SELECT = new String[]{app.getPackageName()};
+        open();
+
+        Cursor cursor = database.query(dbHelper.getTableName(), getColumns(),
+                DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Map<String, String> dataStore = dbHelper.getDatabaseColumns().getDataStore(cursor);
+//            Logger.show("Existing: " + dataStore.toString());
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        ContentValues value = new ContentValues();
+        value.put(DataUsageMapping.COLUMN_NAME, app.getPackageName());
+        value.put(DataUsageMapping.COLUMN_TIME, getTime());
+
+        cursor = database.query(dbHelper.getTableName(), new String[]{DataUsageMapping.COLUMN_PREV_RECV},
+                DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
+        cursor.moveToFirst();
+        int prev_recv = cursor.getInt(cursor.getPosition());
+        cursor.close();
+
+        cursor = database.query(dbHelper.getTableName(), new String[]{DataUsageMapping.COLUMN_PREV_SENT},
+                DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
+        cursor.moveToFirst();
+        int prev_sent = cursor.getInt(cursor.getPosition());
+        cursor.close();
+
+        value.put(DataUsageMapping.COLUMN_PREV_RECV, app.getTotalRecv());
+        value.put(DataUsageMapping.COLUMN_PREV_SENT, app.getTotalSent());
+
+        value.put(DataUsageMapping.COLUMN_BOOT_RECV, prev_recv);
+        value.put(DataUsageMapping.COLUMN_BOOT_SENT, prev_sent);
+
+        try{
+            database.update(dbHelper.getTableName(), value, DataUsageMapping.COLUMN_NAME + " = ?", SELECT);
+        }catch(Exception e){
+            Logger.show("db", e.getLocalizedMessage());
+        }
+    }
+
     private void addRow(Application app) {
         if (!database.isOpen()) {
             database = dbHelper.getWritableDatabase();
@@ -148,6 +195,18 @@ public class DataUsageDataSource extends DataSource {
             int prev_sent = cursor.getInt(cursor.getPosition());
             cursor.close();
 
+            cursor = database.query(dbHelper.getTableName(), new String[]{DataUsageMapping.COLUMN_BOOT_RECV},
+                    DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
+            cursor.moveToFirst();
+            int boot_recv = cursor.getInt(cursor.getPosition());
+            cursor.close();
+
+            cursor = database.query(dbHelper.getTableName(), new String[]{DataUsageMapping.COLUMN_BOOT_SENT},
+                    DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
+            cursor.moveToFirst();
+            int boot_sent = cursor.getInt(cursor.getPosition());
+            cursor.close();
+
             if (prev_recv > app.getTotalRecv() || prev_sent > app.getTotalSent()) {
                 Logger.show("Rebooting case: " + prev_recv + " " + prev_sent + " " + app.toString());
                 value.put(DataUsageMapping.COLUMN_PREV_RECV, app.getTotalRecv());
@@ -163,6 +222,9 @@ public class DataUsageDataSource extends DataSource {
                 value.put(DataUsageMapping.COLUMN_PREV_RECV, app.getTotalRecv());
                 value.put(DataUsageMapping.COLUMN_PREV_SENT, app.getTotalSent());
             }
+
+            app.setTotalRecv(app.getTotalRecv() + boot_recv);
+            app.setTotalSent(app.getTotalSent() + boot_sent);
 
             try{
                 database.update(dbHelper.getTableName(), value, DataUsageMapping.COLUMN_NAME + " = ?", SELECT);
