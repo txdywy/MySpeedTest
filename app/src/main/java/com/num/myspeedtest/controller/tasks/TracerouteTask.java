@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.controller.utils.PingUtil;
 import com.num.myspeedtest.controller.utils.TracerouteUtil;
 import com.num.myspeedtest.model.Traceroute;
@@ -13,28 +14,21 @@ import java.util.HashMap;
 public class TracerouteTask implements Runnable {
 
     private String address;
-    private int index;
     private Handler handler;
 
-    public TracerouteTask(String address, int index, Handler handler){
+    public TracerouteTask(String address, Handler handler) {
         this.address = address;
-        this.index = index;
         this.handler = handler;
     }
 
     @Override
     public void run(){
         HashMap<String, String> params = new HashMap<>();
-        params.put("-c", "1");
-        params.put("-t", index+"");
-        Traceroute[] traceroutes = TracerouteUtil.traceroute(address, params);
+        params.put("-n","");
+        params.put("-m", ""+ Constants.MAX_HOP);
+        params.put("-q", ""+1);
+        params.put("-p", ""+33434);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "traceroute");
-        bundle.putParcelableArray("traceroute", traceroutes);
-
-        Message msg = new Message();
-        msg.setData(bundle);
-        handler.sendMessage(msg);
+        TracerouteUtil.traceroute(address, params, handler);
     }
 }

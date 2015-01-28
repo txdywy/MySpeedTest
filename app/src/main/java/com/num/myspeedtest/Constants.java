@@ -25,4 +25,9 @@ public class Constants {
     /* Network */
     public static final String UNAVAILABLE_CELLID = "65535";
     public static final String UNAVAILABLE_CELLLAC = "65535";
+
+    /* DNS */
+    public static final String RADB_SERVER = "whois.radb.net";
+    public static int RADB_PORT = 43;
+    public static int SO_TIMEOUT = 2000;
 }

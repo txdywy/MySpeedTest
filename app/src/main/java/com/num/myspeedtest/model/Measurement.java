@@ -257,7 +257,7 @@ public class Measurement implements BaseModel {
             }
 
             if(usage != null) {
-                json.putOpt("usage", usage);
+                json.putOpt("usage", usage.toJSON());
             }
 
             if(network != null) {
@@ -269,15 +269,15 @@ public class Measurement implements BaseModel {
             }
 
             if(sim != null) {
-                json.putOpt("sim", sim);
+                json.putOpt("sim", sim.toJSON());
             }
 
             if(wifi != null) {
-                json.putOpt("wifi", wifi);
+                json.putOpt("wifi", wifi.toJSON());
             }
 
             if(state != null) {
-                json.putOpt("state", state);
+                json.putOpt("state", state.toJSON());
             }
 
             if(isManual) {

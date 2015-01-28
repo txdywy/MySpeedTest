@@ -53,7 +53,7 @@ public class PingUtil {
                 e1.printStackTrace();
             }
         }
-        return ip;
+        return ip.replace("\n","").replace("\r","");
     }
 
     private static Measure parsePingResult(String result) {

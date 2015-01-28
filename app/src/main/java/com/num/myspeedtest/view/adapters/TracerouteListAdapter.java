@@ -30,16 +30,14 @@ public class TracerouteListAdapter extends ArrayAdapter<Traceroute> {
         TextView addressName = (TextView) rowView.findViewById(R.id.traceroute_address_name);
         TextView time = (TextView) rowView.findViewById(R.id.traceroute_time);
 
-        if(values[pos].getAddress().equals("") && values.length<=1){
-            hopNumber.setText("1");
-            address.setText("Unknown Host");
-            addressName.setText("");
+        hopNumber.setText(Integer.toString(values[pos].getHopNumber()));
+        address.setText(values[pos].getAddress());
+        addressName.setText(values[pos].getHostname());
+        if(values[pos].getRtt() < 0) {
             time.setText("");
-        }else{
-            hopNumber.setText(Integer.toString(values[pos].getHopNumber()));
-            address.setText(values[pos].getAddress());
-            addressName.setText(values[pos].getHostname());
-            time.setText("" + values[pos].getRtt());
+        }
+        else {
+            time.setText("" + values[pos].getRtt() + " ms");
         }
 
         return rowView;

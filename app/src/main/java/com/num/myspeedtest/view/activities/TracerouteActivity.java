@@ -89,7 +89,7 @@ public class TracerouteActivity extends ActionBarActivity {
     private class TracerouteHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            Parcelable[] parcelables = msg.getData().getParcelableArray("tracerouteArray");
+            Parcelable[] parcelables = msg.getData().getParcelableArray("traceroutes");
             Traceroute[] traceroutes = Arrays.copyOf(parcelables, parcelables.length, Traceroute[].class);
             System.out.println(Arrays.toString(traceroutes));
             TracerouteListAdapter adapter = new TracerouteListAdapter(context, traceroutes);

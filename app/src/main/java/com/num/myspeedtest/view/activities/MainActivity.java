@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.utils.DeviceUtil;
+import com.num.myspeedtest.controller.utils.TracerouteUtil;
 import com.num.myspeedtest.model.Signal;
 
 
@@ -99,6 +100,9 @@ public class MainActivity extends ActionBarActivity {
         TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         tm.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
+        if(!TracerouteUtil.isTracerouteInstalled()) {
+            TracerouteUtil.installExecutable(this);
+        }
     }
 
     @Override

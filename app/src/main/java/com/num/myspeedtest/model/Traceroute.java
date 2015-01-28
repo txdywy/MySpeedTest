@@ -10,11 +10,13 @@ public class Traceroute implements BaseModel, Parcelable {
 
     private String hostname = "";
     private String address = "";
+    private String asn = "";
     private double rtt = -1;
     private int hopNumber = -1;
 
-    public Traceroute(String address, String hostname, double rtt, int hopNumber){
+    public Traceroute(String address, String hostname, String asn, double rtt, int hopNumber){
         this.address = address;
+        this.asn = asn;
         this.rtt = rtt;
         this.hostname= hostname;
         this.hopNumber = hopNumber;
@@ -51,7 +53,10 @@ public class Traceroute implements BaseModel, Parcelable {
         try {
 
             obj.putOpt("address",  address);
+            obj.putOpt("asn", asn);
+            obj.putOpt("hostname", hostname);
             obj.putOpt("hopNumber", hopNumber);
+            obj.putOpt("rtt", rtt);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -4,24 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.telephony.SignalStrength;
 
 import com.num.myspeedtest.Constants;
-import com.num.myspeedtest.controller.tasks.BatteryTask;
-import com.num.myspeedtest.controller.tasks.DeviceTask;
-import com.num.myspeedtest.controller.tasks.LossTask;
-import com.num.myspeedtest.controller.tasks.SignalTask;
 import com.num.myspeedtest.controller.utils.ServerUtil;
-import com.num.myspeedtest.model.Battery;
-import com.num.myspeedtest.model.Device;
 import com.num.myspeedtest.model.Loss;
-import com.num.myspeedtest.model.Measure;
 import com.num.myspeedtest.model.Measurement;
-import com.num.myspeedtest.model.Network;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.model.Usage;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
