@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.num.myspeedtest.controller.services.DataUsageService;
 import com.num.myspeedtest.controller.utils.DataUsageUtil;
 import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
@@ -40,6 +41,13 @@ public class DataUsageTask implements Runnable {
         DataUsageDataSource db = new DataUsageDataSource(context);
         db.open();
 
+        while(!DataUsageService.isInitialized()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         for(Application app : applications) {
             Application tmp = (Application) db.insertBaseModelandReturn(app);
             if(tmp.getTotal() > 0) {

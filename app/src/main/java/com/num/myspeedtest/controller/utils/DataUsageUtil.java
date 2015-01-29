@@ -16,9 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by Andrew on 1/29/2015.
- */
 public class DataUsageUtil {
 
     public static List<Application> getApplications(Context context) {
@@ -34,7 +31,6 @@ public class DataUsageUtil {
                 uids.add(uid);
                 long recv = TrafficStats.getUidRxBytes(uid);
                 long sent = TrafficStats.getUidTxBytes(uid);
-                System.out.println(info.packageName);
                 String pkgName = info.packageName;
                 String appName = pkgName;
                 try {
