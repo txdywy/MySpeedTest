@@ -75,6 +75,7 @@ public class TracerouteUtil {
             String line = reader.readLine();
             while((line=reader.readLine())!=null) {
                 Traceroute traceroute = parseTracerouteResult(line);
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("traceroute", traceroute);
                 Message msg = new Message();
@@ -86,24 +87,33 @@ public class TracerouteUtil {
         }
     }
 
+    // TODO Improve IPv6 reverse lookup
     private static Traceroute parseTracerouteResult(String result) {
-        String line = result.replaceAll(" +", " ").replaceAll(" ms", ", ").replaceAll(" \\*", " *,").trim()
+        String line = result.replaceAll("ms", "").replaceAll("\\*", "*").replaceAll(" +", " ").trim()
                 .replaceAll(",$", "");
         String[] split = line.split(" ");
         int hop = Integer.parseInt(split[0]);
         String address = split[1];
-        if(address.equals("*")) {
-            return new Traceroute(address, "*", "*", -1, hop);
+        double sum = 0.0;
+
+        for(int i=2; i<split.length; i++) {
+            if(!split[i].equals("*")) {
+                sum += Double.parseDouble(split[i]);
+            }
         }
-        double rtt = Double.parseDouble(split[2]);
+        double rtt = -1;
+        if(split.length-2 != 0) {
+            rtt = sum / (split.length-2);
+        }
         String hostname = address;
         try {
-            hostname = InetAddress.getByName(address).getHostName();
+            if(!address.equals("*")) {
+                hostname = InetAddress.getByName(address).getCanonicalHostName();
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
         String asn = DNSUtil.getAsnByIp(address);
         return new Traceroute(address, hostname, asn, rtt, hop);
     }
-
 }

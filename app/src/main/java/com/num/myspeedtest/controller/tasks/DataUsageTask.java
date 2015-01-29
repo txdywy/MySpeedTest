@@ -4,12 +4,15 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.num.myspeedtest.controller.utils.DataUsageUtil;
+import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
 import com.num.myspeedtest.model.Usage;
 
@@ -31,8 +34,25 @@ public class DataUsageTask implements Runnable {
 
     @Override
     public void run() {
-        List<Application> applications = getApplicationUsage();
-        Usage usage = new Usage(applications);
+        List<Application> applications = DataUsageUtil.getApplications(context);
+        List<Application> activeApplications = new ArrayList<>();
+
+        DataUsageDataSource db = new DataUsageDataSource(context);
+        db.open();
+
+        for(Application app : applications) {
+            Application tmp = (Application) db.insertBaseModelandReturn(app);
+            if(tmp.getTotal() > 0) {
+                activeApplications.add(tmp);
+                Usage.totalRecv += tmp.getTotalRecv();
+                Usage.totalSent += tmp.getTotalSent();
+                if(tmp.getTotal() > Usage.maxUsage) {
+                    Usage.maxUsage = tmp.getTotal();
+                }
+            }
+        }
+        Collections.sort(activeApplications);
+        Usage usage = new Usage(activeApplications);
 
         Bundle bundle = new Bundle();
         bundle.putString("type", "usage");
@@ -42,45 +62,5 @@ public class DataUsageTask implements Runnable {
         msg.setData(bundle);
         handler.sendMessage(msg);
 
-    }
-
-    private List<Application> getApplicationUsage() {
-        List<Application> applications = new ArrayList<>();
-        PackageManager pm = context.getPackageManager();
-        List<ApplicationInfo> appInfo = pm.getInstalledApplications(0);
-        List<String> runningApps = getRunningApplications();
-        Set<Integer> uids = new HashSet<Integer>();
-
-        for (ApplicationInfo info : appInfo) {
-            Integer uid = info.uid;
-            if (!uids.contains(uid)) {
-                uids.add(uid);
-                long recv = TrafficStats.getUidRxBytes(uid);
-                long sent = TrafficStats.getUidTxBytes(uid);
-                if (recv > 0 || sent > 0) {
-                    String appName = info.loadLabel(pm).toString();
-                    String pkgName = info.packageName;
-                    Drawable appIcon = info.loadIcon(pm);
-                    boolean isRunning = runningApps.contains(pm.getPackagesForUid(uid)[0]);
-
-                    Application app = new Application(appName, pkgName, appIcon, sent, recv, isRunning);
-                    applications.add(app);
-                }
-            }
-        }
-        Collections.sort(applications);
-        return applications;
-    }
-
-    private List<String> getRunningApplications() {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> processes = manager.getRunningAppProcesses();
-        ArrayList<String> runningApplications = new ArrayList<>();
-
-        for(ActivityManager.RunningAppProcessInfo p: processes) {
-            runningApplications.add(p.processName);
-        }
-
-        return runningApplications;
     }
 }

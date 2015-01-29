@@ -19,105 +19,23 @@ public class TracerouteManager {
 
     private static ThreadPoolExecutor tracerouteThreadPool;
     private static BlockingQueue<Runnable> workQueue;
-    private List<Traceroute> tracerouteList;
 
-    private Handler parentHandler;
-    private Handler managerHandler;
+    private Handler handler;
 
     public TracerouteManager(Handler handler){
-        tracerouteList =  new ArrayList<>();
         workQueue = new LinkedBlockingQueue<>();
         tracerouteThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
-        this.parentHandler = handler;
-        this.managerHandler = new ManagerHandler();
+        this.handler = handler;
     }
 
     public void execute(String address) {
-        TracerouteTask task = new TracerouteTask(address, managerHandler);
+        TracerouteTask task = new TracerouteTask(address, handler);
         tracerouteThreadPool.execute(task);
     }
 
     private boolean isDone() {
         return false;
     }
-
-    private class ManagerHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            Traceroute traceroute = msg.getData().getParcelable("traceroute");
-            tracerouteList.add(traceroute);
-            Traceroute[] traceroutes = tracerouteList.toArray(new Traceroute[tracerouteList.size()]);
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArray("traceroutes", traceroutes);
-            bundle.putBoolean("isDone", isDone());
-            Message parentMessage = new Message();
-            parentMessage.setData(bundle);
-            parentHandler.sendMessage(parentMessage);
-        }
-    }
-
-    //    public void execute(String address){
-//        for(int i=1; i<= Constants.MAX_HOP; i++){
-//            TracerouteTask task = new TracerouteTask(address, i, managerHandler);
-//            tracerouteThreadPool.execute(task);
-//        }
-//    }
-//
-//    private boolean isDone() {
-//        if(tracerouteHashMap.size() >= Constants.MAX_HOP-1) {
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    /* return sorted traceroute array */
-//    private Traceroute[] convertToArray(){
-//        List<Traceroute> traceroutes = new ArrayList<>();
-//        Integer[] hops = tracerouteHashMap.keySet().toArray(new Integer[tracerouteHashMap.size()]);
-//        Arrays.sort(hops);
-//        int i = 1;
-//        int hopCount = 1;
-//        String prevIp = "";
-//        for(Integer hop : hops){
-//            if(hop==1){
-//                prevIp = tracerouteHashMap.get(hop).getAddress();
-//                traceroutes.add(tracerouteHashMap.get(hop));
-//            }else {
-//                if (hop == i) {
-//                    String currentIp = tracerouteHashMap.get(hop).getAddress();
-//                    if ((!prevIp.equals(currentIp)
-//                            && !currentIp.equals("")) || currentIp.equals("***")) {
-//                        hopCount++;
-//                        prevIp = currentIp;
-//                        Traceroute traceroute = tracerouteHashMap.get(hop);
-//                        traceroute.setHopNumber(hopCount);
-//                        traceroutes.add(traceroute);
-//                    }
-//                }else{
-//                    break;
-//                }
-//            }
-//            i++;
-//        }
-//        return traceroutes.toArray(new Traceroute[traceroutes.size()]);
-//    }
-//
-//    private class ManagerHandler extends Handler {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            Traceroute traceroute = msg.getData().getParcelable("traceroute");
-//            tracerouteHashMap.put(traceroute.getHopNumber(), traceroute);
-//            Traceroute[] traceroutes = convertToArray();
-//
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelableArray("tracerouteArray", traceroutes);
-//            bundle.putBoolean("isDone", isDone());
-//            Message activityMsg = new Message();
-//            activityMsg.setData(bundle);
-//            parentHandler.sendMessage(activityMsg);
-//        }
-//    }
 
 }

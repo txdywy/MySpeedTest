@@ -1,10 +1,5 @@
 package com.num.myspeedtest.model;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -37,6 +32,20 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
     public String getName() {
         return this.name;
     }
+
+    public Drawable getIcon() {
+        return this.icon;
+    }
+
+    public void setIsRunning(boolean b) {
+        this.isRunning = b;
+    }
+
+    public void setName(String name) { this.name = name;}
+
+    public void setPackageName(String packageName) { this.packageName = packageName;}
+
+    public void setIcon(Drawable icon) { this.icon = icon; }
 
     public long getTotal() {
         return totalRecv + totalSent;
@@ -86,14 +95,6 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
         else {
             return "< 1%";
         }
-    }
-
-    public Drawable getIcon() {
-        return this.icon;
-    }
-
-    public void setIcon(Drawable drawable) {
-        this.icon = drawable;
     }
 
     @Override

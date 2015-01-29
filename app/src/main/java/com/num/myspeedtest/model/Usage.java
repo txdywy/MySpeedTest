@@ -13,39 +13,18 @@ import java.util.List;
 public class Usage implements BaseModel, Parcelable {
 
     private List<Application> applications;
-    private static long totalSent;
-    private static long totalRecv;
-    private static long mobileSent;
-    private static long mobileRecv;
-    private static long maxUsage;
+    public static long totalSent;
+    public static long totalRecv;
+    public static long mobileSent;
+    public static long mobileRecv;
+    public static long maxUsage;
 
     public Usage(List<Application> applications) {
         this.applications = applications;
-        totalSent = TrafficStats.getTotalTxBytes();
-        totalRecv = TrafficStats.getTotalRxBytes();
-        mobileSent = TrafficStats.getMobileTxBytes();
-        mobileRecv = TrafficStats.getMobileRxBytes();
-        maxUsage = findMaxUsage();
     }
 
-    public static long getTotalUsage() {
-        return totalSent + totalRecv;
-    }
-
-    public Application[] getApplications() {
-        return applications.toArray(new Application[applications.size()]);
-    }
-
-    public long getTotalSent() {
-        return totalSent;
-    }
-
-    public long getTotalRecv() {
-        return totalRecv;
-    }
-
-    public static long getMaxUsage() {
-        return maxUsage;
+    public List<Application> getApplications() {
+        return applications;
     }
 
     @Override

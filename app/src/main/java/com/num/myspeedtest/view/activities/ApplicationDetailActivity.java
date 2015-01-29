@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.model.Application;
 import com.num.myspeedtest.model.Usage;
+import com.num.myspeedtest.controller.managers.DataUsageManager;
 
 public class ApplicationDetailActivity extends ActionBarActivity {
 
@@ -32,26 +33,20 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         PackageManager pm = getPackageManager();
         Application application = extras.getParcelable("application");
-        Drawable appIcon = null;
-        try {
-            ApplicationInfo info = pm.getApplicationInfo(application.getPackageName(), 0);
-            appIcon = info.loadIcon(pm);
-            application.setIcon(appIcon);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-
-
         long recvTraffic = application.getTotalRecv();
         long sentTraffic = application.getTotalSent();
         long totalTraffic = application.getTotal();
-        long globalTraffic = Usage.getTotalUsage();
-        long globalMax = Usage.getMaxUsage();
+        long globalTraffic = Usage.totalRecv + Usage.totalSent;
+        long globalMax = Usage.maxUsage;
         int percentValue = (int) (totalTraffic*100/globalTraffic);
         int progressValue = (int) (totalTraffic*100/globalMax);
-
-        icon.setImageDrawable(application.getIcon());
+        Drawable appIcon = null;
+        try {
+            appIcon = pm.getApplicationIcon(application.getPackageName());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        icon.setImageDrawable(appIcon );
         name.setText(application.getName());
         total.setText(getUsageString(totalTraffic));
         send.setText(getUsageString(sentTraffic));

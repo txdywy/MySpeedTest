@@ -1,22 +1,15 @@
 package com.num.myspeedtest.view.activities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,13 +20,10 @@ import com.mobilyzer.UpdateIntent;
 import com.mobilyzer.api.API;
 import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.helpers.ThroughputHelper;
+import com.num.myspeedtest.controller.managers.ThroughputManager;
 import com.num.myspeedtest.controller.utils.DeviceUtil;
 import com.num.myspeedtest.db.DatabaseHelper;
 import com.num.myspeedtest.model.Throughput;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class ThroughputActivity extends ActionBarActivity {
 
@@ -126,7 +116,7 @@ public class ThroughputActivity extends ActionBarActivity {
                         percentage.setText("In progress...");
                         downSpeed.setText("Running");
                         upSpeed.setText("Running");
-                        ThroughputHelper.execute(context);
+                        ThroughputManager.execute(context);
                         countDownTimer.start();
                     } else {
                         isRunningUp = false;
@@ -171,10 +161,10 @@ public class ThroughputActivity extends ActionBarActivity {
                     desc = (TCPThroughputDesc) results[i].getMeasurementDesc();
                     long tp = (long) (desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON));
                     if(desc.dir_up) {
-                        upSpeed.setText(ThroughputHelper.outputString(tp));
+                        upSpeed.setText(ThroughputManager.outputString(tp));
                         isRunningUp = false;
                     }else {
-                        downSpeed.setText(ThroughputHelper.outputString(tp));
+                        downSpeed.setText(ThroughputManager.outputString(tp));
                         isRunningDown = false;
                     }
                     if(!isRunningDown && !isRunningUp){

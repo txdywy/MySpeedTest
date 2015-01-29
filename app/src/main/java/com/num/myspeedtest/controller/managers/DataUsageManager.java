@@ -1,14 +1,10 @@
 package com.num.myspeedtest.controller.managers;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.os.Parcelable;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.controller.tasks.DataUsageTask;
-import com.num.myspeedtest.model.Usage;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -19,17 +15,19 @@ public class DataUsageManager {
 
     private static ThreadPoolExecutor usageThreadPool;
     private static BlockingQueue<Runnable> workQueue;
-    private Handler parentHandler;
+
+    private Handler handler;
 
     public DataUsageManager(Handler handler) {
         workQueue = new LinkedBlockingQueue<>();
-        usageThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
-                Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
-        parentHandler = handler;
+        usageThreadPool =
+                new ThreadPoolExecutor(Constants.CORE_POOL_SIZE, Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME,
+                        TimeUnit.SECONDS, workQueue);
+        this.handler = handler;
     }
 
     public void execute(Context context) {
-        DataUsageTask task = new DataUsageTask(context, parentHandler);
+        DataUsageTask task = new DataUsageTask(context, handler);
         usageThreadPool.execute(task);
     }
 

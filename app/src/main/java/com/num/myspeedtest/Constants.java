@@ -14,7 +14,9 @@ public class Constants {
     public static final int KEEP_ALIVE_TIME = 5;
 
     /* Traceroute */
-    public static final int MAX_HOP = 16;
+    public static final int MAX_HOP = 20;
+    public static final int TRACE_PORT = 33434;
+    public static final int TRACE_COUNT = 1;
 
     /* Ping */
     public static final double PING_WARMUP_SEQUENCE_GAP = 0.2f;

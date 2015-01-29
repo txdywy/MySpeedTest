@@ -13,9 +13,15 @@ import android.widget.ProgressBar;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.managers.DataUsageManager;
+import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
 import com.num.myspeedtest.model.Usage;
 import com.num.myspeedtest.view.adapters.DataUsageListAdapter;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 public class DataUsageActivity extends ActionBarActivity {
@@ -24,19 +30,23 @@ public class DataUsageActivity extends ActionBarActivity {
     private ListView listView;
     private ProgressBar progressBar;
 
+    private List<Application> applications;
+    private DataUsageListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_usage);
 
         context = this;
-        listView = (ListView) findViewById(R.id.data_usage_list);
         progressBar = (ProgressBar) findViewById(R.id.data_usage_progress);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        applications = new ArrayList<>();
+        adapter = new DataUsageListAdapter(context, applications);
+
+        listView = (ListView) findViewById(R.id.data_usage_list);
+        listView.setAdapter(adapter);
+
         DataUsageHandler handler = new DataUsageHandler();
         DataUsageManager manager = new DataUsageManager(handler);
         manager.execute(context);
@@ -45,10 +55,9 @@ public class DataUsageActivity extends ActionBarActivity {
     private class DataUsageHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            final Usage usage = msg.getData().getParcelable("usage");
-            DataUsageListAdapter adapter = new DataUsageListAdapter(context, usage);
+            Usage usage = msg.getData().getParcelable("usage");
+            adapter.addAll(usage.getApplications());
             progressBar.setVisibility(View.INVISIBLE);
-            listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
