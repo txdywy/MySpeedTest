@@ -108,7 +108,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         SharedPreferences prefs = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         if (!prefs.contains("accept_conditions") || !prefs.getBoolean("accept_conditions", false)) {
             finish();

@@ -19,7 +19,9 @@ import com.num.myspeedtest.model.Measurement;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.view.adapters.LatencyListAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Latency test activity
@@ -30,19 +32,23 @@ public class LatencyActivity extends ActionBarActivity {
     private ListView listView;
     private ProgressBar progressBar;
 
+    private List<Ping> pings;
+    private LatencyListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latency);
 
         context = this;
-        listView = (ListView) findViewById(R.id.latency_list_view);
         progressBar = (ProgressBar) findViewById(R.id.latency_progress);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        pings = new ArrayList<>();
+        adapter = new LatencyListAdapter(context, pings);
+
+        listView = (ListView) findViewById(R.id.latency_list_view);
+        listView.setAdapter(adapter);
+
         LatencyHandler handler = new LatencyHandler();
         LatencyManager manager = new LatencyManager(handler);
         manager.execute(ServerUtil.getTargets());
@@ -52,18 +58,16 @@ public class LatencyActivity extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             /* Extract ping results */
-            Parcelable[] parcelables = msg.getData().getParcelableArray("pings");
-            Ping[] pings = Arrays.copyOf(parcelables, parcelables.length, Ping[].class);
+            Ping ping = msg.getData().getParcelable("ping");
 
-            /* Update user view with the ping results */
-            LatencyListAdapter adapter = new LatencyListAdapter(context, pings);
-            listView.setAdapter(adapter);
+            /* Update the list adapter */
+            adapter.add(ping);
 
             /* Finish up if the test is complete */
-            if(msg.getData().getBoolean("isDone")) {
+            if(ServerUtil.getTargets().size() == pings.size()) {
                 progressBar.setVisibility(View.INVISIBLE);
                 Measurement measurement = new Measurement(context, true);
-                measurement.setPings(Arrays.asList(pings));
+                measurement.setPings(pings);
                 System.out.println(measurement.toJSON());
                 MeasurementManager measurementManager = new MeasurementManager();
                 measurementManager.sendMeasurement(measurement);

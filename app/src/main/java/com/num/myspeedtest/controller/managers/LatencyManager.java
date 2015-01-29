@@ -21,49 +21,20 @@ public class LatencyManager {
 
     private static ThreadPoolExecutor latencyThreadPool;
     private static BlockingQueue<Runnable> workQueue;
-    private final List<Ping> pingList;
     private int count;
-    private Handler parentHandler;
-    private Handler managerHandler;
+    private Handler handler;
 
     public LatencyManager(Handler handler) {
-        pingList = new ArrayList<>();
         workQueue = new LinkedBlockingQueue<>();
         latencyThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
-        parentHandler = handler;
-        managerHandler = new ManagerHandler();
+        this.handler = handler;
     }
 
     public void execute(List<Address> targets) {
-        count = targets.size();
         for(Address dst : targets) {
-            LatencyTask task = new LatencyTask(dst, managerHandler);
+            LatencyTask task = new LatencyTask(dst, handler);
             latencyThreadPool.execute(task);
-        }
-    }
-
-    private boolean isDone() {
-        if(pingList.size() >= count) {
-            return true;
-        }
-        return false;
-    }
-
-    private class ManagerHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            Ping ping = msg.getData().getParcelable("ping");
-            pingList.add(ping);
-            Ping[] pings = pingList.toArray(new Ping[pingList.size()]);
-
-            Bundle bundle = new Bundle();
-            bundle.putString("type", "ping");
-            bundle.putParcelableArray("pings", pings);
-            bundle.putBoolean("isDone", isDone());
-            Message parentMsg = new Message();
-            parentMsg.setData(bundle);
-            parentHandler.sendMessage(parentMsg);
         }
     }
 }

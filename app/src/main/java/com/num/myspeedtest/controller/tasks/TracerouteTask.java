@@ -1,16 +1,13 @@
 package com.num.myspeedtest.controller.tasks;
 
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 
 import com.num.myspeedtest.Constants;
-import com.num.myspeedtest.controller.utils.PingUtil;
 import com.num.myspeedtest.controller.utils.TracerouteUtil;
-import com.num.myspeedtest.model.Traceroute;
 
 import java.util.HashMap;
 
+// TODO Handle interrupts
 public class TracerouteTask implements Runnable {
 
     private String address;
@@ -25,9 +22,9 @@ public class TracerouteTask implements Runnable {
     public void run(){
         HashMap<String, String> params = new HashMap<>();
         params.put("-n","");
-        params.put("-m", ""+ Constants.MAX_HOP);
-        params.put("-q", ""+1);
-        params.put("-p", ""+33434);
+        params.put("-m", "" + Constants.MAX_HOP);
+        params.put("-q", "" + Constants.TRACE_COUNT);
+        params.put("-p", "" + Constants.TRACE_PORT);
 
         TracerouteUtil.traceroute(address, params, handler);
     }

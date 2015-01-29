@@ -11,31 +11,35 @@ import android.widget.TextView;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.model.Ping;
 
+import java.util.List;
+
 public class LatencyListAdapter extends ArrayAdapter<Ping> {
     private Context context;
-    private Ping[] values;
+    private List<Ping> values;
 
-    public LatencyListAdapter(Context context, Ping[] values){
+    public LatencyListAdapter(Context context, List<Ping> values){
         super(context, R.layout.row_latency, values);
         this.context = context;
         this.values = values;
     }
 
     public View getView(int pos, View convertView, ViewGroup parent){
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.row_latency, parent, false);
-        TextView target = (TextView) rowView.findViewById(R.id.textTarget);
+        TextView targetTextView = (TextView) rowView.findViewById(R.id.textTarget);
         ProgressBar progressBar = (ProgressBar) rowView.findViewById(R.id.progress_latency);
-        TextView rtt = (TextView) rowView.findViewById(R.id.textRTT);
-        target.setText(values[pos].getDstIP().getTagName());
-        progressBar.setProgress((int)values[pos].getMeasure().getAverage());
-        if(values[pos].getMeasure().getAverage()<0) {
-            rtt.setText("No Response");
-        }
-        else {
-            rtt.setText((int) values[pos].getMeasure().getAverage() + "ms");
-        }
+        TextView rttTextView = (TextView) rowView.findViewById(R.id.textRTT);
+
+        Ping ping = values.get(pos);
+        String target = ping.getDstIP().getTagName();
+        int progress = (int) ping.getMeasure().getAverage();
+        int rtt = (int) ping.getMeasure().getAverage();
+        String rttString = (rtt<0) ? "No Response" : rtt + " ms";
+
+        targetTextView.setText(target);
+        progressBar.setProgress(progress);
+        rttTextView.setText(rttString);
+
         return rowView;
     }
 }
