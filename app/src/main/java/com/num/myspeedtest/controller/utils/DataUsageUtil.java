@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 
+import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 public class DataUsageUtil {
+
+    public static boolean initialized = false;
 
     public static List<Application> getApplications(Context context) {
         List<Application> applications = new ArrayList<>();
@@ -44,7 +47,21 @@ public class DataUsageUtil {
             }
         }
         Collections.sort(applications);
+        initialized = true;
         return applications;
+    }
+
+    public static void updateOnBoot(Context context) {
+        DataUsageDataSource db = new DataUsageDataSource(context);
+        db.open();
+        List<Application> applications = DataUsageUtil.getApplications(context);
+        for (Application app : applications) {
+            db.updateOnBoot(app);
+        }
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 
     private static List<String> getRunningApplications(Context context) {

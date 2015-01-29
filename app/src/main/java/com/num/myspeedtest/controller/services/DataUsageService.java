@@ -13,13 +13,9 @@ import java.util.List;
 
 public class DataUsageService extends Service {
 
-    private Context context = this;
-    private static boolean initialized = false;
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        updateOnBoot();
-        initialized = true;
+        DataUsageUtil.updateOnBoot(this);
         return Service.START_REDELIVER_INTENT;
     }
 
@@ -29,17 +25,5 @@ public class DataUsageService extends Service {
         return null;
     }
 
-    public static boolean isInitialized() {
-        return initialized;
-    }
-
-    private void updateOnBoot() {
-        DataUsageDataSource db = new DataUsageDataSource(context);
-        db.open();
-        List<Application> applications = DataUsageUtil.getApplications(context);
-        for (Application app : applications) {
-            db.updateOnBoot(app);
-        }
-    }
 
 }
