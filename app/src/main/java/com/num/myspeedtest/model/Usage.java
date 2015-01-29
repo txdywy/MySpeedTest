@@ -13,11 +13,11 @@ import java.util.List;
 public class Usage implements BaseModel, Parcelable {
 
     private List<Application> applications;
-    public static long totalSent;
-    public static long totalRecv;
-    public static long mobileSent;
-    public static long mobileRecv;
-    public static long maxUsage;
+    public static long totalSent = 0;
+    public static long totalRecv = 0;
+    public static long mobileSent = 0;
+    public static long mobileRecv = 0;
+    public static long maxUsage = 0;
 
     public Usage(List<Application> applications) {
         this.applications = applications;
