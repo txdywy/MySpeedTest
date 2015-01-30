@@ -2,6 +2,7 @@ package com.num.myspeedtest.controller.managers;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Parcelable;
 
@@ -40,6 +41,9 @@ public class MeasurementManager {
 //        LatencyManager latencyManager = new LatencyManager(managerHandler);
 //        latencyManager.execute(ServerUtil.getTargets());
 
+//        LatencyManager latencyManager = new LatencyManager(managerHandler);
+//        latencyManager.execute(ServerUtil.getTargets());
+//
 //        DataUsageManager dataUsageManager = new DataUsageManager(managerHandler);
 //        dataUsageManager.execute(context);
     }
