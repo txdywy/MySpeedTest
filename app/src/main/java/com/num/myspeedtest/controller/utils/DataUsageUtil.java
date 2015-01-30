@@ -2,6 +2,7 @@ package com.num.myspeedtest.controller.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -20,6 +21,11 @@ import java.util.Set;
 public class DataUsageUtil {
 
     public static boolean initialized = false;
+
+    private static SharedPreferences sharedpreferences;
+    private static final String MobileData = "mstmobiledata";
+    private static final String MobileRecv = "mobile_recv";
+    private static final String MobileSent = "mobile_sent";
 
     public static List<Application> getApplications(Context context) {
         List<Application> applications = new ArrayList<>();
@@ -74,5 +80,31 @@ public class DataUsageUtil {
         }
 
         return runningApplications;
+    }
+
+    public static void updateMobileData(Context context) {
+        if (sharedpreferences == null)
+            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
+        long mobile_recv = TrafficStats.getMobileRxBytes();
+        long mobile_sent = TrafficStats.getMobileTxBytes();
+        Logger.show("Mobile sent: " + mobile_sent + " recv: " + mobile_recv);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putLong(MobileRecv, mobile_recv);
+        editor.putLong(MobileSent, mobile_sent);
+        editor.commit();
+    }
+
+    public static long getMobileSent(Context context) {
+        if (sharedpreferences == null)
+            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
+        long sent = sharedpreferences.getLong(MobileSent, 0);
+        return sent;
+    }
+
+    public static long getMobileRecv(Context context) {
+        if (sharedpreferences == null)
+            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
+        long recv = sharedpreferences.getLong(MobileRecv, 0);
+        return recv;
     }
 }
