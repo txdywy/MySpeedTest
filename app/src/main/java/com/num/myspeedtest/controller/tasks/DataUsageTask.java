@@ -41,16 +41,10 @@ public class DataUsageTask implements Runnable {
         DataUsageDataSource db = new DataUsageDataSource(context);
         db.open();
 
-        while(!DataUsageUtil.isInitialized()) {
-            DataUsageUtil.updateOnBoot(context);
-        }
-
         long totalRecv = 0;
         long totalSent = 0;
         for(Application app : applications) {
-            System.out.println(app);
             Application tmp = (Application) db.insertBaseModelandReturn(app);
-            System.out.println(tmp);
             if(tmp.getTotal() > 0) {
                 activeApplications.add(tmp);
                 totalRecv += tmp.getTotalRecv();

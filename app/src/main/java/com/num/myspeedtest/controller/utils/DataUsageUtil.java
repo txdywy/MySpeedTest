@@ -47,7 +47,6 @@ public class DataUsageUtil {
             }
         }
         Collections.sort(applications);
-        initialized = true;
         return applications;
     }
 
@@ -58,9 +57,10 @@ public class DataUsageUtil {
         for (Application app : applications) {
             db.updateOnBoot(app);
         }
+        initialized = true;
     }
 
-    public static boolean isInitialized() {
+    public static synchronized boolean isInitialized() {
         return initialized;
     }
 

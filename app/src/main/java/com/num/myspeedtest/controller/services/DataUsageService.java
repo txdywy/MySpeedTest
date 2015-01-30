@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.num.myspeedtest.controller.utils.DataUsageUtil;
+import com.num.myspeedtest.controller.utils.Logger;
 import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
 
@@ -15,7 +16,10 @@ public class DataUsageService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        DataUsageUtil.updateOnBoot(this);
+        Logger.show("Starting data Usage service");
+        if(!DataUsageUtil.isInitialized()) {
+            DataUsageUtil.updateOnBoot(this);
+        }
         return Service.START_REDELIVER_INTENT;
     }
 
