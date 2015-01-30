@@ -10,8 +10,12 @@ public class Loss implements BaseModel, Parcelable {
 
     private int total, lost;
     private double lossPercentage;
-    private Ipdv ipdv;
 
+    private Loss(int total, int lost, double lossPercentage) {
+        this.total = total;
+        this.lost = lost;
+        this.lossPercentage = lossPercentage;
+    }
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();

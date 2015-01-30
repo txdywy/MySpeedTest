@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Trace;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.managers.TracerouteManager;
@@ -30,9 +32,11 @@ public class TracerouteActivity extends ActionBarActivity {
     private EditText address;
     private Button enter;
     private ProgressBar progressBar;
+    private RadioGroup traceType;
 
     private List<Traceroute> traceroutes;
     private TracerouteListAdapter adapter;
+    private int type;
 
     /* variables for getting traceroute */
     private final String default_address = "www.google.com";
@@ -53,6 +57,17 @@ public class TracerouteActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.list_view_traceroute);
         listView.setAdapter(adapter);
 
+        type = Traceroute.UDP;
+        traceType = (RadioGroup) findViewById(R.id.radio_group_traceroute);
+        traceType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radio_button_icmp) {
+                    type = Traceroute.ICMP;
+                }
+            }
+        });
+
         address = (EditText) findViewById(R.id.editText_traceroute);
         address.setText(default_address);
         address.setOnKeyListener(new View.OnKeyListener() {
@@ -70,7 +85,7 @@ public class TracerouteActivity extends ActionBarActivity {
 
                     TracerouteHandler handler = new TracerouteHandler();
                     TracerouteManager manager = new TracerouteManager(handler);
-                    manager.execute(address.getText().toString());
+                    manager.execute(address.getText().toString(), type);
                     return true;
                 }
 
@@ -89,11 +104,10 @@ public class TracerouteActivity extends ActionBarActivity {
 
                 TracerouteHandler handler = new TracerouteHandler();
                 TracerouteManager manager = new TracerouteManager(handler);
-                manager.execute(address.getText().toString());
+                manager.execute(address.getText().toString(), type);
 
             }
         });
-
     }
 
     private class TracerouteHandler extends Handler {
@@ -104,7 +118,6 @@ public class TracerouteActivity extends ActionBarActivity {
             if (msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
             }
-            System.out.println(traceroute);
         }
 
     }

@@ -14,13 +14,17 @@ public class Throughput implements BaseModel{
     private boolean isComplete = false;
 
     public Throughput() {
-        Link downLink = new Link();
-        Link upLink = new Link();
+        this.downLink = new Link();
+        this.upLink = new Link();
+    }
+
+    public Throughput(Link downLink, Link upLink) {
+        this.downLink = downLink;
+        this.upLink = upLink;
     }
 
     public Throughput(String datetime, String download, String upload){
         this.datetime = datetime;
-//        this.connectionType = connectionType;
         this.download = download;
         this.upload = upload;
     }

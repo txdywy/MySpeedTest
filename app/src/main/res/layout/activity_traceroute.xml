@@ -11,7 +11,12 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:background="@color/frame_color"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="2dp">
 
         <EditText
             android:layout_width="0dp"
@@ -19,16 +24,56 @@
             android:layout_weight="0.8"
             android:id="@+id/editText_traceroute"
             android:lines="1"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:gravity="bottom"
+            android:layout_gravity="bottom" />
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
             android:text="Enter"
-            android:id="@+id/button_traceroute" />
+            android:id="@+id/button_traceroute"
+            android:background="@color/background_color"
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/frame_color">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_group_traceroute"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UDP"
+                android:id="@+id/radio_button_udp"
+                android:checked="true" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ICMP"
+                android:id="@+id/radio_button_icmp"
+                android:checked="false" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:background="#dddddd"
+        android:orientation="horizontal" />
 
     <LinearLayout
         android:orientation="vertical"

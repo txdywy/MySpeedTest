@@ -22,6 +22,7 @@ import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.managers.ThroughputManager;
 import com.num.myspeedtest.controller.utils.DeviceUtil;
+import com.num.myspeedtest.controller.utils.Logger;
 import com.num.myspeedtest.db.DatabaseHelper;
 import com.num.myspeedtest.model.Throughput;
 
@@ -152,7 +153,6 @@ public class ThroughputActivity extends ActionBarActivity {
             Parcelable[] parcels = intent.getParcelableArrayExtra(UpdateIntent.RESULT_PAYLOAD);
             MeasurementResult[] results;
             TCPThroughputDesc desc;
-            System.out.println("Throughput Activity Received");
             if(parcels != null) {
                 results = new MeasurementResult[parcels.length];
                 for(int i=0; i<results.length; i++) {
