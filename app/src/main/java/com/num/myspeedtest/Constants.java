@@ -32,4 +32,10 @@ public class Constants {
     public static final String RADB_SERVER = "whois.radb.net";
     public static int RADB_PORT = 43;
     public static int SO_TIMEOUT = 2000;
+
+    /* Background Measurement Service */
+    public static final int UPDATE_INTERVAL = 1000 * 60 * 15; // 15 minutes
+    public static final int NORMAL_SLEEP_TIME = 1000;
+    public static final int SHORT_SLEEP_TIME = 100;
+    public static final int ONE_MINUTE_TIME = 60 * 1000;
 }

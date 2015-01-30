@@ -64,7 +64,7 @@ public class LatencyActivity extends ActionBarActivity {
             adapter.add(ping);
 
             /* Finish up if the test is complete */
-            if(ServerUtil.getTargets().size() == pings.size()) {
+            if(ServerUtil.getTargets().size() <= pings.size()) {
                 progressBar.setVisibility(View.INVISIBLE);
                 Measurement measurement = new Measurement(context, true);
                 measurement.setPings(pings);

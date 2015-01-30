@@ -17,9 +17,7 @@ public class DataUsageService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Logger.show("Starting data Usage service");
-        if(!DataUsageUtil.isInitialized()) {
-            DataUsageUtil.updateOnBoot(this);
-        }
+        DataUsageUtil.updateOnBoot(this);
         return Service.START_REDELIVER_INTENT;
     }
 
