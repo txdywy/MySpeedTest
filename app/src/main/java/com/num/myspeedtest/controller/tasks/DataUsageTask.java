@@ -1,17 +1,10 @@
 package com.num.myspeedtest.controller.tasks;
 
-import android.app.ActivityManager;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.net.TrafficStats;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.num.myspeedtest.controller.services.DataUsageService;
 import com.num.myspeedtest.controller.utils.DataUsageUtil;
 import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
@@ -19,9 +12,7 @@ import com.num.myspeedtest.model.Usage;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DataUsageTask implements Runnable {
 
@@ -43,13 +34,13 @@ public class DataUsageTask implements Runnable {
 
         long totalRecv = 0;
         long totalSent = 0;
-        for(Application app : applications) {
+        for (Application app : applications) {
             Application tmp = (Application) db.insertBaseModelandReturn(app);
-            if(tmp.getTotal() > 0) {
+            if (tmp.getTotal() > 0) {
                 activeApplications.add(tmp);
                 totalRecv += tmp.getTotalRecv();
                 totalSent += tmp.getTotalSent();
-                if(tmp.getTotal() > Usage.maxUsage) {
+                if (tmp.getTotal() > Usage.maxUsage) {
                     Usage.maxUsage = tmp.getTotal();
                 }
             }
