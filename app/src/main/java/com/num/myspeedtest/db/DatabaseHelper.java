@@ -125,10 +125,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             do {
                 throughput = new Throughput();
                 throughput.setDatetime(cursor.getString(0));
-//                throughput.setConnectionType(cursor.getString(1));
                 throughput.setDownload(cursor.getString(2));
                 throughput.setUpload(cursor.getString(3));
-                throughput.setUpLink(new Link());
                 throughputs.add(throughput);
             }while(cursor.moveToNext());
         }

@@ -68,7 +68,6 @@ public class LatencyActivity extends ActionBarActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 Measurement measurement = new Measurement(context, true);
                 measurement.setPings(pings);
-                System.out.println(measurement.toJSON());
                 MeasurementManager measurementManager = new MeasurementManager();
                 measurementManager.sendMeasurement(measurement);
             }

@@ -14,8 +14,7 @@ public class Throughput implements BaseModel{
     private boolean isComplete = false;
 
     public Throughput() {
-        this.downLink = new Link();
-        this.upLink = new Link();
+
     }
 
     public Throughput(Link downLink, Link upLink) {
