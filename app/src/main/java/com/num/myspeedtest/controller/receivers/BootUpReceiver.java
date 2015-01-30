@@ -9,10 +9,15 @@ import com.num.myspeedtest.controller.services.DataUsageService;
 public class BootUpReceiver extends BroadcastReceiver {
 
     final static String TAG = "BootUpReceiver";
+    private AlarmReceiver alarm = new AlarmReceiver();
 
     @Override
-    public void onReceive(Context context, Intent arg1) {
-        // place the service to start at boot here
-        context.startService(new Intent(context, DataUsageService.class));
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
+        {
+            context.startService(new Intent(context, DataUsageService.class));
+            alarm.setAlarm(context);
+        }
+
     }
 }

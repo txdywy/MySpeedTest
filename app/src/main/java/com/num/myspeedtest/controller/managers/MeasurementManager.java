@@ -2,6 +2,7 @@ package com.num.myspeedtest.controller.managers;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Parcelable;
 
@@ -32,17 +33,18 @@ public class MeasurementManager {
         measurementThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
         //this.parentHandler = handler;
+
         this.managerHandler = new ManagerHandler();
     }
 
     public void execute(Context context, boolean isManual) {
         measurement = new Measurement(context, isManual);
 
-        LatencyManager latencyManager = new LatencyManager(managerHandler);
-        latencyManager.execute(ServerUtil.getTargets());
-
-        DataUsageManager dataUsageManager = new DataUsageManager(managerHandler);
-        dataUsageManager.execute(context);
+//        LatencyManager latencyManager = new LatencyManager(managerHandler);
+//        latencyManager.execute(ServerUtil.getTargets());
+//
+//        DataUsageManager dataUsageManager = new DataUsageManager(managerHandler);
+//        dataUsageManager.execute(context);
     }
 
     public void sendMeasurement(Measurement measurement) {
