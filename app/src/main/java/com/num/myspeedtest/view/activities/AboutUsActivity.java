@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.managers.MeasurementManager;
 import com.num.myspeedtest.controller.utils.TracerouteUtil;
 import com.num.myspeedtest.model.Traceroute;
 
@@ -22,6 +23,9 @@ public class AboutUsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+
+        MeasurementManager manager = new MeasurementManager();
+        manager.execute(this, true);
 
         rateButton = (LinearLayout) findViewById(R.id.about_us_button);
         rateButton.setOnClickListener(new View.OnClickListener() {

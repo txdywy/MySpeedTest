@@ -6,6 +6,7 @@ import android.os.Message;
 import android.os.Parcelable;
 
 import com.num.myspeedtest.Constants;
+import com.num.myspeedtest.controller.utils.Logger;
 import com.num.myspeedtest.controller.utils.ServerUtil;
 import com.num.myspeedtest.model.Loss;
 import com.num.myspeedtest.model.Measurement;
@@ -21,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class MeasurementManager {
     private static ThreadPoolExecutor measurementThreadPool;
     private static BlockingQueue<Runnable> workQueue;
-    private Handler parentHandler;
     private Handler managerHandler;
     private Measurement measurement;
     private boolean latencyDone;
@@ -31,18 +31,17 @@ public class MeasurementManager {
         workQueue = new LinkedBlockingQueue<>();
         measurementThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
-        //this.parentHandler = handler;
         this.managerHandler = new ManagerHandler();
     }
 
     public void execute(Context context, boolean isManual) {
         measurement = new Measurement(context, isManual);
+        Logger.show(measurement.toJSON().toString());
+//        LatencyManager latencyManager = new LatencyManager(managerHandler);
+//        latencyManager.execute(ServerUtil.getTargets());
 
-        LatencyManager latencyManager = new LatencyManager(managerHandler);
-        latencyManager.execute(ServerUtil.getTargets());
-
-        DataUsageManager dataUsageManager = new DataUsageManager(managerHandler);
-        dataUsageManager.execute(context);
+//        DataUsageManager dataUsageManager = new DataUsageManager(managerHandler);
+//        dataUsageManager.execute(context);
     }
 
     public void sendMeasurement(Measurement measurement) {

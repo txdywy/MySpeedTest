@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class LastMile extends Ping {
 
-    private int hopCount;
+    private int hopCount = -1;
     private String firstHop;
 
     public LastMile(String src, Address dst, Measure measure, int hopCount, String firstHop) {

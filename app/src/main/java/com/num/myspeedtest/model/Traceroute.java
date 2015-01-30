@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 public class Traceroute implements BaseModel, Parcelable {
 
+    public static final int ICMP = 0;
+    public static final int UDP = 0;
+
     private String hostname = "";
     private String address = "";
     private String asn = "";

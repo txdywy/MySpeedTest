@@ -1,7 +1,5 @@
 package com.num.myspeedtest.model;
 
-import android.content.Context;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,7 +16,7 @@ public class State implements BaseModel {
         this.localTime = localTime;
         this.deviceId = deviceId;
         networkType = network.getConnectionType();
-        if(networkType.equals("Mobile")) {
+        if(networkType.contains("Mobile")) {
             cellId = network.getCellId();
         }
     }
