@@ -74,8 +74,7 @@ public class TracerouteUtil {
             }
             BufferedReader reader = CommandLineUtil.runBufferedCommand(cmd + options + ip.getHostAddress());
             String line = reader.readLine();
-            System.out.println(line);
-            if(line.contains("No address associated")) {
+            if(line == null || line.contains("No address associated")) {
                 Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
 
                 Bundle bundle = new Bundle();
@@ -86,7 +85,6 @@ public class TracerouteUtil {
                 handler.sendMessage(msg);
             }
             while((line=reader.readLine())!=null) {
-                System.out.println(line);
                 Traceroute traceroute = parseTracerouteResult(line);
 
                 Bundle bundle = new Bundle();

@@ -114,7 +114,7 @@ public class TracerouteActivity extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             Traceroute traceroute = msg.getData().getParcelable("traceroute");
-            if(traceroute == null) {
+            if(traceroute == null || msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
                 return;
             }
