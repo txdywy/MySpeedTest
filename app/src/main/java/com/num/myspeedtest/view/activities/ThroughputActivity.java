@@ -22,7 +22,6 @@ import com.mobilyzer.measurements.TCPThroughputTask.TCPThroughputDesc;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.managers.ThroughputManager;
 import com.num.myspeedtest.controller.utils.DeviceUtil;
-import com.num.myspeedtest.controller.utils.Logger;
 import com.num.myspeedtest.db.DatabaseHelper;
 import com.num.myspeedtest.model.Throughput;
 
@@ -71,12 +70,12 @@ public class ThroughputActivity extends ActionBarActivity {
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
         historyButton = (LinearLayout) findViewById(R.id.button_history);
 
-        countDownTimer = new CountDownTimer(progressLength,progressInterval) {
+        countDownTimer = new CountDownTimer(progressLength, progressInterval) {
             @Override
             public void onTick(long millisUntilFinished_) {
 //                System.out.println("Throughput Activity Timer: " + millisUntilFinished_);
-                if(millisUntilFinished_>progressInterval && (isRunningUp || isRunningDown)) {
-                    int percentage = 100 - (int)(millisUntilFinished_/600);
+                if (millisUntilFinished_ > progressInterval && (isRunningUp || isRunningDown)) {
+                    int percentage = 100 - (int) (millisUntilFinished_ / 600);
                     System.out.println("Throughput Activity Timer: " + percentage);
                     progressBar.setProgress(percentage);
                 }
@@ -85,31 +84,26 @@ public class ThroughputActivity extends ActionBarActivity {
             @Override
             public void onFinish() {
                 progressBar.setProgress(100);
-                if(!testSuccessful) {
+                if (!testSuccessful) {
                     percentage.setText("Connection Failed");
                     startButtonImage.setImageResource(R.drawable.ic_action_play);
                     startButtonTxt.setText("Start");
                     startButton.setClickable(true);
                     downSpeed.setText("0.0 Mbps");
                     upSpeed.setText("0.0 Mbps");
-                }else{
+                } else {
                     testSuccessful = false;
                 }
-                /* add result to database */
-                if(testSuccessful) {
-                    String dateTime = dbHelper.getDateTime();
-                    Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
-                    dbHelper.insertThroughput(throughput);
-                }
             }
+
         };
 
         startButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!DeviceUtil.getInstance().isInternetAvailable(context)) {
+                if (!DeviceUtil.getInstance().isInternetAvailable(context)) {
                     percentage.setText("No Connection");
-                }else {
+                } else {
                     if (!isRunningUp && !isRunningDown) {
                         isRunningUp = true;
                         isRunningDown = true;
@@ -155,27 +149,30 @@ public class ThroughputActivity extends ActionBarActivity {
             Parcelable[] parcels = intent.getParcelableArrayExtra(UpdateIntent.RESULT_PAYLOAD);
             MeasurementResult[] results;
             TCPThroughputDesc desc;
-            if(parcels != null) {
+            if (parcels != null) {
                 results = new MeasurementResult[parcels.length];
-                for(int i=0; i<results.length; i++) {
+                for (int i = 0; i < results.length; i++) {
                     results[i] = (MeasurementResult) parcels[i];
                     String throughputJSON = results[i].getValues().get("tcp_speed_results");
                     desc = (TCPThroughputDesc) results[i].getMeasurementDesc();
                     long tp = (long) (desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON));
-                    if(desc.dir_up) {
+                    if (desc.dir_up) {
                         upSpeed.setText(ThroughputManager.outputString(tp));
                         isRunningUp = false;
-                    }else {
+                    } else {
                         downSpeed.setText(ThroughputManager.outputString(tp));
                         isRunningDown = false;
                     }
-                    if(!isRunningDown && !isRunningUp){
+                    if (!isRunningDown && !isRunningUp) {
                         testSuccessful = true;
                         startButtonImage.setImageResource(R.drawable.ic_action_replay);
                         startButtonTxt.setText("Start");
                         startButton.setClickable(true);
                         progressBar.setProgress(100);
                         percentage.setText("Test Complete");
+                        String dateTime = dbHelper.getDateTime();
+                        Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
+                        dbHelper.insertThroughput(throughput);
                     }
                 }
             }
