@@ -110,7 +110,7 @@ public class DataUsageDataSource extends DataSource {
 //            value.put(DataUsageMapping.COLUMN_PREV_RECV, app.getTotalRecv());
 //            value.put(DataUsageMapping.COLUMN_PREV_SENT, app.getTotalSent());
             try {
-                Logger.show("first install (adding): " + app.toString());
+//                Logger.show("first install (adding): " + app.toString());
                 database.insert(dbHelper.getTableName(), null, value);
                 return app;
             } catch (Exception e) {
@@ -151,7 +151,7 @@ public class DataUsageDataSource extends DataSource {
 //                value.put(DataUsageMapping.COLUMN_SENT, app.getTotalSent());
 //            } else {
 //                Logger.show("Normal case: " + prev_recv + " " + prev_sent + " " + app.toString());
-            Logger.show("Normal case: " + app.toString());
+//            Logger.show("Normal case: " + app.toString());
             value.put(DataUsageMapping.COLUMN_RECV, boot_recv + app.getTotalRecv());
             value.put(DataUsageMapping.COLUMN_SENT, boot_sent + app.getTotalSent());
 //                value.put(DataUsageMapping.COLUMN_PREV_RECV, app.getTotalRecv());
