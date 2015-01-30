@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
 import com.num.myspeedtest.controller.utils.HashUtil;
+import com.num.myspeedtest.controller.utils.Logger;
 
 import org.json.JSONObject;
 
@@ -89,7 +90,8 @@ public class Device implements BaseModel, Parcelable {
 
         emailAddress = prefs.getString("pref_email", "");
 
-        dataCap = Integer.parseInt(prefs.getString("pref_data_cap", "-1"));
+        String dCap = prefs.getString("pref_data_cap", "-1");
+        dataCap = Integer.parseInt(dCap);
     }
 
     public String getPhoneType() {
