@@ -8,7 +8,7 @@
             android:title="Data Cap"
             android:summary="Choose how much data you get per cycle"
             android:entries="@array/data_cap_entries"
-            android:entryValues="@array/data_cap_entries"
+            android:entryValues="@array/data_cap_values"
             android:defaultValue="-1" />
     </PreferenceCategory>
     <PreferenceCategory
