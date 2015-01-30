@@ -5,54 +5,18 @@ import org.json.JSONObject;
 
 public class Link implements BaseModel{
 
-    private long count;
-    private long message_size; //in bytes
-    private double time; // milliseconds
-    private String dstIp;
-    private String dstPort;
+    private long count = -1;
+    private long messageSize = -1; //in bytes
+    private double time = -1; // milliseconds
+    private String dstIp = "";
+    private String dstPort = "";
 
-    public Link() {
-        count = -1;
-        message_size = -1;
-        time = -1;
-        dstIp = "";
-        dstPort = "";
-    }
-
-    public String showData() {
-        return String.format("%.3f Mbps", (double)speedInBits()/1000);
-    }
-
-    public String getDstIp() {
-        return dstIp;
-    }
-
-    public void setDstIp(String dstIp) {
+    public Link(long count, long messageSize, double time, String dstIp, String dstPort) {
+        this.count = count;
+        this.messageSize = messageSize;
+        this.time = time;
         this.dstIp = dstIp;
-    }
-
-    public String getDstPort() {
-        return dstPort;
-    }
-
-    public void setDstPort(String dstPort) {
         this.dstPort = dstPort;
-    }
-
-    public long getCount() {
-        return count;
-    }
-
-    public void setCount(long count2) {
-        this.count = count2;
-    }
-
-    public long getMessage_size() {
-        return message_size;
-    }
-
-    public void setMessage_size(long message_size) {
-        this.message_size = message_size;
     }
 
     public double getTime() {
@@ -64,7 +28,7 @@ public class Link implements BaseModel{
     }
 
     public double speedInBytes(){
-        return ((double)count*message_size)/time;
+        return ((double)count*messageSize)/time;
     }
 
     public double speedInBits(){
@@ -75,7 +39,7 @@ public class Link implements BaseModel{
         JSONObject obj = new JSONObject();
         try {
             obj.putOpt("count", count);
-            obj.putOpt("message_size",message_size);
+            obj.putOpt("message_size",messageSize);
             obj.putOpt("time", time);
             obj.putOpt("speedInBits", speedInBits());
             obj.put("dstIp", dstIp);

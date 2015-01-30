@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Trace;
 
 import com.num.myspeedtest.model.Traceroute;
 
@@ -73,7 +74,19 @@ public class TracerouteUtil {
             }
             BufferedReader reader = CommandLineUtil.runBufferedCommand(cmd + options + ip.getHostAddress());
             String line = reader.readLine();
+            System.out.println(line);
+            if(line.contains("No address associated")) {
+                Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("traceroute", traceroute);
+                bundle.putBoolean("isDone", true);
+                Message msg = new Message();
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+            }
             while((line=reader.readLine())!=null) {
+                System.out.println(line);
                 Traceroute traceroute = parseTracerouteResult(line);
 
                 Bundle bundle = new Bundle();
@@ -82,8 +95,31 @@ public class TracerouteUtil {
                 msg.setData(bundle);
                 handler.sendMessage(msg);
             }
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isDone", true);
+            Message msg = new Message();
+            msg.setData(bundle);
+            handler.sendMessage(msg);
         } catch (UnknownHostException e) {
+            Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("traceroute", traceroute);
+            bundle.putBoolean("isDone", true);
+            Message msg = new Message();
+            msg.setData(bundle);
+            handler.sendMessage(msg);
+
         } catch (IOException e) {
+            Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("traceroute", traceroute);
+            bundle.putBoolean("isDone", true);
+            Message msg = new Message();
+            msg.setData(bundle);
+            handler.sendMessage(msg);
+
         }
     }
 

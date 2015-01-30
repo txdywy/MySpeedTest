@@ -96,9 +96,11 @@ public class ThroughputActivity extends ActionBarActivity {
                     testSuccessful = false;
                 }
                 /* add result to database */
-                String dateTime = dbHelper.getDateTime();
-                Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
-                dbHelper.insertThroughput(throughput);
+                if(testSuccessful) {
+                    String dateTime = dbHelper.getDateTime();
+                    Throughput throughput = new Throughput(dateTime, downSpeed.getText().toString(), upSpeed.getText().toString());
+                    dbHelper.insertThroughput(throughput);
+                }
             }
         };
 

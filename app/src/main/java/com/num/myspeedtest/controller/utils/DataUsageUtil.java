@@ -20,8 +20,6 @@ import java.util.Set;
 
 public class DataUsageUtil {
 
-    public static boolean initialized = false;
-
     private static SharedPreferences sharedpreferences;
     private static final String MobileData = "mstmobiledata";
     private static final String MobileRecv = "mobile_recv";
@@ -63,11 +61,6 @@ public class DataUsageUtil {
         for (Application app : applications) {
             db.updateOnBoot(app);
         }
-        initialized = true;
-    }
-
-    public static synchronized boolean isInitialized() {
-        return initialized;
     }
 
     private static List<String> getRunningApplications(Context context) {
