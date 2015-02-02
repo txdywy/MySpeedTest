@@ -29,7 +29,6 @@ public class DataUsageActivity extends ActionBarActivity {
     private Context context;
     private ListView listView;
     private ProgressBar progressBar;
-
     private List<Application> applications;
     private DataUsageListAdapter adapter;
 

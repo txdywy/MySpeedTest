@@ -4,8 +4,7 @@ import com.num.myspeedtest.model.Address;
 
 public class Constants {
 
-//  public static final String SHARED_PREFERENCES_NAME = "com.num.myspeedtest";
-    public static final String SHARED_PREFERENCES_NAME = "com.num"; //old name
+    public static final String SHARED_PREFERENCES_NAME = "com.num";
     public static final String API_SERVER_ADDRESS = "https://ruggles.gtnoise.net";
 
     /* Threads */

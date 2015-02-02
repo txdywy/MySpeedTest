@@ -4,12 +4,9 @@ import android.content.Context;
 
 import com.num.myspeedtest.db.DatabaseColumns;
 
-/**
- * Created by joseph on 1/2/15.
- */
 public class DataUsageMapping  extends BaseMapping {
 
-    public static String TABLE_NAME = "mstdatausage";
+    public static String TABLE_NAME = "data_usage";
     public static int DATABASE_VERSION = 1;
 
     public DataUsageMapping(Context context) {
@@ -21,10 +18,10 @@ public class DataUsageMapping  extends BaseMapping {
     public static final String COLUMN_TIME = "time";
     public static final String COLUMN_RECV = "recv";
     public static final String COLUMN_SENT = "sent";
-    public static final String COLUMN_PREV_RECV = "prevrecv";
-    public static final String COLUMN_BOOT_RECV = "bootrecv";
-    public static final String COLUMN_PREV_SENT = "prevsent";
-    public static final String COLUMN_BOOT_SENT = "bootsent";
+    public static final String COLUMN_PREV_RECV = "prev_recv";
+    public static final String COLUMN_BOOT_RECV = "boot_recv";
+    public static final String COLUMN_PREV_SENT = "prev_sent";
+    public static final String COLUMN_BOOT_SENT = "boot_sent";
 
 
     public void setColumnMap() {

@@ -28,6 +28,13 @@ public class GPS implements BaseModel {
             e.printStackTrace();
         }
 
+        if(gpsEnabled) {
+
+        }
+        if(networkEnabled) {
+
+        }
+
         //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, );
     }
     @Override

@@ -47,9 +47,13 @@ public class DataUsageTask implements Runnable {
         }
         Usage.totalRecv = totalRecv;
         Usage.totalSent = totalSent;
+        Usage.mobileRecv = DataUsageUtil.getMobileRecv(context);
+        Usage.mobileSent = DataUsageUtil.getMobileSent(context);
 
         Collections.sort(activeApplications);
         Usage usage = new Usage(activeApplications);
+
+        System.out.println(usage.toJSON());
 
         Bundle bundle = new Bundle();
         bundle.putString("type", "usage");

@@ -14,6 +14,7 @@ import com.num.myspeedtest.model.Application;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class DataUsageUtil {
 
     private static SharedPreferences sharedpreferences;
-    private static final String MobileData = "mstmobiledata";
+    private static final String MobileData = "mobile_data";
     private static final String MobileRecv = "mobile_recv";
     private static final String MobileSent = "mobile_sent";
 
@@ -29,7 +30,7 @@ public class DataUsageUtil {
         List<Application> applications = new ArrayList<>();
         PackageManager pm = context.getPackageManager();
         List<ApplicationInfo> appInfo = pm.getInstalledApplications(0);
-        List<String> runningApps = getRunningApplications(context);
+        HashMap<String, Boolean> runningApps = getRunningApplications(context);
         Set<Integer> uids = new HashSet<Integer>();
 
         for (ApplicationInfo info : appInfo) {
@@ -44,9 +45,12 @@ public class DataUsageUtil {
                     appName = info.loadLabel(pm).toString();
                 } catch (Resources.NotFoundException e) {}
                 Drawable appIcon = info.loadIcon(pm);
-                boolean isRunning = runningApps.contains(pm.getPackagesForUid(uid)[0]);
-
-                Application app = new Application(appName, pkgName, appIcon, sent, recv, isRunning);
+                boolean isForeground = false;
+                boolean isRunning = runningApps.keySet().contains(pm.getPackagesForUid(uid)[0]);
+                try {
+                    isForeground = runningApps.get(pkgName);
+                } catch(Exception e) {}
+                Application app = new Application(appName, pkgName, appIcon, sent, recv, isRunning, isForeground);
                 applications.add(app);
             }
         }
@@ -63,13 +67,17 @@ public class DataUsageUtil {
         }
     }
 
-    private static List<String> getRunningApplications(Context context) {
+    private static HashMap<String, Boolean> getRunningApplications(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> processes = manager.getRunningAppProcesses();
-        ArrayList<String> runningApplications = new ArrayList<>();
+        HashMap<String, Boolean> runningApplications = new HashMap<>();
 
         for (ActivityManager.RunningAppProcessInfo p : processes) {
-            runningApplications.add(p.processName);
+            boolean isForeground = false;
+            if(p.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                isForeground = true;
+            }
+            runningApplications.put(p.processName, isForeground);
         }
 
         return runningApplications;
@@ -99,5 +107,21 @@ public class DataUsageUtil {
             sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
         long recv = sharedpreferences.getLong(MobileRecv, 0);
         return recv;
+    }
+
+    public static String getUsageString(long usage) {
+        if(usage >= 1000000000) {
+            double d = (double) usage / 1000000000;
+            String n = String.format("%.1f", d);
+            return n + " GB";
+        }
+        else if(usage >= 1000000) {
+            double d = (double) usage / 1000000;
+            String n = String.format("%.1f", d);
+            return n + " MB";
+        }
+        else {
+            return "< 1 MB";
+        }
     }
 }

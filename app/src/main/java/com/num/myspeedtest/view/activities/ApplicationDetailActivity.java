@@ -1,9 +1,7 @@
 package com.num.myspeedtest.view.activities;
 
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.net.TrafficStats;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
@@ -11,10 +9,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.utils.DataUsageUtil;
 import com.num.myspeedtest.model.Application;
 import com.num.myspeedtest.model.Usage;
-import com.num.myspeedtest.controller.managers.DataUsageManager;
 
+/**
+ * Activity showing the data usage of individual applications.
+ */
 public class ApplicationDetailActivity extends ActionBarActivity {
 
     @Override
@@ -33,6 +34,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         PackageManager pm = getPackageManager();
         Application application = extras.getParcelable("application");
+
         long recvTraffic = application.getTotalRecv();
         long sentTraffic = application.getTotalSent();
         long totalTraffic = application.getTotal();
@@ -46,29 +48,13 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
         icon.setImageDrawable(appIcon );
         name.setText(application.getName());
-        total.setText(getUsageString(totalTraffic));
-        send.setText(getUsageString(sentTraffic));
-        recv.setText(getUsageString(recvTraffic));
+        total.setText(DataUsageUtil.getUsageString(totalTraffic));
+        send.setText(DataUsageUtil.getUsageString(sentTraffic));
+        recv.setText(DataUsageUtil.getUsageString(recvTraffic));
         percent.setText(percentValue+"%");
         progress.setProgress(progressValue);
-
-    }
-
-    private String getUsageString(long usage) {
-        if(usage >= 1000000000) {
-            double d = (double) usage / 1000000000;
-            String n = String.format("%.1f", d);
-            return n + " GB";
-        }
-        else if(usage >= 1000000) {
-            double d = (double) usage / 1000000;
-            String n = String.format("%.1f", d);
-            return n + " MB";
-        }
-        else {
-            return "< 1 MB";
-        }
     }
 }

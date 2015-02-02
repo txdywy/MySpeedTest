@@ -1,20 +1,9 @@
 package com.num.myspeedtest.db.mapping;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import android.content.Context;
 
 import com.num.myspeedtest.db.DatabaseColumns;
-//import com.num.myspeedtest.models.MainModel;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class ThroughputMapping extends BaseMapping {
 	

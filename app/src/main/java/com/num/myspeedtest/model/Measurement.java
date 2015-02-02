@@ -30,6 +30,7 @@ public class Measurement implements BaseModel {
     private String localTime;
     private List<Ping> pings;
     private List<LastMile> lastMiles;
+    private List<Traceroute> traceroutes;
     private Throughput throughput;
     private Loss loss;
     private Ipdv ipdv;
@@ -65,13 +66,13 @@ public class Measurement implements BaseModel {
         this.state = new State(deviceId, time, localTime, device, network);
         Logger.show("State", state.toJSON().toString());
 
-        this.wifi = new Wifi(context);
-        Logger.show("Wifi", wifi.toJSON().toString());
+//        this.wifi = new Wifi(context);
+//        Logger.show("Wifi", wifi.toJSON().toString());
 
         this.battery = new Battery(context);
         Logger.show("Battery",battery.toJSON().toString());
 
-        this.gps = new GPS(context);
+//        this.gps = new GPS(context);
 //        Logger.show("GPS", gps.toJSON().toString());
 
         this.isComplete = false;
@@ -137,6 +138,14 @@ public class Measurement implements BaseModel {
 
     public List<Ping> getPings() {
         return pings;
+    }
+
+    public List<Traceroute> getTraceroutes() {
+        return traceroutes;
+    }
+
+    public void setTraceroutes(List<Traceroute> traceroutes) {
+        this.traceroutes = traceroutes;
     }
 
     public void setLastMiles(List<LastMile> lastMiles) {

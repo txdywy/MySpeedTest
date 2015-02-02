@@ -21,7 +21,6 @@ public class TermsAndConditionsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms_and_conditions);
 
@@ -37,7 +36,7 @@ public class TermsAndConditionsActivity extends Activity {
                         getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor e = sharedpreferences.edit();
                 e.putBoolean("accept_conditions", true);
-                e.putBoolean("background_service", true); //default
+                e.putBoolean("background_service", true);
                 e.commit();
                 finish();
 

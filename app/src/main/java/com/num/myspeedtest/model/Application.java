@@ -13,16 +13,18 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
     private long totalSent;
     private long totalRecv;
     private boolean isRunning;
+    private boolean isForeground;
     private Drawable icon;
 
     public Application(String name, String pkg, Drawable icon,
-                       long sent, long recv, boolean isRunning) {
+                       long sent, long recv, boolean isRunning, boolean isForeground) {
         this.name = name;
         this.packageName = pkg;
         this.icon = icon;
         this.totalSent = sent;
         this.totalRecv = recv;
         this.isRunning = isRunning;
+        this.isForeground = isForeground;
     }
 
     public String getPackageName() {
@@ -110,6 +112,12 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
             }
             else {
                 json.putOpt("isRunning", 0);
+            }
+            if(isForeground) {
+                json.putOpt("isForeground", 1);
+            }
+            else {
+                json.putOpt("isForeground", 0);
             }
         } catch (JSONException e) {
             e.printStackTrace();

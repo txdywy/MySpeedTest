@@ -95,14 +95,6 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }).setIcon(android.R.drawable.ic_dialog_alert).show();
         }
-
-        SignalListener listener = new SignalListener();
-        TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        tm.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-
-        if(!TracerouteUtil.isTracerouteInstalled()) {
-            TracerouteUtil.installExecutable(this);
-        }
     }
 
     @Override
@@ -113,27 +105,6 @@ public class MainActivity extends ActionBarActivity {
             finish();
             Intent myIntent = new Intent(getApplicationContext(), TermsAndConditionsActivity.class);
             startActivity(myIntent);
-        }
-
-    }
-
-    private class SignalListener extends PhoneStateListener {
-        @Override
-        public void onSignalStrengthsChanged(SignalStrength signal) {
-            String signalStrength = "-1";
-            if (signal != null) {
-                if (signal.isGsm()) {
-                    signalStrength = "" + signal.getGsmSignalStrength();
-                } else if (signal.getCdmaDbm() > -120) {
-                    signalStrength = signal.getCdmaDbm() + "dBm ";
-                    signalStrength += signal.getCdmaEcio() + "Ec/Io";
-                } else if (signal.getEvdoDbm() > -120) {
-                    signalStrength = signal.getEvdoDbm() + "dBm ";
-                    signalStrength += signal.getEvdoEcio() + "Ec/Io";
-                    signalStrength += signal.getEvdoSnr() + "snr";
-                }
-            }
-            Signal.setSignal(signalStrength);
         }
     }
 }

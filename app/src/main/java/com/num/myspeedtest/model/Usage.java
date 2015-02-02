@@ -4,6 +4,8 @@ import android.net.TrafficStats;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.num.myspeedtest.controller.utils.DataUsageUtil;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

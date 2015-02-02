@@ -11,9 +11,9 @@ public class DatabaseColumns {
 	private HashMap<String,String> columns;
 	private String tableName;
 	
-	public DatabaseColumns(String tablename) {
+	public DatabaseColumns(String tableName) {
 		columns = new HashMap<String, String>();
-		this.tableName = tablename;
+		this.tableName = tableName;
 	}
 	
 	public void add(String name, String type) {
@@ -23,11 +23,10 @@ public class DatabaseColumns {
 	public String getDatabaseCreateText() {
 		String s = "create table " + tableName + " ("; 
 		
-		Iterator<String> iter = columns.keySet().iterator();
+		Iterator<String> iterator = columns.keySet().iterator();
 		 
-		//iter.next();
-		while(iter.hasNext()) {
-			String key = iter.next();
+		while(iterator.hasNext()) {
+			String key = iterator.next();
 			s+= key +" "+ columns.get(key) +",";
 		}				
 		s = s.substring(0,s.length()-1);
@@ -38,22 +37,22 @@ public class DatabaseColumns {
 	
 	public String[] getColumnNames() {
 		String[] array = new String[columns.size()];		
-		Iterator<String> iter = columns.keySet().iterator();
+		Iterator<String> iterator = columns.keySet().iterator();
 		 
 	
 		int count = 0;
-		while(iter.hasNext()) {
-			array[count++] = iter.next();
+		while(iterator.hasNext()) {
+			array[count++] = iterator.next();
 		}							
 		return array;			
 	}
 	
 	public HashMap<String,Integer> fetch(Cursor cursor) {
 		HashMap<String,Integer> map = new HashMap<String, Integer>();
-		Iterator<String> iter = columns.keySet().iterator();
+		Iterator<String> iterator = columns.keySet().iterator();
 		
-		while(iter.hasNext()) {
-			String column = iter.next();
+		while(iterator.hasNext()) {
+			String column = iterator.next();
 			int value = cursor.getColumnIndex(column);
 			map.put(column, value);
 		}							
@@ -65,10 +64,10 @@ public class DatabaseColumns {
 		Map<String,Integer> positions = fetch(cursor);
 		Map<String,String> dataStore= new HashMap<String, String>();
 		
-		Iterator<String> iter = columns.keySet().iterator();
+		Iterator<String> iterator = columns.keySet().iterator();
 		
-		while(iter.hasNext()) {
-			String column = iter.next();
+		while(iterator.hasNext()) {
+			String column = iterator.next();
 			int position = positions.get(column);
 			dataStore.put(column, cursor.getString(position));
 		}							

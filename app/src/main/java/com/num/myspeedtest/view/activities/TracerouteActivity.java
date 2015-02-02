@@ -16,7 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.managers.MeasurementManager;
 import com.num.myspeedtest.controller.managers.TracerouteManager;
+import com.num.myspeedtest.controller.utils.TracerouteUtil;
+import com.num.myspeedtest.model.Measurement;
 import com.num.myspeedtest.model.Traceroute;
 import com.num.myspeedtest.view.adapters.TracerouteListAdapter;
 
@@ -26,26 +29,25 @@ import java.util.List;
 public class TracerouteActivity extends ActionBarActivity {
 
     private Context context;
-
-    /* variables for UI */
     private ListView listView;
     private EditText address;
     private Button enter;
     private ProgressBar progressBar;
     private RadioGroup traceType;
-
     private List<Traceroute> traceroutes;
     private TracerouteListAdapter adapter;
     private int type;
-
-    /* variables for getting traceroute */
-    private final String default_address = "www.google.com";
+    private final String DEFAULT_ADDRESS = "www.google.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
         setContentView(R.layout.activity_traceroute);
+
+        if(!TracerouteUtil.isTracerouteInstalled()) {
+            TracerouteUtil.installExecutable(this);
+        }
 
         /* setup for UI */
         progressBar = (ProgressBar) findViewById(R.id.traceroute_progress);
@@ -69,7 +71,7 @@ public class TracerouteActivity extends ActionBarActivity {
         });
 
         address = (EditText) findViewById(R.id.editText_traceroute);
-        address.setText(default_address);
+        address.setText(DEFAULT_ADDRESS);
         address.setOnKeyListener(new View.OnKeyListener() {
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -116,6 +118,10 @@ public class TracerouteActivity extends ActionBarActivity {
             Traceroute traceroute = msg.getData().getParcelable("traceroute");
             if(traceroute == null || msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
+                Measurement measurement = new Measurement(context, true);
+                measurement.setTraceroutes(traceroutes);
+                MeasurementManager manager = new MeasurementManager();
+                manager.sendMeasurement(measurement);
                 return;
             }
             adapter.add(traceroute);

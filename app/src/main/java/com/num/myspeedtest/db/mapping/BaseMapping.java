@@ -1,18 +1,16 @@
 package com.num.myspeedtest.db.mapping;
 
-import java.util.HashMap;
-import com.num.myspeedtest.db.DatabaseColumns;
-
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.num.myspeedtest.db.DatabaseColumns;
+
 public abstract class BaseMapping extends SQLiteOpenHelper {
 	
-	String TABLE_NAME;
-	int DATABASE_VERSION;
+	private String TABLE_NAME;
+	private int DATABASE_VERSION;
 
 	public BaseMapping(Context context,String tableName, int version) {
 		super(context, tableName+".db", null, version);

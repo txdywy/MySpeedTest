@@ -31,7 +31,6 @@ public class LatencyActivity extends ActionBarActivity {
     private Context context;
     private ListView listView;
     private ProgressBar progressBar;
-
     private List<Ping> pings;
     private LatencyListAdapter adapter;
 
