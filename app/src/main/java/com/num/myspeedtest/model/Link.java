@@ -27,12 +27,12 @@ public class Link implements BaseModel{
         this.time = time;
     }
 
-    public double speedInBytes(){
-        return ((double)count*messageSize)/time;
+    public long getSpeedInBytes() {
+        return messageSize;
     }
 
-    public double speedInBits(){
-        return speedInBytes()*8;
+    public long getSpeedInBits() {
+        return messageSize/8;
     }
 
     public JSONObject toJSON() {
@@ -41,7 +41,7 @@ public class Link implements BaseModel{
             obj.putOpt("count", count);
             obj.putOpt("message_size",messageSize);
             obj.putOpt("time", time);
-            obj.putOpt("speedInBits", speedInBits());
+            obj.putOpt("speedInBits", messageSize);
             obj.put("dstIp", dstIp);
             obj.put("dstPort", dstPort);
         } catch (JSONException e) {

@@ -46,34 +46,15 @@ public class Measurement implements BaseModel {
         this.context = context;
 
         this.time = findTime();
-        Logger.show("Time", time);
-
         this.localTime = findLocalTime();
-        Logger.show("Local Time", localTime);
-
         this.deviceId = findDeviceId();
-        Logger.show("Device ID", deviceId);
-
         this.device = new Device(context);
-        Logger.show("Device", device.toJSON().toString());
-
         this.network = new Network(context);
-        Logger.show("Network", network.toJSON().toString());
-
         this.sim = new Sim(context);
-        Logger.show("Sim", sim.toJSON().toString());
-
         this.state = new State(deviceId, time, localTime, device, network);
-        Logger.show("State", state.toJSON().toString());
-
-//        this.wifi = new Wifi(context);
-//        Logger.show("Wifi", wifi.toJSON().toString());
-
         this.battery = new Battery(context);
-        Logger.show("Battery",battery.toJSON().toString());
-
-//        this.gps = new GPS(context);
-//        Logger.show("GPS", gps.toJSON().toString());
+        this.gps = new GPS(context);
+//      this.wifi = new Wifi(context);
 
         this.isComplete = false;
         this.isManual = isManual;

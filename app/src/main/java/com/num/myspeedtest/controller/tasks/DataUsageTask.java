@@ -53,8 +53,6 @@ public class DataUsageTask implements Runnable {
         Collections.sort(activeApplications);
         Usage usage = new Usage(activeApplications);
 
-        System.out.println(usage.toJSON());
-
         Bundle bundle = new Bundle();
         bundle.putString("type", "usage");
         bundle.putParcelable("usage", usage);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.receivers.AlarmReceiver;
+import com.num.myspeedtest.controller.services.BackgroundService;
 
 public class TermsAndConditionsActivity extends Activity {
 
@@ -43,6 +44,8 @@ public class TermsAndConditionsActivity extends Activity {
                 // start background service
                 AlarmReceiver alarm = new AlarmReceiver();
                 alarm.setAlarm(getApplicationContext());
+
+                startService(new Intent(getApplicationContext(), BackgroundService.class));
 
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(myIntent);

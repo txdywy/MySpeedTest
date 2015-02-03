@@ -118,10 +118,10 @@ public class TracerouteActivity extends ActionBarActivity {
             Traceroute traceroute = msg.getData().getParcelable("traceroute");
             if(traceroute == null || msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Measurement measurement = new Measurement(context, true);
-                measurement.setTraceroutes(traceroutes);
-                MeasurementManager manager = new MeasurementManager();
-                manager.sendMeasurement(measurement);
+                //Measurement measurement = new Measurement(context, true);
+                //measurement.setTraceroutes(traceroutes);
+                //MeasurementManager manager = new MeasurementManager();
+                //manager.sendMeasurement(measurement);
                 return;
             }
             adapter.add(traceroute);

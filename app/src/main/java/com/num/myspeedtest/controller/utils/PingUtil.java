@@ -1,6 +1,7 @@
 package com.num.myspeedtest.controller.utils;
 
 import com.num.myspeedtest.model.Address;
+import com.num.myspeedtest.model.LastMile;
 import com.num.myspeedtest.model.Measure;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.model.Traceroute;
@@ -24,6 +25,26 @@ public class PingUtil {
         String output = executePing(address.getIp(), params);
         Measure measure = parsePingResult(output);
         return new Ping(src, address, measure);
+    }
+
+    public static LastMile lastMile(Address address, HashMap<String, String> params) {
+        String src = getSrcIp();
+        int ttl = 1;
+        params.put("-t", ""+ttl);
+        String output = executePing(address.getIp(), params);
+        Logger.show(output);
+        if(!output.contains("ttl")) {
+            while(!output.contains("From")) {
+                params.put("-t", "" + ++ttl);
+                output = executePing(address.getIp(), params);
+                if(ttl > 50) {
+                    break;
+                }
+            }
+        }
+        Measure measure = parsePingResult(output);
+        LastMile lastMile = new LastMile(src,address,measure,ttl,address.getIp());
+        return lastMile;
     }
 
     public static String executePing(String address, HashMap<String, String> params){

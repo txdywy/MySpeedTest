@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 
 import com.num.myspeedtest.controller.utils.HashUtil;
@@ -14,7 +16,7 @@ import com.num.myspeedtest.controller.utils.Logger;
 
 import org.json.JSONObject;
 
-public class Device implements BaseModel, Parcelable {
+public class Device implements BaseModel {
     private String phoneType, phoneNumber, softwareVersion, androidVersion, phoneBrand,
             manufacturer, productName, radioVersion, boardName, deviceDesign, phoneModel,
             networkCountry, networkName, emailAddress;
@@ -247,15 +249,5 @@ public class Device implements BaseModel, Parcelable {
             e.printStackTrace();
         }
         return json;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
     }
 }

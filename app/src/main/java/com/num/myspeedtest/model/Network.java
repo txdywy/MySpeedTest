@@ -3,6 +3,9 @@ package com.num.myspeedtest.model;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
@@ -11,9 +14,18 @@ import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 
 import com.num.myspeedtest.Constants;
+import com.num.myspeedtest.controller.tasks.SignalTask;
+import com.num.myspeedtest.controller.utils.Logger;
 
 import org.json.JSONObject;
 import org.json.JSONException;
+
+import java.lang.reflect.Method;
+import java.util.Timer;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 public class Network implements BaseModel {
 
@@ -26,7 +38,7 @@ public class Network implements BaseModel {
     private String cellLac = "";
     private String dataState = "";
     private String dataActivity = "";
-    private String signalStrength = "";
+    private String signalStrength = "-1";
     private String cellType = "";
     private String baseStationLat = "";
     private String baseStationLong = "";
@@ -36,11 +48,13 @@ public class Network implements BaseModel {
     private TelephonyManager tm;
     private ConnectivityManager cm;
     private NetworkInfo activeNetwork;
+    private Context context;
 
     public Network(Context context) {
         tm = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
         cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         activeNetwork = cm.getActiveNetworkInfo();
+        this.context = context;
 
         getNetworkInfo();
         getDataInfo();
@@ -113,7 +127,7 @@ public class Network implements BaseModel {
     }
 
     private void getSignal() {
-        this.signalStrength = Signal.getSignal();
+        signalStrength = Signal.signal;
     }
 
     private String parseNetworkType(int type) {
@@ -263,6 +277,4 @@ public class Network implements BaseModel {
         }
         return obj;
     }
-
-
 }

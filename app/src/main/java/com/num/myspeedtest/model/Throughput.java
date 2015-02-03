@@ -1,25 +1,24 @@
 package com.num.myspeedtest.model;
 
+import com.num.myspeedtest.controller.managers.ThroughputManager;
+
 import org.json.JSONObject;
 
 public class Throughput implements BaseModel{
 
+    private String datetime;
     private String download;
     private String upload;
-    private String datetime;
-    private String connectionType;
 
     private Link downLink;
     private Link upLink;
-    private boolean isComplete = false;
 
-    public Throughput() {
-
-    }
-
-    public Throughput(Link downLink, Link upLink) {
+    public Throughput(Link downLink, Link upLink, String datetime) {
         this.downLink = downLink;
         this.upLink = upLink;
+        this.datetime = datetime;
+        this.download = ThroughputManager.outputString(downLink.getSpeedInBytes());
+        this.upload = ThroughputManager.outputString(upLink.getSpeedInBytes());
     }
 
     public Throughput(String datetime, String download, String upload){
@@ -36,9 +35,6 @@ public class Throughput implements BaseModel{
 
     public String getDatetime(){ return datetime; }
     public void setDatetime(String datetime){ this.datetime = datetime; }
-
-    public String getConnectionType(){ return connectionType; }
-    public void setConnectionType(String connectionType){ this.connectionType = connectionType; }
 
     public Link getDownLink() {
         return downLink;

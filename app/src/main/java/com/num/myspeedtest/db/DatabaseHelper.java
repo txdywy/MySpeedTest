@@ -123,10 +123,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Throughput throughput = null;
         if(cursor.moveToFirst()){
             do {
-                throughput = new Throughput();
-                throughput.setDatetime(cursor.getString(0));
-                throughput.setDownload(cursor.getString(2));
-                throughput.setUpload(cursor.getString(3));
+                String date = cursor.getString(0);
+                String download = cursor.getString(2);
+                String upload = cursor.getString(3);
+
+                throughput = new Throughput(date, download, upload);
                 throughputs.add(throughput);
             }while(cursor.moveToNext());
         }

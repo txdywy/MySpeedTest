@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mobilyzer.MeasurementTask;
 import com.mobilyzer.api.API;
 import com.mobilyzer.exceptions.MeasurementError;
+import com.num.myspeedtest.model.Throughput;
 
 import java.util.ArrayList;
 import java.util.Calendar;
