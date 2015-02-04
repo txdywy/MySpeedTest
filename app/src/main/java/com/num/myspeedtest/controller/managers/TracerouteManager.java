@@ -4,7 +4,9 @@ import android.os.Handler;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.controller.tasks.TracerouteTask;
+import com.num.myspeedtest.model.Address;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,13 +26,15 @@ public class TracerouteManager {
         this.handler = handler;
     }
 
+    public void execute(List<Address> address, int type) {
+        for(Address a : address) {
+            TracerouteTask task = new TracerouteTask(a.getIp(), type, handler);
+            tracerouteThreadPool.execute(task);
+        }
+    }
+
     public void execute(String address, int type) {
         TracerouteTask task = new TracerouteTask(address, type, handler);
         tracerouteThreadPool.execute(task);
     }
-
-    private boolean isDone() {
-        return false;
-    }
-
 }

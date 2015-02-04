@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.controller.managers.MeasurementManager;
+import com.num.myspeedtest.controller.utils.DataUsageUtil;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -23,12 +24,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
             wakeLock.acquire();
 
+            DataUsageUtil.updateMobileData(context);
+
             // run only when background_service is set to run (true)
             SharedPreferences prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
             if (prefs.contains("background_service") && prefs.getBoolean("background_service", false)) {
                 Log.d(TAG, "background service");
-                //MeasurementManager manager = new MeasurementManager();
-                //manager.execute(context, false);
+                MeasurementManager manager = new MeasurementManager(context);
+                manager.execute();
                 try {
                     Thread.sleep(Constants.SHORT_SLEEP_TIME);
                 } catch (InterruptedException e) {

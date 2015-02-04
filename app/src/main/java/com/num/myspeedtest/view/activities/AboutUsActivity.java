@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.num.myspeedtest.R;
+import com.num.myspeedtest.controller.managers.MeasurementManager;
 
 /**
  * Activity describing the application and asking users to rate the app
@@ -18,6 +19,9 @@ public class AboutUsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+
+        MeasurementManager manager = new MeasurementManager(this);
+        manager.execute();
 
         LinearLayout rateButton = (LinearLayout) findViewById(R.id.about_us_button);
         rateButton.setOnClickListener(new View.OnClickListener() {

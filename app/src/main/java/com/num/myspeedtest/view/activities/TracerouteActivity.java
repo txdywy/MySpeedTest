@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Trace;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,10 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.num.myspeedtest.R;
-import com.num.myspeedtest.controller.managers.MeasurementManager;
 import com.num.myspeedtest.controller.managers.TracerouteManager;
 import com.num.myspeedtest.controller.utils.TracerouteUtil;
-import com.num.myspeedtest.model.Measurement;
+import com.num.myspeedtest.model.Hop;
 import com.num.myspeedtest.model.Traceroute;
 import com.num.myspeedtest.view.adapters.TracerouteListAdapter;
 
@@ -34,7 +32,7 @@ public class TracerouteActivity extends ActionBarActivity {
     private Button enter;
     private ProgressBar progressBar;
     private RadioGroup traceType;
-    private List<Traceroute> traceroutes;
+    private List<Hop> hops;
     private TracerouteListAdapter adapter;
     private int type;
     private final String DEFAULT_ADDRESS = "www.google.com";
@@ -53,8 +51,8 @@ public class TracerouteActivity extends ActionBarActivity {
         progressBar = (ProgressBar) findViewById(R.id.traceroute_progress);
         progressBar.setVisibility(View.INVISIBLE);
 
-        traceroutes = new ArrayList<>();
-        adapter = new TracerouteListAdapter(context, traceroutes);
+        hops = new ArrayList<>();
+        adapter = new TracerouteListAdapter(context, hops);
 
         listView = (ListView) findViewById(R.id.list_view_traceroute);
         listView.setAdapter(adapter);
@@ -73,24 +71,11 @@ public class TracerouteActivity extends ActionBarActivity {
         address = (EditText) findViewById(R.id.editText_traceroute);
         address.setText(DEFAULT_ADDRESS);
         address.setOnKeyListener(new View.OnKeyListener() {
-
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    //hide keyboard
-                    InputMethodManager imm =
-                            (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-
-                    adapter.clear();
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    TracerouteHandler handler = new TracerouteHandler();
-                    TracerouteManager manager = new TracerouteManager(handler);
-                    manager.execute(address.getText().toString(), type);
+                    performTraceroute(v);
                     return true;
                 }
-
                 return false;
             }
         });
@@ -98,33 +83,35 @@ public class TracerouteActivity extends ActionBarActivity {
         enter = (Button) findViewById(R.id.button_traceroute);
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-
-                adapter.clear();
-                progressBar.setVisibility(View.VISIBLE);
-
-                TracerouteHandler handler = new TracerouteHandler();
-                TracerouteManager manager = new TracerouteManager(handler);
-                manager.execute(address.getText().toString(), type);
-
+                performTraceroute(v);
             }
         });
+    }
+
+    private void performTraceroute(View v) {
+        //hide keyboard
+        InputMethodManager imm =
+                (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+
+        adapter.clear();
+        progressBar.setVisibility(View.VISIBLE);
+
+        TracerouteHandler handler = new TracerouteHandler();
+        TracerouteManager manager = new TracerouteManager(handler);
+        String ip = address.getText().toString();
+        manager.execute(ip, type);
     }
 
     private class TracerouteHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            Traceroute traceroute = msg.getData().getParcelable("traceroute");
-            if(traceroute == null || msg.getData().getBoolean("isDone")) {
+            Hop hop = msg.getData().getParcelable("hop");
+            if(hop == null || msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
-                //Measurement measurement = new Measurement(context, true);
-                //measurement.setTraceroutes(traceroutes);
-                //MeasurementManager manager = new MeasurementManager();
-                //manager.sendMeasurement(measurement);
                 return;
             }
-            adapter.add(traceroute);
+            adapter.add(hop);
         }
 
     }

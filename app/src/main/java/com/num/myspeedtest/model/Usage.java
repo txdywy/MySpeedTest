@@ -55,7 +55,6 @@ public class Usage implements BaseModel, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(applications);
         dest.writeLong(totalSent);
         dest.writeLong(totalRecv);
         dest.writeLong(mobileSent);

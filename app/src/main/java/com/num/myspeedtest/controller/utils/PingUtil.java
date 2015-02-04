@@ -27,26 +27,6 @@ public class PingUtil {
         return new Ping(src, address, measure);
     }
 
-    public static LastMile lastMile(Address address, HashMap<String, String> params) {
-        String src = getSrcIp();
-        int ttl = 1;
-        params.put("-t", ""+ttl);
-        String output = executePing(address.getIp(), params);
-        Logger.show(output);
-        if(!output.contains("ttl")) {
-            while(!output.contains("From")) {
-                params.put("-t", "" + ++ttl);
-                output = executePing(address.getIp(), params);
-                if(ttl > 50) {
-                    break;
-                }
-            }
-        }
-        Measure measure = parsePingResult(output);
-        LastMile lastMile = new LastMile(src,address,measure,ttl,address.getIp());
-        return lastMile;
-    }
-
     public static String executePing(String address, HashMap<String, String> params){
         String cmd = "/system/bin/ping ";
         String options = "";
@@ -56,7 +36,7 @@ public class PingUtil {
         return CommandLineUtil.runCommand(cmd + options + address);
     }
 
-    private static String getSrcIp() {
+    public static String getSrcIp() {
         String ip = "";
         try {
             HttpClient httpClient = new DefaultHttpClient();
@@ -102,74 +82,5 @@ public class PingUtil {
             return new Measure(-1, -1, -1, -1);
         }
     }
-
-
-/*      public static Traceroute traceroute(String address, HashMap<String, String> params) {
-        int hop = Integer.parseInt(params.get("-t"));
-        String output = ping(address, params);
-        Traceroute traceroute = parseTracerouteResult(output, hop);
-        output = ping(traceroute.getHostname(), params);
-        return parseTracerouteResult(output, hop);
-
-        private static Traceroute parseTracerouteResult(String result, int index){
-        boolean found = false;
-        String hostName = "";
-        String hostAddress = "";
-
-        String[] output = result.split("\n");
-        int count = 0;
-        if(output.length<=1){
-            return new Traceroute("","", "", index);
-        }
-
-        String secondLine = output[1];
-        if(secondLine.length()>0) {
-            String[] split = secondLine.split(" ");
-            if (secondLine.contains("Time to live exceeded")) {
-                if (split[2].contains("(") && split[2].contains(")")) {
-                    hostName = split[1];
-                    hostAddress = split[2].substring(1, split[2].length() - 2);
-                } else {
-                    hostName = split[1].substring(0, split[1].length() - 1);
-                    hostAddress = split[1].substring(0, split[1].length() - 1);
-                }
-                found = true;
-            } else if (secondLine.contains("bytes from")) {
-                if (split[4].contains("(") && split[4].contains(")")) {
-                    hostName = split[3];
-                    hostAddress = split[4].substring(1, split[4].length() - 2);
-                } else {
-                    hostName = split[3].substring(0, split[3].length() - 1);
-                    hostAddress = split[3].substring(0, split[3].length() - 1);
-                }
-                found = true;
-            }
-        }
-
-        String lastLine = output[output.length-1];
-        NumberFormat nf = NumberFormat.getInstance();
-
-        double avg=0;
-        if(lastLine.contains("rtt")) {
-            lastLine = lastLine.substring(23,lastLine.length()-3);
-            String[] split = lastLine.split("/");
-            try {
-                Number n = nf.parse(split[1]);
-                avg = n.doubleValue();
-                found = true;
-            } catch (ParseException e) {
-                avg = 0;
-            }
-        }
-
-        if(found==true)
-        {
-            return new Traceroute(hostAddress,hostName, avg + " ms", index);
-        }
-        else
-        {
-            return new Traceroute("***","*", "*", index);
-        }
-    }*/
 
 }

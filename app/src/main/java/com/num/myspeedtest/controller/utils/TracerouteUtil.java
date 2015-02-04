@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Trace;
 
+import com.num.myspeedtest.model.Hop;
 import com.num.myspeedtest.model.Traceroute;
 
 import java.io.BufferedReader;
@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class TracerouteUtil {
@@ -67,6 +66,8 @@ public class TracerouteUtil {
     public static void traceroute(String hostname, HashMap<String, String> params, Handler handler) {
         String cmd = traceroutePath + " ";
         String options = "";
+        int traceType = (params.containsKey("-I")) ? Traceroute.ICMP : Traceroute.UDP;
+        String srcIp = PingUtil.getSrcIp();
         try {
             InetAddress ip = InetAddress.getByName(hostname);
             for(String flag : params.keySet()){
@@ -75,54 +76,80 @@ public class TracerouteUtil {
             BufferedReader reader = CommandLineUtil.runBufferedCommand(cmd + options + ip.getHostAddress());
             String line = reader.readLine();
             if(line == null || line.contains("No address associated")) {
-                Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
+                Hop hop = new Hop("Unknown Host", "", 0, 0);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("traceroute", traceroute);
+                bundle.putString("hostname", hostname);
+                bundle.putString("srcIp", srcIp);
+                bundle.putString("dstIp", ip.getHostAddress());
+                bundle.putInt("traceType", traceType);
+                bundle.putParcelable("hop", hop);
                 bundle.putBoolean("isDone", true);
+
                 Message msg = new Message();
                 msg.setData(bundle);
                 handler.sendMessage(msg);
+                return;
             }
             while((line=reader.readLine())!=null) {
-                Traceroute traceroute = parseTracerouteResult(line);
+                Hop hop = parseTracerouteResult(line);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("traceroute", traceroute);
+                bundle.putString("hostname", hostname);
+                bundle.putString("srcIp", srcIp);
+                bundle.putString("dstIp", ip.getHostAddress());
+                bundle.putInt("traceType", traceType);
+                bundle.putParcelable("hop", hop);
+                bundle.putBoolean("isDone", false);
+
                 Message msg = new Message();
                 msg.setData(bundle);
                 handler.sendMessage(msg);
             }
+
             Bundle bundle = new Bundle();
+            bundle.putString("hostname", hostname);
+            bundle.putString("srcIp", srcIp);
+            bundle.putString("dstIp", ip.getHostAddress());
+            bundle.putInt("traceType", traceType);
             bundle.putBoolean("isDone", true);
+
             Message msg = new Message();
             msg.setData(bundle);
             handler.sendMessage(msg);
         } catch (UnknownHostException e) {
-            Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
+            Hop hop = new Hop("Unknown Host", "", 0, 0);
 
             Bundle bundle = new Bundle();
-            bundle.putParcelable("traceroute", traceroute);
+            bundle.putString("hostname", hostname);
+            bundle.putString("srcIp", srcIp);
+            bundle.putString("dstIp", "");
+            bundle.putInt("traceType", traceType);
+            bundle.putParcelable("hop", hop);
             bundle.putBoolean("isDone", true);
+
             Message msg = new Message();
             msg.setData(bundle);
             handler.sendMessage(msg);
-
         } catch (IOException e) {
-            Traceroute traceroute = new Traceroute("Unknown Host", "", "", 0, 0);
+            Hop hop = new Hop("Unknown Host", "", 0, 0);
 
             Bundle bundle = new Bundle();
-            bundle.putParcelable("traceroute", traceroute);
+            bundle.putString("hostname", hostname);
+            bundle.putString("srcIp", srcIp);
+            bundle.putString("dstIp", "");
+            bundle.putInt("traceType", traceType);
+            bundle.putParcelable("hop", hop);
             bundle.putBoolean("isDone", true);
+
             Message msg = new Message();
             msg.setData(bundle);
             handler.sendMessage(msg);
-
         }
     }
 
     // TODO Improve IPv6 reverse lookup
-    private static Traceroute parseTracerouteResult(String result) {
+    private static Hop parseTracerouteResult(String result) {
         String line = result.replaceAll("ms", "").replaceAll("\\*", "*").replaceAll(" +", " ").trim()
                 .replaceAll(",$", "");
         String[] split = line.split(" ");
@@ -147,7 +174,6 @@ public class TracerouteUtil {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        String asn = DNSUtil.getAsnByIp(address);
-        return new Traceroute(address, hostname, asn, rtt, hop);
+        return new Hop(address, hostname, rtt, hop);
     }
 }

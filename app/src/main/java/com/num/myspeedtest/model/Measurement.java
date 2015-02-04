@@ -5,7 +5,6 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
 import com.num.myspeedtest.controller.utils.HashUtil;
-import com.num.myspeedtest.controller.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +36,6 @@ public class Measurement implements BaseModel {
     private WarmupExperiment warmupExperiment;
     private GPS gps;
     private State state;
-    private boolean isComplete;
     private ArrayList<Screen> screens;
     private boolean isManual;
     private Context context;
@@ -53,36 +51,8 @@ public class Measurement implements BaseModel {
         this.sim = new Sim(context);
         this.state = new State(deviceId, time, localTime, device, network);
         this.battery = new Battery(context);
-        this.gps = new GPS(context);
-//      this.wifi = new Wifi(context);
-
-        this.isComplete = false;
         this.isManual = isManual;
 
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public Device getDevice() {
-        return device;
-    }
-
-    public void setDevice(Device device) {
-        this.device = device;
-    }
-
-    public Battery getBattery() {
-        return battery;
-    }
-
-    public void setBattery(Battery battery) {
-        this.battery = battery;
     }
 
     public Network getNetwork() {
@@ -93,14 +63,6 @@ public class Measurement implements BaseModel {
         this.network = network;
     }
 
-    public Sim getSim() {
-        return sim;
-    }
-
-    public void setSim(Sim sim) {
-        this.sim = sim;
-    }
-
     public Usage getUsage() {
         return usage;
     }
@@ -109,92 +71,16 @@ public class Measurement implements BaseModel {
         this.usage = usage;
     }
 
-    public Wifi getWifi() {
-        return wifi;
-    }
-
-    public void setWifi(Wifi wifi) {
-        this.wifi = wifi;
-    }
-
-    public List<Ping> getPings() {
-        return pings;
-    }
-
-    public List<Traceroute> getTraceroutes() {
-        return traceroutes;
-    }
-
     public void setTraceroutes(List<Traceroute> traceroutes) {
         this.traceroutes = traceroutes;
-    }
-
-    public void setLastMiles(List<LastMile> lastMiles) {
-        this.lastMiles = lastMiles;
-    }
-
-    public List<LastMile> getLastMiles() {
-        return lastMiles;
     }
 
     public void setPings(List<Ping> pings) {
         this.pings = pings;
     }
 
-    public Throughput getThroughput() {
-        return throughput;
-    }
-
     public void setThroughput(Throughput throughput) {
         this.throughput = throughput;
-    }
-
-    public Loss getLoss() {
-        return loss;
-    }
-
-    public void setLoss(Loss loss) {
-        this.loss = loss;
-    }
-
-    public Ipdv getIpdv() {
-        return ipdv;
-    }
-
-    public void setIpdv(Ipdv ipdv) {
-        this.ipdv = ipdv;
-    }
-
-    public WarmupExperiment getWarmupExperiment() {
-        return warmupExperiment;
-    }
-
-    public void setWarmupExperiment(WarmupExperiment warmupExperiment) {
-        this.warmupExperiment = warmupExperiment;
-    }
-
-    public boolean isComplete() {
-        return isComplete;
-    }
-
-    public void setComplete(boolean isComplete) {
-        this.isComplete = isComplete;
-    }
-
-    public ArrayList<Screen> getScreens() {
-        return screens;
-    }
-
-    public void setScreens(ArrayList<Screen> screens) {
-        this.screens = screens;
-    }
-
-    public boolean isManual() {
-        return isManual;
-    }
-
-    public void setManual(boolean isManual) {
-        this.isManual = isManual;
     }
 
     @Override
@@ -212,6 +98,14 @@ public class Measurement implements BaseModel {
                     array.put(p.toJSON());
                 }
                 json.putOpt("pings", array);
+            }
+
+            if(traceroutes != null) {
+                array = new JSONArray();
+                for(Traceroute t : traceroutes) {
+                    array.put(t.toJSON());
+                }
+                json.putOpt("traceroutes", array);
             }
 
             if(lastMiles != null) {
