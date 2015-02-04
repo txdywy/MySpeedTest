@@ -1,5 +1,7 @@
 package com.num.myspeedtest.model;
 
+import com.num.myspeedtest.controller.utils.HashUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +30,7 @@ public class State implements BaseModel {
             json.putOpt("cellId", cellId);
             json.putOpt("time", time);
             json.putOpt("localtime", localTime);
-            json.putOpt("deviceid", deviceId);
+            json.putOpt("deviceid", HashUtil.SHA1(deviceId));
             json.putOpt("networkType", networkType);
         } catch (JSONException e) {
             e.printStackTrace();

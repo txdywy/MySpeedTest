@@ -151,7 +151,7 @@ public class Measurement implements BaseModel {
         String serviceName = Context.TELEPHONY_SERVICE;
         TelephonyManager tm = (TelephonyManager) context.getSystemService(serviceName);
         if(tm.getDeviceId() != null) {
-            return HashUtil.SHA1(tm.getDeviceId());
+            return tm.getDeviceId();
         }
         else {
             return Settings.Secure.getString(context.getContentResolver(),
