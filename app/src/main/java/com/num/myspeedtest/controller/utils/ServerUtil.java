@@ -51,7 +51,7 @@ public class ServerUtil {
             String r = EntityUtils.toString(response.getEntity());
             Logger.show(r+"");
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 }

@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -178,10 +179,10 @@ public class ThroughputActivity extends ActionBarActivity {
                 Throughput throughput =
                         new Throughput(downLink, upLink, dateTime);
                 dbHelper.insertThroughput(throughput);
-                //Measurement measurement = new Measurement(context,true);
-                //measurement.setThroughput(throughput);
-                //MeasurementManager manager = new MeasurementManager();
-                //manager.sendMeasurement(measurement);
+                Measurement measurement = new Measurement(context,true);
+                measurement.setThroughput(throughput);
+                MeasurementManager manager = new MeasurementManager(context);
+                manager.sendMeasurement(measurement);
             }
         }
     }

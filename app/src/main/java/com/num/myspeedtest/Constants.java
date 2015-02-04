@@ -5,7 +5,7 @@ import com.num.myspeedtest.model.Address;
 public class Constants {
 
     public static final String SHARED_PREFERENCES_NAME = "com.num";
-    public static final String API_SERVER_ADDRESS = "http://ruggles.gtnoise.net:8888/";
+    public static final String API_SERVER_ADDRESS = "http://ruggles.gtnoise.net/";
 
     /* Threads */
     public static final int CORE_POOL_SIZE = 10;
@@ -26,11 +26,6 @@ public class Constants {
     /* Network */
     public static final String UNAVAILABLE_CELLID = "65535";
     public static final String UNAVAILABLE_CELLLAC = "65535";
-
-    /* DNS */
-    public static final String RADB_SERVER = "whois.radb.net";
-    public static int RADB_PORT = 43;
-    public static int SO_TIMEOUT = 2000;
 
     /* Background Measurement Service */
     public static final int UPDATE_INTERVAL = 1000 * 60 * 15; // 15 minutes

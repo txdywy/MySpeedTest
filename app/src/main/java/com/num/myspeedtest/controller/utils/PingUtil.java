@@ -51,7 +51,7 @@ public class PingUtil {
                 ip = conn.getLocalAddress().toString();
                 conn.close();
             } catch (Exception e1) {
-                e1.printStackTrace();
+                //e1.printStackTrace();
             }
         }
         return ip.replace("\n","").replace("\r","");

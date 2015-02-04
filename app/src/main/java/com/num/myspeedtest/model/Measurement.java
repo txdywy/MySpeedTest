@@ -28,15 +28,9 @@ public class Measurement implements BaseModel {
     private String time;
     private String localTime;
     private List<Ping> pings;
-    private List<LastMile> lastMiles;
     private List<Traceroute> traceroutes;
     private Throughput throughput;
-    private Loss loss;
-    private Ipdv ipdv;
-    private WarmupExperiment warmupExperiment;
-    private GPS gps;
     private State state;
-    private ArrayList<Screen> screens;
     private boolean isManual;
     private Context context;
 
@@ -108,32 +102,12 @@ public class Measurement implements BaseModel {
                 json.putOpt("traceroutes", array);
             }
 
-            if(lastMiles != null) {
-                array = new JSONArray();
-                for (LastMile lm : lastMiles) {
-                    array.put(lm.toJSON());
-                }
-                json.putOpt("lastmiles", array);
-            }
-
-            if(screens != null) {
-                array = new JSONArray();
-                for(Screen s : screens) {
-                    array.put(s.toJSON());
-                }
-                json.putOpt("screens", array);
-            }
-
             if(device != null) {
                 json.putOpt("device", device.toJSON());
             }
 
             if(throughput != null) {
                 json.putOpt("throughput", throughput.toJSON());
-            }
-
-            if(gps != null) {
-                json.putOpt("gps", gps.toJSON());
             }
 
             if(battery != null) {
@@ -146,10 +120,6 @@ public class Measurement implements BaseModel {
 
             if(network != null) {
                 json.putOpt("network", network.toJSON());
-            }
-
-            if(warmupExperiment != null) {
-                json.putOpt("warmup_experiment", warmupExperiment.toJSON());
             }
 
             if(sim != null) {
@@ -169,14 +139,6 @@ public class Measurement implements BaseModel {
             }
             else {
                 json.putOpt("isManual", 0);
-            }
-
-            if(loss != null) {
-                json.putOpt("loss", loss.toJSON());
-            }
-
-            if(ipdv != null) {
-                json.putOpt("delay_variation", ipdv.toJSON());
             }
 
         } catch (JSONException e) {
