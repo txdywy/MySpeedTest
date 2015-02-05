@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.receivers.AlarmReceiver;
+import com.num.myspeedtest.controller.receivers.MonthlyResetAlarmReceiver;
 import com.num.myspeedtest.controller.services.BackgroundService;
+import com.num.myspeedtest.controller.utils.DeviceUtil;
 
 public class TermsAndConditionsActivity extends Activity {
 
@@ -38,12 +40,15 @@ public class TermsAndConditionsActivity extends Activity {
                 SharedPreferences.Editor e = sharedpreferences.edit();
                 e.putBoolean("accept_conditions", true);
                 e.putBoolean("background_service", true);
+                e.putInt(Constants.NEXT_MONTHLY_RESET, new DeviceUtil().getNextMonth());
                 e.commit();
                 finish();
 
                 // start background service
                 AlarmReceiver alarm = new AlarmReceiver();
                 alarm.setAlarm(getApplicationContext());
+                MonthlyResetAlarmReceiver monthlyAlarm = new MonthlyResetAlarmReceiver();
+                monthlyAlarm.setAlarm(getApplicationContext());
 
                 startService(new Intent(getApplicationContext(), BackgroundService.class));
 

@@ -76,6 +76,7 @@
         </intent-filter>
         </receiver>
         <receiver  android:process=":remote" android:name=".controller.receivers.AlarmReceiver"></receiver>
+        <receiver  android:process=":remote" android:name=".controller.receivers.MonthlyResetAlarmReceiver"></receiver>
         <service
             android:name=".controller.services.DataUsageService" >
         </service>
