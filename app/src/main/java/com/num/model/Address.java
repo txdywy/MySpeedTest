@@ -23,16 +23,8 @@ public class Address implements BaseModel, Parcelable {
         return ip;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
     public String getTagName() {
         return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
     }
 
     public String getType() {
@@ -79,7 +71,6 @@ public class Address implements BaseModel, Parcelable {
             obj.putOpt("ip",ip);
             obj.putOpt("tagName",tagName);
             obj.putOpt("type", type);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

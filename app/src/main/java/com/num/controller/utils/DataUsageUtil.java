@@ -14,7 +14,6 @@ import com.num.db.datasource.DataUsageDataSource;
 import com.num.model.Application;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,9 +22,13 @@ import java.util.Set;
 public class DataUsageUtil {
 
     private static SharedPreferences sharedpreferences;
-    private static final String MobileData = "mobile_data";
-    private static final String MobileRecv = "mobile_recv";
-    private static final String MobileSent = "mobile_sent";
+    private static final String MOBILE_DATA = "mobile_data";
+    private static final String MOBILE_RECV = "mobile_recv";
+    private static final String MOBILE_SENT = "mobile_sent";
+    private static final String MOBILE_RESET_RECV = "mobile_reset_recv";
+    private static final String MOBILE_RESET_SENT = "mobile_reset_sent";
+    private static final String MOBILE_BOOT_RECV = "mobile_boot_recv";
+    private static final String MOBILE_BOOT_SENT = "mobile_boot_sent";
 
     public static List<Application> getApplications(Context context) {
         List<Application> applications = new ArrayList<>();
@@ -58,7 +61,6 @@ public class DataUsageUtil {
             }
         }
         db.close();
-        Collections.sort(applications);
         return applications;
     }
 
@@ -69,6 +71,7 @@ public class DataUsageUtil {
         for (Application app : applications) {
             db.updateOnBoot(app);
         }
+        updateMobileData(context);
         db.close();
     }
 
@@ -79,6 +82,7 @@ public class DataUsageUtil {
         for (Application app : applications) {
             db.updateOnReset(app);
         }
+        resetMobileData(context);
         db.close();
     }
 
@@ -103,51 +107,71 @@ public class DataUsageUtil {
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putInt(Constants.NEXT_MONTHLY_RESET, month);
+        editor.commit();
+    }
+
+    public static void updateMobileData(Context context) {
+        if (sharedpreferences == null)
+            sharedpreferences = context.getSharedPreferences(MOBILE_DATA, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        long recv = sharedpreferences.getLong(MOBILE_RECV, 0);
+        long sent = sharedpreferences.getLong(MOBILE_SENT, 0);
+
+        editor.putLong(MOBILE_BOOT_RECV, recv);
+        editor.putLong(MOBILE_BOOT_SENT, sent);
+        editor.putLong(MOBILE_RESET_RECV, 0);
+        editor.putLong(MOBILE_RESET_SENT, 0);
+        editor.commit();
     }
 
     public static void resetMobileData(Context context) {
         if (sharedpreferences == null)
-            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
+            sharedpreferences = context.getSharedPreferences(MOBILE_DATA, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
-        long mobile_recv = 0;
-        long mobile_sent = 0;
-        Logger.show("Mobile sent: " + mobile_sent + " recv: " + mobile_recv);
+        long reset_recv = TrafficStats.getMobileRxBytes();
+        long reset_sent = TrafficStats.getMobileTxBytes();
 
-        editor.putLong(MobileRecv, mobile_recv);
-        editor.putLong(MobileSent, mobile_sent);
-        editor.commit();
-    }
-
-
-    public static void updateMobileData(Context context) {
-        if (sharedpreferences == null)
-            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-
-        long mobile_recv = TrafficStats.getMobileRxBytes();
-        long mobile_sent = TrafficStats.getMobileTxBytes();
-        Logger.show("Mobile sent: " + mobile_sent + " recv: " + mobile_recv);
-
-        editor.putLong(MobileRecv, mobile_recv);
-        editor.putLong(MobileSent, mobile_sent);
+        editor.putLong(MOBILE_RECV, 0);
+        editor.putLong(MOBILE_SENT, 0);
+        editor.putLong(MOBILE_RESET_RECV, reset_recv);
+        editor.putLong(MOBILE_RESET_SENT, reset_sent);
+        editor.putLong(MOBILE_BOOT_RECV, 0);
+        editor.putLong(MOBILE_BOOT_SENT, 0);
         editor.commit();
     }
 
     public static long getMobileSent(Context context) {
         if (sharedpreferences == null)
-            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
-        long sent = sharedpreferences.getLong(MobileSent, 0);
-        return sent;
+            sharedpreferences = context.getSharedPreferences(MOBILE_DATA, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        long reset_sent = sharedpreferences.getLong(MOBILE_RESET_SENT, 0);
+        long boot_sent = sharedpreferences.getLong(MOBILE_BOOT_SENT, 0);
+        long mobile_sent = TrafficStats.getMobileTxBytes() - reset_sent + boot_sent;
+
+        editor.putLong(MOBILE_SENT, mobile_sent);
+        editor.commit();
+        return mobile_sent;
     }
 
     public static long getMobileRecv(Context context) {
         if (sharedpreferences == null)
-            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
-        long recv = sharedpreferences.getLong(MobileRecv, 0);
-        return recv;
+            sharedpreferences = context.getSharedPreferences(MOBILE_DATA, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        long reset_recv = sharedpreferences.getLong(MOBILE_RESET_RECV, 0);
+        long boot_recv = sharedpreferences.getLong(MOBILE_BOOT_RECV, 0);
+        long mobile_recv = TrafficStats.getMobileRxBytes() - reset_recv + boot_recv;
+
+        editor.putLong(MOBILE_RECV, mobile_recv);
+        editor.commit();
+        return mobile_recv;
     }
 
     public static String getUsageString(long usage) {

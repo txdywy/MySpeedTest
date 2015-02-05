@@ -21,7 +21,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Manager class that handles threaded measurement
+ */
 public class MeasurementManager {
+
     private static ThreadPoolExecutor measurementThreadPool;
     private static BlockingQueue<Runnable> workQueue;
     private Context context;
@@ -61,14 +65,16 @@ public class MeasurementManager {
     }
 
     public void sendMeasurement(final Measurement measurement) {
-//        int maxLogStringSize = 1000;
-//        String veryLongString = measurement.toJSON().toString();
-//        for(int i = 0; i <= veryLongString.length() / maxLogStringSize; i++) {
-//            int start = i * maxLogStringSize;
-//            int end = (i+1) * maxLogStringSize;
-//            end = end > veryLongString.length() ? veryLongString.length() : end;
-//            Log.d("DEBUG", veryLongString.substring(start, end));
-//        }
+        if(Constants.DEBUG) {
+            int maxLogStringSize = 1000;
+            String veryLongString = measurement.toJSON().toString();
+            for (int i = 0; i <= veryLongString.length() / maxLogStringSize; i++) {
+                int start = i * maxLogStringSize;
+                int end = (i + 1) * maxLogStringSize;
+                end = end > veryLongString.length() ? veryLongString.length() : end;
+                Log.d("DEBUG", veryLongString.substring(start, end));
+            }
+        }
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -78,10 +84,10 @@ public class MeasurementManager {
         measurementThreadPool.execute(task);
     }
 
+
     private class LatencyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            String type = msg.getData().getString("type");
             Ping ping = msg.getData().getParcelable("ping");
             pings.add(ping);
             onComplete();

@@ -6,10 +6,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 
 import com.num.Constants;
+import com.num.controller.managers.DataUsageManager;
 import com.num.controller.managers.MeasurementManager;
 import com.num.controller.utils.DataUsageUtil;
 
@@ -24,7 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
             wakeLock.acquire();
 
-            DataUsageUtil.updateMobileData(context);
+            DataUsageManager dataUsageManager = new DataUsageManager(new Handler());
+            dataUsageManager.execute(context);
 
             // run only when background_service is set to run (true)
             SharedPreferences prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);

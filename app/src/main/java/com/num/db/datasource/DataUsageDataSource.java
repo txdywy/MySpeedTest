@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.num.db.mapping.DataUsageMapping;
 import com.num.model.Application;
@@ -101,8 +100,6 @@ public class DataUsageDataSource extends DataSource {
         Application newApp = app;
         newApp.setTotalRecv(recv);
         newApp.setTotalSent(sent);
-        recv = getInt(PACKAGE, DataUsageMapping.COLUMN_RECV);
-        sent = getInt(PACKAGE, DataUsageMapping.COLUMN_SENT);
         return newApp;
     }
 

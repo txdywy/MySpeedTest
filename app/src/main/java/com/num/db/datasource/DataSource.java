@@ -30,7 +30,6 @@ public abstract class DataSource {
 
 	public DataSource(Context context) {
 		this.context = context;
-//        Logger.show("creating mapping");
 	}
 
 	public boolean isPurgeAllowed() {
@@ -60,17 +59,13 @@ public abstract class DataSource {
 	}
 
 	public void open() throws SQLException {
-//		waitForTransaction();
 		inTransaction = true;
-//        Logger.show("openning database");
-
         database = dbHelper.getWritableDatabase();
 
 	}
 
 	public void close() {
 		inTransaction = false;
-
 		dbHelper.close();
 	}
 

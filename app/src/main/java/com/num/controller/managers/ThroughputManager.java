@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ThroughputManager {
+
     public static void execute(Context c) {
         API mobilyzer = API.getAPI(c, "My Speed Test");
         Map<String, String> params = new HashMap<String, String>();

@@ -6,6 +6,7 @@ public class Constants {
 
     public static final String SHARED_PREFERENCES_NAME = "com.num";
     public static final String API_SERVER_ADDRESS = "http://ruggles.gtnoise.net/";
+    public static final boolean DEBUG = true;
 
     /* Threads */
     public static final int CORE_POOL_SIZE = 10;

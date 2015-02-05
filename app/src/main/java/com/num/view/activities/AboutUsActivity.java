@@ -19,6 +19,9 @@ public class AboutUsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
+        /**
+         * Set up rate our app button to send the user to the store
+         */
         LinearLayout rateButton = (LinearLayout) findViewById(R.id.about_us_button);
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override

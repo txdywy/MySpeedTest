@@ -39,13 +39,7 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
         return this.icon;
     }
 
-    public void setIsRunning(boolean b) {
-        this.isRunning = b;
-    }
-
     public void setName(String name) { this.name = name;}
-
-    public void setPackageName(String packageName) { this.packageName = packageName;}
 
     public void setIcon(Drawable icon) { this.icon = icon; }
 
@@ -122,7 +116,6 @@ public class Application implements BaseModel, Comparable<Application>, Parcelab
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return json;
     }
 
