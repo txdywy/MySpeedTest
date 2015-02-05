@@ -52,7 +52,7 @@ public class TermsAndConditionsActivity extends Activity {
 
                 startService(new Intent(getApplicationContext(), BackgroundService.class));
 
-                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent myIntent = new Intent(getApplicationContext(), DataCapActivity.class);
                 startActivity(myIntent);
             }
         });
