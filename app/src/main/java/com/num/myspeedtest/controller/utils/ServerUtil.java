@@ -1,7 +1,10 @@
 package com.num.myspeedtest.controller.utils;
 
+import android.util.Log;
+
 import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.model.Address;
+import com.num.myspeedtest.model.Measure;
 import com.num.myspeedtest.model.Measurement;
 
 import org.apache.http.HttpResponse;
@@ -40,18 +43,24 @@ public class ServerUtil {
 
     public static void sendMeasurement(Measurement measurement) {
         String url = Constants.API_SERVER_ADDRESS + "measurement_v2";
+        Measurement currentMeasurement = measurement;
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost postRequest = new HttpPost(url);
-            StringEntity se = new StringEntity(measurement.toJSON().toString());
-            postRequest.setEntity(se);
             postRequest.setHeader("Accept", "application/json");
             postRequest.setHeader("Content-type", "application/json");
-            HttpResponse response = httpClient.execute(postRequest);
-            String r = EntityUtils.toString(response.getEntity());
-            Logger.show(r+"");
+            Measurement.unsentStack.push(currentMeasurement);
+            while(!Measurement.unsentStack.isEmpty()) {
+                currentMeasurement = Measurement.unsentStack.pop();
+                StringEntity se = new StringEntity(currentMeasurement.toJSON().toString());
+                postRequest.setEntity(se);
+                HttpResponse response = httpClient.execute(postRequest);
+                String r = EntityUtils.toString(response.getEntity());
+                Logger.show(r + "");
+            }
         } catch (IOException e) {
-//            e.printStackTrace();
+            Measurement.unsentStack.push(currentMeasurement);
+            Log.d("DEBUG", "Failed to send");
         }
     }
 }

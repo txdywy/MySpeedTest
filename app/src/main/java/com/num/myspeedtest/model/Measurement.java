@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import java.util.TimeZone;
 
 public class Measurement implements BaseModel {
@@ -33,6 +34,8 @@ public class Measurement implements BaseModel {
     private State state;
     private boolean isManual;
     private Context context;
+
+    public static Stack<Measurement> unsentStack = new Stack<>();
 
     public Measurement(Context context, boolean isManual) {
         this.context = context;
