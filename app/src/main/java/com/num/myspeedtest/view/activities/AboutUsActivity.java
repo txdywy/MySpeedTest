@@ -20,9 +20,6 @@ public class AboutUsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
-        MeasurementManager manager = new MeasurementManager(this);
-        manager.execute();
-
         LinearLayout rateButton = (LinearLayout) findViewById(R.id.about_us_button);
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override

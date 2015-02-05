@@ -33,6 +33,8 @@ public class DataUsageUtil {
         List<ApplicationInfo> appInfo = pm.getInstalledApplications(0);
         HashMap<String, Boolean> runningApps = getRunningApplications(context);
         Set<Integer> uids = new HashSet<Integer>();
+        DataUsageDataSource db = new DataUsageDataSource(context);
+        db.open();
 
         for (ApplicationInfo info : appInfo) {
             Integer uid = info.uid;
@@ -55,6 +57,7 @@ public class DataUsageUtil {
                 applications.add(app);
             }
         }
+        db.close();
         Collections.sort(applications);
         return applications;
     }
@@ -72,7 +75,10 @@ public class DataUsageUtil {
     public static void clearTable(Context context) {
         DataUsageDataSource db = new DataUsageDataSource(context);
         db.open();
-        db.clearTable();
+        List<Application> applications = DataUsageUtil.getApplications(context);
+        for (Application app : applications) {
+            db.updateOnReset(app);
+        }
         db.close();
     }
 

@@ -59,6 +59,7 @@ public class ServerUtil {
                 Logger.show(r + "");
             }
         } catch (IOException e) {
+            e.printStackTrace();
             Measurement.unsentStack.push(currentMeasurement);
             Log.d("DEBUG", "Failed to send");
         }

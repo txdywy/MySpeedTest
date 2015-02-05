@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.num.myspeedtest.model.Device;
-
 import java.util.Calendar;
 
 public class DeviceUtil {

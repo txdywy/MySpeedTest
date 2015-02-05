@@ -20,25 +20,27 @@ public class BootUpReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+        String action = intent.getAction();
+        String bootComplete = "android.intent.action.BOOT_COMPLETED";
+        String quickBootComplete = "android.intent.action.QUICKBOOT_POWERON";
+        SharedPreferences prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        if (action.equals(bootComplete) || action.equals(quickBootComplete)) {
+            context.startService(new Intent(context, DataUsageService.class));
             context.startService(new Intent(context, BackgroundService.class));
+
+            //monthly alarm resets the data usage table
+            if(prefs.getInt(Constants.NEXT_MONTHLY_RESET, 0)== (new DeviceUtil().getCurrentMonth())){
+                //reset usage data
+                DataUsageUtil.resetMobileData(context);
+                DataUsageUtil.clearTable(context);
+                DataUsageUtil.setFirstMonthOfTheMonthFlag(context, new DeviceUtil().getNextMonth());
+                monthlyAlarm.setAlarm(context);
+            }else{
+                monthlyAlarm.setAlarm(context);
+            }
+
             alarm.setAlarm(context);
         }
-
-        SharedPreferences prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        //monthly alarm resets the data usage table
-//        if(prefs.getInt(Constants.NEXT_MONTHLY_RESET, 0)== (new DeviceUtil().getCurrentMonth())){
-            //reset usage data
-            DataUsageUtil.resetMobileData(context);
-            DataUsageUtil.clearTable(context);
-            DataUsageUtil.setFirstMonthOfTheMonthFlag(context, new DeviceUtil().getNextMonth());
-            monthlyAlarm.setAlarm(context);
-//        }else{
-//            monthlyAlarm.setAlarm(context);
-//        }
-
-        System.out.println("Monthly boot up receiver");
-
-        context.startService(new Intent(context, DataUsageService.class));
     }
 }

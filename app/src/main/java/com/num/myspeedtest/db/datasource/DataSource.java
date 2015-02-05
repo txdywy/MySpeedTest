@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,14 +14,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.num.myspeedtest.db.DatabaseOutput;
 import com.num.myspeedtest.db.mapping.BaseMapping;
 import com.num.myspeedtest.db.mapping.ApplicationMapping;
 import com.num.myspeedtest.db.mapping.LatencyMapping;
-import com.num.myspeedtest.model.BaseModel;
-import com.num.myspeedtest.model.GraphPoint;
 
 public abstract class DataSource {
 	// Database fields
@@ -83,14 +78,6 @@ public abstract class DataSource {
 		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		return sdf.format(new Date());
 	}
-
-	public abstract HashMap<String, ArrayList<GraphPoint>> getGraphData();
-
-	public abstract DatabaseOutput getOutput();
-
-	protected abstract void insertModel(BaseModel model);
-
-    protected abstract BaseModel insertBaseModel(BaseModel model);
 
 	public String[] getColumns() {
 		return dbHelper.getDatabaseColumns().getColumnNames();
@@ -182,7 +169,7 @@ public abstract class DataSource {
 		}
 
 		Cursor cursor = database.query(dbHelper.getTableName(), getColumns(),
-				selection, arguments, null, null, "_id");
+				selection, arguments, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -224,108 +211,6 @@ public abstract class DataSource {
 		return dataStores;
 	}
 
-	public void insert(BaseModel model) {
-//		Log.d("db", "inserting");
-		try {
-			open();
-			insertModel(model);	
-		} catch (Exception e) {
-			Log.d("db", e.getLocalizedMessage());
-		} finally {
-			// Make sure that database closes even if there is exception 
-			close();			
-		}
-	}
-
-    public BaseModel insertBaseModelandReturn(BaseModel model) {
-//		Log.d("db", "inserting");
-        try {
-            open();
-            return insertBaseModel(model);
-        } catch (Exception e) {
-            Log.d("db", e.getLocalizedMessage());
-        } finally {
-            // Make sure that database closes even if there is exception
-            close();
-        }
-        return null;
-    }
-
-    public ArrayList<GraphPoint> getGraphData(HashMap<String, String> filter) {
-
-		if (getMode().equals("normal"))
-			return getNormalGraphData(filter);
-		else if (getMode().equals("aggregate"))
-			return getAggregateGraphData(filter);
-		else
-			return null;
-
-	}
-
-	public ArrayList<GraphPoint> getNormalGraphData(
-			HashMap<String, String> filter) {
-
-		List<Map<String, String>> allData = getDataStores(filter);
-		ArrayList<GraphPoint> points = new ArrayList<GraphPoint>();
-
-		for (Map<String, String> data : allData) {
-			points.add(new GraphPoint(data.size(), extractValue(data),
-					extractTime(data)));
-		}
-
-		return points;
-
-	}
-
-	public ArrayList<GraphPoint> getAggregateGraphData(
-			HashMap<String, String> filter) {
-
-		List<Map<String, String>> allData = getDataStores(filter);
-		ArrayList<GraphPoint> points = new ArrayList<GraphPoint>();
-
-		Map<String, GraphPoint> pointmap = new HashMap<String, GraphPoint>();
-
-		for (Map<String, String> data : allData) {
-
-			GraphPoint newPoint = new GraphPoint(0, extractValue(data),
-					extractTime(data));
-			newPoint.setString(extractDate(data));
-			newPoint.sortByDate(true);
-			String date = extractDate(data);
-
-			if (pointmap.containsKey(date)) {
-				GraphPoint oldPoint = pointmap.get(date);
-				aggregatePoints(oldPoint, newPoint);
-			} else {
-				pointmap.put(date, newPoint);
-			}
-
-		}
-
-		Iterator<String> iter = pointmap.keySet().iterator();
-		int count = 0;
-		while (iter.hasNext()) {
-			String date = iter.next();
-			points.add(pointmap.get(date));
-
-		}
-
-		try {
-			Collections.sort(points);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		for (GraphPoint point : points) {
-			point.x = count++;
-		}
-
-		return points;
-
-	}
-
-	public abstract int extractValue(Map<String, String> data);
-
 	public abstract Date extractTime(Map<String, String> data);
 
 	public String extractDate(Map<String, String> data) {
@@ -348,22 +233,6 @@ public abstract class DataSource {
 			e.printStackTrace();
 			return new Date();
 		}
-	}
-
-	public abstract void aggregatePoints(GraphPoint oldP, GraphPoint newP);
-
-	public abstract String getGraphType();
-
-	public abstract String getYAxisLabel();
-
-	public abstract String[] getModes();
-
-	public String getMode() {
-		return getModes()[currentMode];
-	}
-
-	public void setMode(int mode) {
-		currentMode = mode;
 	}
 
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ListView;
@@ -13,17 +12,12 @@ import android.widget.ProgressBar;
 import com.num.myspeedtest.R;
 import com.num.myspeedtest.controller.managers.LatencyManager;
 import com.num.myspeedtest.controller.managers.MeasurementManager;
-import com.num.myspeedtest.controller.tasks.MeasurementTask;
-import com.num.myspeedtest.controller.utils.Logger;
 import com.num.myspeedtest.controller.utils.ServerUtil;
-import com.num.myspeedtest.model.LastMile;
-import com.num.myspeedtest.model.Measure;
 import com.num.myspeedtest.model.Measurement;
 import com.num.myspeedtest.model.Ping;
 import com.num.myspeedtest.view.adapters.LatencyListAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

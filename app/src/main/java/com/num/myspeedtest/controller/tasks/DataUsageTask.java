@@ -35,13 +35,13 @@ public class DataUsageTask implements Runnable {
         long totalRecv = 0;
         long totalSent = 0;
         for (Application app : applications) {
-            Application tmp = (Application) db.insertBaseModelandReturn(app);
-            if (tmp.getTotal() > 0) {
-                activeApplications.add(tmp);
-                totalRecv += tmp.getTotalRecv();
-                totalSent += tmp.getTotalSent();
-                if (tmp.getTotal() > Usage.maxUsage) {
-                    Usage.maxUsage = tmp.getTotal();
+            Application temp = db.updateOnGet(app);
+            if (temp.getTotal() > 0) {
+                activeApplications.add(temp);
+                totalRecv += temp.getTotalRecv();
+                totalSent += temp.getTotalSent();
+                if (temp.getTotal() > Usage.maxUsage) {
+                    Usage.maxUsage = temp.getTotal();
                 }
             }
         }

@@ -73,10 +73,15 @@
         <receiver android:name=".controller.receivers.BootUpReceiver" >
         <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <action android:name="android.intent.action.QUICKBOOT_POWERON" />
         </intent-filter>
         </receiver>
-        <receiver  android:process=":remote" android:name=".controller.receivers.AlarmReceiver"></receiver>
-        <receiver  android:process=":remote" android:name=".controller.receivers.MonthlyResetAlarmReceiver"></receiver>
+        <receiver
+            android:process=":remote" android:name=".controller.receivers.AlarmReceiver">
+        </receiver>
+        <receiver
+            android:process=":remote" android:name=".controller.receivers.MonthlyResetAlarmReceiver">
+        </receiver>
         <service
             android:name=".controller.services.DataUsageService" >
         </service>
