@@ -32,4 +32,7 @@ public class Constants {
     public static final int NORMAL_SLEEP_TIME = 1000;
     public static final int SHORT_SLEEP_TIME = 100;
     public static final int ONE_MINUTE_TIME = 60 * 1000;
+
+    /* Data Usage */
+    public static final String NEXT_MONTHLY_RESET = "first_of_the_month_reset";
 }

@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 
 import com.num.myspeedtest.model.Device;
 
+import java.util.Calendar;
+
 public class DeviceUtil {
     private static DeviceUtil sInstance = new DeviceUtil();
     public static DeviceUtil getInstance() {
@@ -30,5 +32,17 @@ public class DeviceUtil {
         }
         return status;
 
+    }
+
+    public int getNextMonth(){
+        Calendar date = Calendar.getInstance();
+        date.add(Calendar.MONTH, 1);
+        System.out.println("Monthly reset set to "+date.get(Calendar.MONTH));
+        return date.get(Calendar.MONTH);
+    }
+
+    public int getCurrentMonth(){
+        Calendar date = Calendar.getInstance();
+        return date.get(Calendar.MONTH);
     }
 }

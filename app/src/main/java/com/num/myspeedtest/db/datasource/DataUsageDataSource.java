@@ -39,15 +39,17 @@ public class DataUsageDataSource extends DataSource {
         String[] SELECT = new String[]{app.getPackageName()};
         open();
 
-        Cursor cursor = database.query(dbHelper.getTableName(), getColumns(),
-                DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Map<String, String> dataStore = dbHelper.getDatabaseColumns().getDataStore(cursor);
-//            Logger.show("Existing: " + dataStore.toString());
-            cursor.moveToNext();
-        }
-        cursor.close();
+        Cursor cursor;
+//        cursor = database.query(dbHelper.getTableName(), getColumns(),
+//                DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
+//        if(cursor.moveToFirst()) {
+//            while (!cursor.isAfterLast()) {
+//                Map<String, String> dataStore = dbHelper.getDatabaseColumns().getDataStore(cursor);
+////            Logger.show("Existing: " + dataStore.toString());
+//                cursor.moveToNext();
+//            }
+//        }
+//        cursor.close();
 
         ContentValues value = new ContentValues();
         value.put(DataUsageMapping.COLUMN_NAME, app.getPackageName());
@@ -55,14 +57,18 @@ public class DataUsageDataSource extends DataSource {
 
         cursor = database.query(dbHelper.getTableName(), new String[]{DataUsageMapping.COLUMN_RECV},
                 DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
-        cursor.moveToFirst();
-        int prev_recv = cursor.getInt(cursor.getPosition());
+        int prev_recv = 0;
+        if(cursor.moveToFirst()) {
+            prev_recv = cursor.getInt(cursor.getPosition());
+        }
         cursor.close();
 
         cursor = database.query(dbHelper.getTableName(), new String[]{DataUsageMapping.COLUMN_SENT},
                 DataUsageMapping.COLUMN_NAME + " = ?", SELECT, null, null, "_id");
-        cursor.moveToFirst();
-        int prev_sent = cursor.getInt(cursor.getPosition());
+        int prev_sent = 0;
+        if(cursor.moveToFirst()) {
+            prev_sent = cursor.getInt(cursor.getPosition());
+        }
         cursor.close();
 
 //        value.put(DataUsageMapping.COLUMN_PREV_RECV, app.getTotalRecv());
@@ -78,6 +84,14 @@ public class DataUsageDataSource extends DataSource {
         }catch(Exception e){
             Logger.show("db", e.getLocalizedMessage());
         }
+    }
+
+    public void clearTable(){
+        if (!database.isOpen()){
+            database = dbHelper.getWritableDatabase();
+        }
+
+        database.delete(dbHelper.getTableName(), null, null);
     }
 
     private BaseModel addBaseModel(Application app) {

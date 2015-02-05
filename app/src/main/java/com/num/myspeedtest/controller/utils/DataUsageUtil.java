@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 
+import com.num.myspeedtest.Constants;
 import com.num.myspeedtest.db.datasource.DataUsageDataSource;
 import com.num.myspeedtest.model.Application;
 
@@ -65,6 +66,14 @@ public class DataUsageUtil {
         for (Application app : applications) {
             db.updateOnBoot(app);
         }
+        db.close();
+    }
+
+    public static void clearTable(Context context) {
+        DataUsageDataSource db = new DataUsageDataSource(context);
+        db.open();
+        db.clearTable();
+        db.close();
     }
 
     private static HashMap<String, Boolean> getRunningApplications(Context context) {
@@ -83,13 +92,39 @@ public class DataUsageUtil {
         return runningApplications;
     }
 
+    public static void setFirstMonthOfTheMonthFlag(Context context, int month){
+        SharedPreferences pref = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putInt(Constants.NEXT_MONTHLY_RESET, month);
+    }
+
+    public static void resetMobileData(Context context) {
+        if (sharedpreferences == null)
+            sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        long mobile_recv = 0;
+        long mobile_sent = 0;
+        Logger.show("Mobile sent: " + mobile_sent + " recv: " + mobile_recv);
+
+        editor.putLong(MobileRecv, mobile_recv);
+        editor.putLong(MobileSent, mobile_sent);
+        editor.commit();
+    }
+
+
     public static void updateMobileData(Context context) {
         if (sharedpreferences == null)
             sharedpreferences = context.getSharedPreferences(MobileData, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
         long mobile_recv = TrafficStats.getMobileRxBytes();
         long mobile_sent = TrafficStats.getMobileTxBytes();
         Logger.show("Mobile sent: " + mobile_sent + " recv: " + mobile_recv);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+
         editor.putLong(MobileRecv, mobile_recv);
         editor.putLong(MobileSent, mobile_sent);
         editor.commit();
