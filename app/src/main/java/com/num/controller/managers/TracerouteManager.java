@@ -1,9 +1,11 @@
 package com.num.controller.managers;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.num.Constants;
 import com.num.controller.tasks.TracerouteTask;
+import com.num.controller.utils.TracerouteUtil;
 import com.num.model.Address;
 
 import java.util.List;
@@ -25,11 +27,14 @@ public class  TracerouteManager {
      * Initialize a work queue and a thread pool.
      * @param handler Parent defined handler to handle data usage
      */
-    public TracerouteManager(Handler handler){
+    public TracerouteManager(Context context, Handler handler){
         workQueue = new LinkedBlockingQueue<>();
         tracerouteThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
         this.handler = handler;
+        if(!TracerouteUtil.isTracerouteInstalled()) {
+            TracerouteUtil.installExecutable(context);
+        }
     }
 
     /**

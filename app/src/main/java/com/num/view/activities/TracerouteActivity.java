@@ -43,10 +43,6 @@ public class TracerouteActivity extends ActionBarActivity {
         context = this.getApplicationContext();
         setContentView(R.layout.activity_traceroute);
 
-        if(!TracerouteUtil.isTracerouteInstalled()) {
-            TracerouteUtil.installExecutable(this);
-        }
-
         /* setup for UI */
         progressBar = (ProgressBar) findViewById(R.id.traceroute_progress);
         progressBar.setVisibility(View.INVISIBLE);
@@ -98,7 +94,7 @@ public class TracerouteActivity extends ActionBarActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         TracerouteHandler handler = new TracerouteHandler();
-        TracerouteManager manager = new TracerouteManager(handler);
+        TracerouteManager manager = new TracerouteManager(context, handler);
         String ip = address.getText().toString();
         manager.execute(ip, type);
     }

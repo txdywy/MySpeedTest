@@ -59,7 +59,7 @@ public class MeasurementManager {
         dataUsageManager.execute(context);
 
         TracerouteHandler tracerouteHandler = new TracerouteHandler();
-        TracerouteManager tracerouteManager = new TracerouteManager(tracerouteHandler);
+        TracerouteManager tracerouteManager = new TracerouteManager(context, tracerouteHandler);
         tracerouteManager.execute(ServerUtil.getTargets(), Traceroute.ICMP);
         tracerouteManager.execute(ServerUtil.getTargets(), Traceroute.UDP);
     }

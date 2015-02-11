@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.num.R;
+import com.num.controller.managers.MeasurementManager;
 
 /**
  * Activity describing the application and asking users to rate the app
@@ -19,6 +20,8 @@ public class AboutUsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
+        MeasurementManager manager = new MeasurementManager(this);
+        manager.execute();
         /**
          * Set up rate our app button to send the user to the store
          */
