@@ -49,7 +49,16 @@ public class ServerUtil {
                 postRequest.setEntity(se);
                 HttpResponse response = httpClient.execute(postRequest);
                 String r = EntityUtils.toString(response.getEntity());
-                Log.d("DEBUG", r + "");
+                if(Constants.DEBUG) {
+                    int maxLogStringSize = 1000;
+                    String veryLongString = r;
+                    for (int i = 0; i <= veryLongString.length() / maxLogStringSize; i++) {
+                        int start = i * maxLogStringSize;
+                        int end = (i + 1) * maxLogStringSize;
+                        end = end > veryLongString.length() ? veryLongString.length() : end;
+                        Log.d("DEBUG", veryLongString.substring(start, end));
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

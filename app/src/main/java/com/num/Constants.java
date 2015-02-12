@@ -5,7 +5,7 @@ import com.num.model.Address;
 public class Constants {
 
     public static final String SHARED_PREFERENCES_NAME = "com.num";
-    public static final String API_SERVER_ADDRESS = "http://ruggles.gtnoise.net:8888/";
+    public static final String API_SERVER_ADDRESS = "http://ruggles.gtnoise.net/";
     public static final boolean DEBUG = true;
 
     /* Threads */
@@ -29,7 +29,7 @@ public class Constants {
     public static final String UNAVAILABLE_CELLLAC = "65535";
 
     /* Background Measurement Service */
-    public static final int UPDATE_INTERVAL = 1000 * 15; // 15 minutes
+    public static final int UPDATE_INTERVAL = 1000 * 60 * 15; // 15 minutes
     public static final int NORMAL_SLEEP_TIME = 1000;
     public static final int SHORT_SLEEP_TIME = 100;
     public static final int ONE_MINUTE_TIME = 60 * 1000;

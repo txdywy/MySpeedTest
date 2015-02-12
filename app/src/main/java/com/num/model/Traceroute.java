@@ -46,7 +46,9 @@ public class Traceroute implements BaseModel, Parcelable {
             JSONArray array = new JSONArray();
             if(hops != null) {
                 for (Hop hop : hops) {
-                    array.put(hop.toJSON());
+                    if(hop.getRtt() != -1) {
+                        array.put(hop.toJSON());
+                    }
                 }
             }
             json.putOpt("hops", array);
