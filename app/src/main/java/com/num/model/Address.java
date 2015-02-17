@@ -11,12 +11,10 @@ import org.json.JSONException;
 public class Address implements BaseModel, Parcelable {
     private String ip;
     private String tagName;
-    private String type;
 
-    public Address(String ip, String tagName, String type) {
+    public Address(String ip, String tagName) {
         this.ip = ip;
         this.tagName = tagName;
-        this.type = type;
     }
 
     public String getIp() {
@@ -25,14 +23,6 @@ public class Address implements BaseModel, Parcelable {
 
     public String getTagName() {
         return tagName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override
@@ -44,7 +34,6 @@ public class Address implements BaseModel, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(ip);
         dest.writeString(tagName);
-        dest.writeString(type);
     }
 
     public static final Creator CREATOR = new Creator() {
@@ -62,7 +51,6 @@ public class Address implements BaseModel, Parcelable {
     private Address(Parcel source) {
         ip = source.readString();
         tagName = source.readString();
-        type = source.readString();
     }
 
     public JSONObject toJSON() {
@@ -70,7 +58,6 @@ public class Address implements BaseModel, Parcelable {
         try {
             obj.putOpt("ip",ip);
             obj.putOpt("tagName",tagName);
-            obj.putOpt("type", type);
         } catch (JSONException e) {
             e.printStackTrace();
         }

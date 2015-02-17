@@ -22,10 +22,9 @@ public class LatencyTask implements Runnable {
 
     @Override
     public void run() {
-        String type = target.getType();
         HashMap<String, String> params = new HashMap<>();
         Bundle bundle = new Bundle();
-        bundle.putString("type", type);
+        bundle.putString("type", "ping");
         Message msg = new Message();
 
         params.put("-c", "15");
