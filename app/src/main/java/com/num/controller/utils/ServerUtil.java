@@ -61,7 +61,6 @@ public class ServerUtil {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
             Measurement.unsentStack.push(currentMeasurement);
             Log.d("DEBUG", "Postponing measurement");
         }
