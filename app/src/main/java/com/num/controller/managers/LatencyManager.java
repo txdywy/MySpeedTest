@@ -1,9 +1,12 @@
 package com.num.controller.managers;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.num.Constants;
 import com.num.controller.tasks.LatencyTask;
+import com.num.controller.utils.PingUtil;
+import com.num.controller.utils.TracerouteUtil;
 import com.num.model.Address;
 
 import java.util.List;
@@ -25,11 +28,14 @@ public class LatencyManager {
      * Initialize a work queue and a thread pool.
      * @param handler Parent defined handler to handle data usage
      */
-    public LatencyManager(Handler handler) {
+    public LatencyManager(Context context, Handler handler) {
         workQueue = new LinkedBlockingQueue<>();
         latencyThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
         this.handler = handler;
+        if(!PingUtil.isPingInstalled()) {
+            PingUtil.installExecutable(context);
+        }
     }
 
     /**

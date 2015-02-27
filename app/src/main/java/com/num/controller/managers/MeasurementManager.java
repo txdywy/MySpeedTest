@@ -51,7 +51,7 @@ public class MeasurementManager {
         count = ServerUtil.getTargets().size();
 
         LatencyHandler latencyHandler = new LatencyHandler();
-        LatencyManager latencyManager = new LatencyManager(latencyHandler);
+        LatencyManager latencyManager = new LatencyManager(context, latencyHandler);
         latencyManager.execute(ServerUtil.getTargets());
 
         UsageHandler usageHandler = new UsageHandler();

@@ -47,7 +47,7 @@ public class LatencyActivity extends ActionBarActivity {
         listView.setAdapter(adapter);
 
         LatencyHandler handler = new LatencyHandler();
-        LatencyManager manager = new LatencyManager(handler);
+        LatencyManager manager = new LatencyManager(context, handler);
         manager.execute(ServerUtil.getTargets());
     }
 
