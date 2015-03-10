@@ -5,11 +5,15 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.num.myspeedtest"
+        applicationId "com.num"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 400
+        versionName "4.0"
+        ndk {
+            moduleName "ping"
+            moduleName "traceroute"
+        }
     }
     buildTypes {
         release {
