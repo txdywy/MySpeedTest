@@ -26,7 +26,6 @@ import java.util.concurrent.ExecutionException;
 
 public class ServerUtil {
 
-    //TODO Make this dynamic
     public static List<Address> getTargets() {
         List<Address> pingTargets = new ArrayList<>();
         ServerTask task = new ServerTask();
