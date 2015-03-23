@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,7 @@ import android.widget.RadioGroup;
 
 import com.num.R;
 import com.num.controller.managers.TracerouteManager;
+import com.num.controller.tasks.TracerouteTask;
 import com.num.controller.utils.TracerouteUtil;
 import com.num.model.Hop;
 import com.num.model.Traceroute;
@@ -37,11 +39,18 @@ public class TracerouteActivity extends ActionBarActivity {
     private int type;
     private final String DEFAULT_ADDRESS = "www.google.com";
 
+    private TracerouteHandler handler;
+    private TracerouteManager manager;
+    private TracerouteTask task;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this.getApplicationContext();
         setContentView(R.layout.activity_traceroute);
+
+        handler = new TracerouteHandler();
+        manager = new TracerouteManager(context, handler);
 
         /* setup for UI */
         progressBar = (ProgressBar) findViewById(R.id.traceroute_progress);
@@ -93,10 +102,9 @@ public class TracerouteActivity extends ActionBarActivity {
         adapter.clear();
         progressBar.setVisibility(View.VISIBLE);
 
-        TracerouteHandler handler = new TracerouteHandler();
-        TracerouteManager manager = new TracerouteManager(context, handler);
         String ip = address.getText().toString();
-        manager.execute(ip, type);
+        task = new TracerouteTask(ip, type, handler);
+        manager.execute(task);
     }
 
     private class TracerouteHandler extends Handler {
@@ -110,6 +118,13 @@ public class TracerouteActivity extends ActionBarActivity {
             adapter.add(hop);
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("TracerouteActivity", "onStop Interrupt Task");
+        super.onStop();
+        manager.interrupt(task);
     }
 
 
