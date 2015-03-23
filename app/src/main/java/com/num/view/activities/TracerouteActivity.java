@@ -78,6 +78,8 @@ public class TracerouteActivity extends ActionBarActivity {
         address.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    address.setFocusable(false);
+                    enter.setClickable(false);
                     performTraceroute(v);
                     return true;
                 }
@@ -88,6 +90,8 @@ public class TracerouteActivity extends ActionBarActivity {
         enter = (Button) findViewById(R.id.button_traceroute);
         enter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                address.setFocusable(false);
+                enter.setClickable(false);
                 performTraceroute(v);
             }
         });
@@ -100,6 +104,7 @@ public class TracerouteActivity extends ActionBarActivity {
         imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
 
         adapter.clear();
+
         progressBar.setVisibility(View.VISIBLE);
 
         String ip = address.getText().toString();
@@ -113,6 +118,8 @@ public class TracerouteActivity extends ActionBarActivity {
             Hop hop = msg.getData().getParcelable("hop");
             if(hop == null || msg.getData().getBoolean("isDone")) {
                 progressBar.setVisibility(View.INVISIBLE);
+                address.setFocusableInTouchMode(true);
+                enter.setClickable(true);
                 return;
             }
             adapter.add(hop);
@@ -121,9 +128,9 @@ public class TracerouteActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onStop() {
-        Log.d("TracerouteActivity", "onStop Interrupt Task");
-        super.onStop();
+    protected void onDestroy() {
+        Log.d("TracerouteActivity", "onDestroy Interrupt Task");
+        super.onDestroy();
         manager.interrupt(task);
     }
 

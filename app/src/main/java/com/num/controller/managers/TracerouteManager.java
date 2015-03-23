@@ -75,4 +75,8 @@ public class  TracerouteManager {
     public void interrupt(TracerouteTask task){
         handler.removeCallbacksAndMessages(task);
     }
+
+    public int getSize(){
+        return tracerouteThreadPool.getQueue().size();
+    }
 }
