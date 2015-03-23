@@ -158,9 +158,10 @@ public class TracerouteUtil {
         double sum = 0.0;
 
         for(int i=2; i<split.length; i++) {
-            if(!split[i].equals("*")) {
+            try {
                 sum += Double.parseDouble(split[i]);
             }
+            catch (Exception e) {}
         }
         double rtt = -1;
         if(split.length-2 != 0) {

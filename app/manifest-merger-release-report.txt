@@ -17,17 +17,17 @@ ADDED from AndroidManifest.xml:2:1
 		ADDED from AndroidManifest.xml:4:5
 uses-permission#android.permission.INTERNET
 ADDED from AndroidManifest.xml:6:5
-MERGED from MySpeedTest:mobilyzer:unspecified:13:5
+MERGED from MySpeedTest:mobilyzer:unspecified:11:5
 	android:name
 		ADDED from AndroidManifest.xml:6:22
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from AndroidManifest.xml:7:5
-MERGED from MySpeedTest:mobilyzer:unspecified:16:5
+MERGED from MySpeedTest:mobilyzer:unspecified:14:5
 	android:name
 		ADDED from AndroidManifest.xml:7:22
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from AndroidManifest.xml:8:5
-MERGED from MySpeedTest:mobilyzer:unspecified:18:5
+MERGED from MySpeedTest:mobilyzer:unspecified:16:5
 	android:name
 		ADDED from AndroidManifest.xml:8:22
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
@@ -41,7 +41,7 @@ MERGED from MySpeedTest:mobilyzer:unspecified:9:5
 		ADDED from AndroidManifest.xml:10:22
 application
 ADDED from AndroidManifest.xml:12:5
-MERGED from MySpeedTest:mobilyzer:unspecified:29:5
+MERGED from MySpeedTest:mobilyzer:unspecified:27:5
 MERGED from com.android.support:support-v4:21.0.0:16:5
 MERGED from com.google.android.gms:play-services:6.1.71:16:5
 MERGED from com.android.support:support-v4:21.0.0:16:5
@@ -206,76 +206,76 @@ ADDED from MySpeedTest:mobilyzer:unspecified:10:5
 	android:name
 		ADDED from MySpeedTest:mobilyzer:unspecified:10:22
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from MySpeedTest:mobilyzer:unspecified:14:5
+ADDED from MySpeedTest:mobilyzer:unspecified:12:5
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:14:22
+		ADDED from MySpeedTest:mobilyzer:unspecified:12:22
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from MySpeedTest:mobilyzer:unspecified:13:5
+	android:name
+		ADDED from MySpeedTest:mobilyzer:unspecified:13:22
+uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from MySpeedTest:mobilyzer:unspecified:15:5
 	android:name
 		ADDED from MySpeedTest:mobilyzer:unspecified:15:22
-uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from MySpeedTest:mobilyzer:unspecified:17:5
-	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:17:22
 permission#com.mobilyzer.permission.C2D_MESSAGE
-ADDED from MySpeedTest:mobilyzer:unspecified:20:5
+ADDED from MySpeedTest:mobilyzer:unspecified:18:5
 	android:protectionLevel
-		ADDED from MySpeedTest:mobilyzer:unspecified:22:9
+		ADDED from MySpeedTest:mobilyzer:unspecified:20:9
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:21:9
+		ADDED from MySpeedTest:mobilyzer:unspecified:19:9
 uses-permission#com.mobilyzer.permission.C2D_MESSAGE
-ADDED from MySpeedTest:mobilyzer:unspecified:24:5
+ADDED from MySpeedTest:mobilyzer:unspecified:22:5
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:24:22
+		ADDED from MySpeedTest:mobilyzer:unspecified:22:22
 uses-permission#com.google.android.c2dm.permission.RECEIVE
-ADDED from MySpeedTest:mobilyzer:unspecified:27:5
+ADDED from MySpeedTest:mobilyzer:unspecified:25:5
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:27:22
+		ADDED from MySpeedTest:mobilyzer:unspecified:25:22
 meta-data#com.google.android.gms.version
-ADDED from MySpeedTest:mobilyzer:unspecified:30:9
+ADDED from MySpeedTest:mobilyzer:unspecified:28:9
 	android:value
-		ADDED from MySpeedTest:mobilyzer:unspecified:32:13
+		ADDED from MySpeedTest:mobilyzer:unspecified:30:13
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:31:13
+		ADDED from MySpeedTest:mobilyzer:unspecified:29:13
 service#com.mobilyzer.MeasurementScheduler
-ADDED from MySpeedTest:mobilyzer:unspecified:34:9
+ADDED from MySpeedTest:mobilyzer:unspecified:32:9
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:34:18
+		ADDED from MySpeedTest:mobilyzer:unspecified:32:18
 intent-filter#com.mobilyzer.MeasurementScheduler
-ADDED from MySpeedTest:mobilyzer:unspecified:35:13
+ADDED from MySpeedTest:mobilyzer:unspecified:33:13
 	android:priority
-		ADDED from MySpeedTest:mobilyzer:unspecified:35:28
+		ADDED from MySpeedTest:mobilyzer:unspecified:33:28
 action#com.mobilyzer.MeasurementScheduler
-ADDED from MySpeedTest:mobilyzer:unspecified:36:17
+ADDED from MySpeedTest:mobilyzer:unspecified:34:17
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:36:25
+		ADDED from MySpeedTest:mobilyzer:unspecified:34:25
 receiver#com.mobilyzer.gcm.GcmBroadcastReceiver
-ADDED from MySpeedTest:mobilyzer:unspecified:47:9
+ADDED from MySpeedTest:mobilyzer:unspecified:45:9
 	android:permission
-		ADDED from MySpeedTest:mobilyzer:unspecified:49:13
+		ADDED from MySpeedTest:mobilyzer:unspecified:47:13
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:48:13
+		ADDED from MySpeedTest:mobilyzer:unspecified:46:13
 intent-filter#com.google.android.c2dm.intent.RECEIVE+com.google.android.c2dm.intent.REGISTRATION+com.mobilyzer
-ADDED from MySpeedTest:mobilyzer:unspecified:50:13
+ADDED from MySpeedTest:mobilyzer:unspecified:48:13
 action#com.google.android.c2dm.intent.RECEIVE
-ADDED from MySpeedTest:mobilyzer:unspecified:51:17
+ADDED from MySpeedTest:mobilyzer:unspecified:49:17
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:51:25
+		ADDED from MySpeedTest:mobilyzer:unspecified:49:25
 action#com.google.android.c2dm.intent.REGISTRATION
+ADDED from MySpeedTest:mobilyzer:unspecified:50:17
+	android:name
+		ADDED from MySpeedTest:mobilyzer:unspecified:50:25
+category#com.mobilyzer
 ADDED from MySpeedTest:mobilyzer:unspecified:52:17
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:52:25
-category#com.mobilyzer
-ADDED from MySpeedTest:mobilyzer:unspecified:54:17
-	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:54:27
+		ADDED from MySpeedTest:mobilyzer:unspecified:52:27
 service#com.mobilyzer.gcm.GcmIntentService
-ADDED from MySpeedTest:mobilyzer:unspecified:58:9
+ADDED from MySpeedTest:mobilyzer:unspecified:56:9
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:58:18
+		ADDED from MySpeedTest:mobilyzer:unspecified:56:18
 service#com.mobilyzer.PLTExecutorService
-ADDED from MySpeedTest:mobilyzer:unspecified:59:9
+ADDED from MySpeedTest:mobilyzer:unspecified:57:9
 	android:name
-		ADDED from MySpeedTest:mobilyzer:unspecified:59:18
+		ADDED from MySpeedTest:mobilyzer:unspecified:57:18
 android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
 IMPLIED from AndroidManifest.xml:2:1 reason: com.mobilyzer requested WRITE_EXTERNAL_STORAGE
