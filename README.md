@@ -12,7 +12,7 @@ My Speed Test is an Android application aimed to perform network measurements on
 
 ## Structure
 ### Model
-Models hold information about specific objects that are needed my My Speed Test. However, these objects only perform minimal functions to pass data between the activities or between the client and the server. Most of the application's functionalities are deferred to the controllers.
+Models hold information about specific objects that are needed by My Speed Test. However, these objects only perform minimal functions to pass data between the activities or between the client and the server. Most of the application's functionalities are deferred to the controllers.
 
 ### View
 Views are classes needed to display information to the user. All the user interface actions should be handled here. The preferred way of communicating between the controller classes and the view classes is through message handlers. Each activity should define its own message handler and pass it into a controller class.
