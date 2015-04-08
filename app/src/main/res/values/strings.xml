@@ -15,4 +15,6 @@
     <string name="title_activity_about_us">About Us</string>
     <string name="title_activity_terms_and_conditions">Terms and Conditions</string>
     <string name="title_activity_data_cap">Data Cap</string>
+
+    <string name="loading">PythonAPK running...</string>
 </resources>

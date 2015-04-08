@@ -19,52 +19,20 @@ import java.util.HashMap;
 
 public class TracerouteUtil {
 
-    private static String traceroutePath = "/data/data/com.num/traceroute";
+    private static String path = "/data/data/com.num/traceroute";
+    private static String executable = "traceroute";
 
-    public static boolean installExecutable(Context context) {
-        try
-        {
-            InputStream inputstream = context.getAssets().open("traceroute");
-            int i = inputstream.available();
-            byte buf[] = new byte[i];
-            inputstream.read(buf);
-            FileOutputStream fileoutputstream = new FileOutputStream(new File(traceroutePath));
-            fileoutputstream.write(buf, 0, i);
-            inputstream.close();
-            fileoutputstream.close();
-            Process process = Runtime.getRuntime().exec((new StringBuilder()).append("chmod 755 ")
-                    .append(traceroutePath).toString());
-            process.waitFor();
-            process.destroy();
-        }
-        catch (IOException ioexception)
-        {
-            ioexception.printStackTrace();
-            return false;
-        }
-        catch (InterruptedException interruptedexception)
-        {
-            interruptedexception.printStackTrace();
-            return false;
-        }
-        return true;
+    public static boolean isInstalled() {
+        return FileUtil.exists(path);
     }
 
-    public static boolean isTracerouteInstalled()
-    {
-        try {
-            Process process = Runtime.getRuntime().exec(traceroutePath);
-            process.waitFor();
-            process.destroy();
-        }
-        catch (Exception exception) {
-            return false;
-        }
-        return true;
+    public static void installExecutable(Context context) {
+        FileUtil.copyFromAsset(context, executable, path);
+        FileUtil.chmod(path, "755");
     }
 
     public static void traceroute(String hostname, HashMap<String, String> params, Handler handler) {
-        String cmd = traceroutePath + " ";
+        String cmd = path + " ";
         String options = "";
         int traceType = (params.containsKey("-I")) ? Traceroute.ICMP : Traceroute.UDP;
         String srcIp = PingUtil.getSrcIp();

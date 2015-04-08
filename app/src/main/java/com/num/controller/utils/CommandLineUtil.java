@@ -6,19 +6,17 @@ import java.io.InputStreamReader;
 
 public class CommandLineUtil {
 
-    public static String runCommand(String cmd) {
+    public static String runCommand(String cmd) throws IOException, InterruptedException {
         Process process;
+        process = Runtime.getRuntime().exec(cmd);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String message = new String();
         String line;
-        String message = "";
-        try {
-            process = Runtime.getRuntime().exec(cmd);
-            BufferedReader bufferedReader =
-                    new BufferedReader(new InputStreamReader(process.getInputStream()));
-            while ((line = bufferedReader.readLine()) != null) {
-                message += line + "\n";
-            }
-            process.waitFor();
-        } catch (Exception e) {}
+        while ((line = bufferedReader.readLine()) != null) {
+            message += line + "\n";
+        }
+        process.waitFor();
+        process.destroy();
         return message;
     }
 

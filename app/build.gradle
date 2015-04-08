@@ -28,4 +28,8 @@ dependencies {
     compile project(':mobilyzer')
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.google.guava:guava:16.0.1'
+    compile files('libs/libGoogleAnalytics.jar')
+    compile files('libs/locale_platform.jar')
+    compile files('libs/script.jar')
 }

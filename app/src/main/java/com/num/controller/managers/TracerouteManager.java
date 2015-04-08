@@ -32,7 +32,7 @@ public class  TracerouteManager {
         tracerouteThreadPool = new ThreadPoolExecutor(Constants.CORE_POOL_SIZE,
                 Constants.MAX_POOL_SIZE, Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
         this.handler = handler;
-        if(!TracerouteUtil.isTracerouteInstalled()) {
+        if(!TracerouteUtil.isInstalled()) {
             TracerouteUtil.installExecutable(context);
         }
     }

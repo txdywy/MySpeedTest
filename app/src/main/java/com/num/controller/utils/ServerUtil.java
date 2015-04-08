@@ -40,6 +40,7 @@ public class ServerUtil {
             pingTargets.add(new Address("www.bing.com", "Bing"));
             pingTargets.add(new Address("www.wikipedia.com", "Wikipedia"));
             pingTargets.add(new Address("143.215.131.173", "Atlanta, GA"));
+            pingTargets.add(new Address("www.yahoo.com", "Yahoo!"));
         }
         return pingTargets;
     }
@@ -107,6 +108,7 @@ public class ServerUtil {
                 pingTargets.add(new Address("www.bing.com", "Bing"));
                 pingTargets.add(new Address("www.wikipedia.com", "Wikipedia"));
                 pingTargets.add(new Address("143.215.131.173", "Atlanta, GA"));
+                pingTargets.add(new Address("www.yahoo.com", "Yahoo!"));
             }
             return pingTargets;
         }
