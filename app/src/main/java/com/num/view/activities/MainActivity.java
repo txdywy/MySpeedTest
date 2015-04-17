@@ -79,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
         aboutUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(activity, CensorshipActivity.class);
+                Intent i = new Intent(activity, AboutUsActivity.class);
                 startActivity(i);
             }
         });

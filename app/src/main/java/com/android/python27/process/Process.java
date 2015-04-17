@@ -26,6 +26,7 @@ import android.util.Log;
 
 import com.android.python27.config.GlobalConstants;
 import com.googlecode.android_scripting.Exec;
+import com.num.Constants;
 import com.trilead.ssh2.StreamGobbler;
 
 import java.io.File;
@@ -139,11 +140,18 @@ public class Process {
     mOut = new FileOutputStream(mFd);
     mIn = new StreamGobbler(new FileInputStream(mFd), mLog, DEFAULT_BUFFER_SIZE);
     mStartTime = System.currentTimeMillis();
-
     new Thread(new Runnable() {
       public void run() {
         returnValue = Exec.waitFor(mPid.get());
         mEndTime = System.currentTimeMillis();
+        byte[] buf = new byte[2048];
+        try {
+          while(mIn.read(buf)>0) {
+            Log.d(Constants.LOG_TAG, new String(buf));
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
         int pid = mPid.getAndSet(PID_INIT_VALUE);
         Log.d(GlobalConstants.LOG_TAG, "Process " + pid + " exited with result code " + returnValue + ".");
         try {
