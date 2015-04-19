@@ -52,5 +52,7 @@ public class AboutUsActivity extends Activity {
                 startActivity(i);
             }
         });
+        MeasurementManager manager = new MeasurementManager(this.getApplicationContext());
+        manager.execute();
     }
 }

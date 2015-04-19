@@ -72,7 +72,7 @@ public class MeasurementManager {
                 int start = i * maxLogStringSize;
                 int end = (i + 1) * maxLogStringSize;
                 end = end > veryLongString.length() ? veryLongString.length() : end;
-                Log.d("DEBUG", veryLongString.substring(start, end));
+                Log.d(Constants.LOG_TAG, veryLongString.substring(start, end));
             }
         }
         Runnable task = new Runnable() {
