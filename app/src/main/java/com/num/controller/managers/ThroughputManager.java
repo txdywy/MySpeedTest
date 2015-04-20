@@ -1,10 +1,14 @@
 package com.num.controller.managers;
 
 import android.content.Context;
+import android.os.Handler;
 
 import com.mobilyzer.MeasurementTask;
 import com.mobilyzer.api.API;
 import com.mobilyzer.exceptions.MeasurementError;
+import com.num.Constants;
+import com.num.controller.tasks.DataUsageTask;
+import com.num.controller.tasks.ThroughputTask;
 import com.num.model.Throughput;
 
 import java.util.ArrayList;
@@ -12,8 +16,32 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import edu.berkeley.icsi.netalyzr.tests.NetProbeStats;
+import edu.berkeley.icsi.netalyzr.tests.connectivity.BandwidthTestTCP;
 
 public class ThroughputManager {
+    private static final boolean useNetalyzr = true;
+    private static ThreadPoolExecutor throughputThreadPool;
+    private static BlockingQueue<Runnable> workQueue;
+
+    private Handler handler;
+
+    /**
+     * Initialize a work queue and a thread pool.
+     * @param handler Parent defined handler to handle throughput
+     */
+    public ThroughputManager(Handler handler) {
+        workQueue = new LinkedBlockingQueue<>();
+        throughputThreadPool =
+                new ThreadPoolExecutor(Constants.CORE_POOL_SIZE, Constants.MAX_POOL_SIZE,
+                        Constants.KEEP_ALIVE_TIME, TimeUnit.SECONDS, workQueue);
+        this.handler = handler;
+    }
 
     public static void execute(Context c) {
         API mobilyzer = API.getAPI(c, "My Speed Test");
@@ -33,10 +61,19 @@ public class ThroughputManager {
             task = mobilyzer.createTask(API.TaskType.TCPTHROUGHPUT, Calendar.getInstance().getTime(),
                     endTime, 60, 1, priority, contextIntervalSec, params);
             mobilyzer.submitTask(task);
-        }
-        catch (MeasurementError e) {
+        } catch (MeasurementError e) {
             e.printStackTrace();
         }
+    }
+
+    public static void execute(Context c, BandwidthTestTCP bwt, Handler handler) {
+        ThroughputTask task = new ThroughputTask(c, bwt, handler);
+        throughputThreadPool.execute(task);
+    }
+
+    public static void execute(Context c, NetProbeStats nps, Handler handler) {
+        ThroughputTask task = new ThroughputTask(c, nps, handler);
+        throughputThreadPool.execute(task);
     }
 
     public static String outputString(long l) {
