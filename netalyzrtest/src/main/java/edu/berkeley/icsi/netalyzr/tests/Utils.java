@@ -8,8 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.num.Constants;
-
 
 /**
  * Collection of methods required by Netalyzr tests
@@ -48,10 +46,10 @@ public class Utils {
     public static int parseInt(String input) {
         if (input == null) {
             if (printParseIntCount < 20) {
-                Log.d(Constants.LOG_TAG, "Reporting null as integer -1");
+                Log.d(TAG, "Reporting null as integer -1");
             }
             if (printParseIntCount == 20) {
-                Log.d(Constants.LOG_TAG, "Supressing error");
+                Log.d(TAG, "Supressing error");
             }
             printParseIntCount += 1;
             return -1;
@@ -60,10 +58,10 @@ public class Utils {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             if (printParseIntCount < 20) {
-                Log.d(Constants.LOG_TAG, "Reporting \"" + input + "\" as integer -1");
+                Log.d(TAG, "Reporting \"" + input + "\" as integer -1");
             }
             if (printParseIntCount == 20) {
-                Log.d(Constants.LOG_TAG, "Supressing error");
+                Log.d(TAG, "Supressing error");
             }
             printParseIntCount += 1;
         }

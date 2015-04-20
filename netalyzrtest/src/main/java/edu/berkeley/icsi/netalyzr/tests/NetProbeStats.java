@@ -2,8 +2,6 @@ package edu.berkeley.icsi.netalyzr.tests;
 
 import android.util.Log;
 
-import com.num.Constants;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -129,7 +127,7 @@ public class NetProbeStats {
         serverIP = InetAddress.getByName(server);
         } catch (UnknownHostException e){
         //status = Test.TEST_ERROR;
-        Log.d(Constants.LOG_TAG, "Failed to initialize properly");
+        Log.d(TAG, "Failed to initialize properly");
         return;
         }
         maxSend = maxSendIn;
@@ -170,7 +168,7 @@ public class NetProbeStats {
         serverIP = InetAddress.getByName(server);
         } catch (UnknownHostException e){
         //status = Test.TEST_ERROR;
-        Log.d(Constants.LOG_TAG, "Failed to initialize properly");
+        Log.d(TAG, "Failed to initialize properly");
         return;
         }
         /* Just Send a "Metric S-load", so set max very high */
@@ -215,7 +213,7 @@ public class NetProbeStats {
         serverIP = InetAddress.getByName(server);
         } catch (UnknownHostException e){
         //status = Test.TEST_ERROR;
-        Log.d(Constants.LOG_TAG, "Failed to initialize properly");
+        Log.d(TAG, "Failed to initialize properly");
         return;
         }
         port = portIn;
@@ -242,9 +240,9 @@ public class NetProbeStats {
         long startTime = (new Date()).getTime();
         long currentTime = (new Date()).getTime();      
 
-        Log.d(Constants.LOG_TAG,"Start time is " + startTime);
-        Log.d(Constants.LOG_TAG,"Remote server is " + server);
-        Log.d(Constants.LOG_TAG,"Remote port is " + port);
+        Log.d(TAG,"Start time is " + startTime);
+        Log.d(TAG,"Remote server is " + server);
+        Log.d(TAG,"Remote port is " + port);
         
         byte [] bufIn = new byte[2048];
         DatagramSocket socket;
@@ -253,7 +251,7 @@ public class NetProbeStats {
             socket.setSoTimeout(1);
         } catch (SocketException e){
             //status = Test.TEST_ERROR;
-            Log.d(Constants.LOG_TAG,"Test aborted due to socket exception");
+            Log.d(TAG,"Test aborted due to socket exception");
             return;
         }
 
@@ -280,7 +278,7 @@ public class NetProbeStats {
                                port));
             }  catch(IOException e){
                 if(isPing){
-                Log.d(Constants.LOG_TAG,"Probing process caught IOException, just treating as a loss event.");
+                Log.d(TAG,"Probing process caught IOException, just treating as a loss event.");
                 }
             }
             sendCount++;
@@ -301,12 +299,12 @@ public class NetProbeStats {
             int packetID = Utils.parseInt(t[2]);
             if(packetID < reorderIndex){
                 reorderCount += 1;
-                Log.d(Constants.LOG_TAG,"Packet reordering observed");
+                Log.d(TAG,"Packet reordering observed");
             }
             reorderIndex = packetID;
             if(packetID < dupRange &&
                dupData[packetID]){
-                Log.d(Constants.LOG_TAG,"Duplicate packet received");
+                Log.d(TAG,"Duplicate packet received");
                 dupCount += 1;
             }
             if(packetID < dupRange){
@@ -339,7 +337,7 @@ public class NetProbeStats {
         }
 
         long loopTime = (new Date()).getTime();
-        Log.d(Constants.LOG_TAG,"All packets sent, waiting for the last responses");
+        Log.d(TAG,"All packets sent, waiting for the last responses");
         // Keep receiving for 50% seconds afterwards
         // 
         // Or 2 seconds afterwards for pings
@@ -364,12 +362,12 @@ public class NetProbeStats {
             int packetID = Utils.parseInt(t[2]);
             if(packetID < reorderIndex){
                 reorderCount += 1;
-                Log.d(Constants.LOG_TAG,"Packet reordering observed");
+                Log.d(TAG,"Packet reordering observed");
             }
             reorderIndex = packetID;
             if(packetID < dupRange &&
                dupData[packetID]){
-                Log.d(Constants.LOG_TAG,"Duplicate packet received");
+                Log.d(TAG,"Duplicate packet received");
                 dupCount += 1;
             }
             if(packetID < dupRange){
@@ -389,7 +387,7 @@ public class NetProbeStats {
             currentTime = (new Date()).getTime();
         }
         // A burst is a minimum of 3 packets in a row lost
-        Log.d(Constants.LOG_TAG,"Now counting up bursts on loss");
+        Log.d(TAG,"Now counting up bursts on loss");
         boolean inBurst = false;
         long currentBurst = 0;
         for(int i = 2; i < sendCount && i < dupRange; ++i){
@@ -415,9 +413,9 @@ public class NetProbeStats {
 
             }
         }
-        Log.d(Constants.LOG_TAG,"Probing done");
+        Log.d(TAG,"Probing done");
         } catch(IOException e){
-        Log.d(Constants.LOG_TAG,"Probing process caught IOException!");
+        Log.d(TAG,"Probing process caught IOException!");
         //status = Test.TEST_ERROR;
         return;
         }
@@ -425,26 +423,26 @@ public class NetProbeStats {
         sustainedPPS = ((float) ppsCount) / ((float) (sendTime * 0.5));
         sustainedRTT = ((float) sustainedRttCount) / ((float) ppsCount);
 
-        Log.d(Constants.LOG_TAG,"Sent " + sendCount + " packets");
-        Log.d(Constants.LOG_TAG,"Received " + recvCount + " packets");
-        Log.d(Constants.LOG_TAG,"Average RTT " + avgRTT);
-        Log.d(Constants.LOG_TAG,"Sustained RTT " + sustainedRTT);
-        Log.d(Constants.LOG_TAG,"Server received " + serverRecvCount);
+        Log.d(TAG,"Sent " + sendCount + " packets");
+        Log.d(TAG,"Received " + recvCount + " packets");
+        Log.d(TAG,"Average RTT " + avgRTT);
+        Log.d(TAG,"Sustained RTT " + sustainedRTT);
+        Log.d(TAG,"Server received " + serverRecvCount);
         
-        Log.d(Constants.LOG_TAG,"Packets reordered " + reorderCount);
-        Log.d(Constants.LOG_TAG,"Packets duplicated " + dupCount);
+        Log.d(TAG,"Packets reordered " + reorderCount);
+        Log.d(TAG,"Packets duplicated " + dupCount);
 
-        Log.d(Constants.LOG_TAG,"Loss bursts observed " + lossBurstCount);
+        Log.d(TAG,"Loss bursts observed " + lossBurstCount);
 
         if (!isPing){
-        Log.d(Constants.LOG_TAG,"Sustained PPS " + sustainedPPS);
-        Log.d(Constants.LOG_TAG,"Send packet bandwidth " +
+        Log.d(TAG,"Sustained PPS " + sustainedPPS);
+        Log.d(TAG,"Send packet bandwidth " +
                 (sendPacketSize * 8 * sustainedPPS));
-        Log.d(Constants.LOG_TAG,"Received packet bandwidth " +
+        Log.d(TAG,"Received packet bandwidth " +
                 (recvPacketSize * 8 * sustainedPPS));
         }
-        Log.d(Constants.LOG_TAG,"Send packet size " + sendPacketSize);
-        Log.d(Constants.LOG_TAG, "Received packet size " + recvPacketSize);
+        Log.d(TAG,"Send packet size " + sendPacketSize);
+        Log.d(TAG, "Received packet size " + recvPacketSize);
 
         socket.close();
         //status = Test.TEST_SUCCESS;
