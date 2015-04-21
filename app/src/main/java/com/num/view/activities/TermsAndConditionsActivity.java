@@ -14,6 +14,7 @@ import com.num.R;
 import com.num.controller.receivers.MeasurementAlarmReceiver;
 import com.num.controller.receivers.MonthlyResetAlarmReceiver;
 import com.num.controller.services.SignalService;
+import com.num.controller.utils.BootstrapUtil;
 import com.num.controller.utils.DeviceUtil;
 
 public class TermsAndConditionsActivity extends Activity {
@@ -46,14 +47,7 @@ public class TermsAndConditionsActivity extends Activity {
 
                 Context context = getApplicationContext();
 
-                // Setting up signal strength listener
-                context.startService(new Intent(context, SignalService.class));
-
-                // Set alarms for resetting data usage and periodic measurement
-                MonthlyResetAlarmReceiver monthlyAlarm = new MonthlyResetAlarmReceiver();
-                MeasurementAlarmReceiver alarm = new MeasurementAlarmReceiver();
-                monthlyAlarm.setAlarm(context);
-                alarm.setAlarm(context);
+                BootstrapUtil.bootstrap(context);
 
                 Intent myIntent = new Intent(context, DataCapActivity.class);
                 startActivity(myIntent);
