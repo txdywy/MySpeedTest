@@ -1035,7 +1035,7 @@ public class MeasurementScheduler extends Service {
 
   private void getTasksFromServer() throws IOException {
     Logger.i("Downloading tasks from the server");
-    checkin.getCookie();
+    // checkin.getCookie();
     List<MeasurementTask> tasksFromServer = checkin.checkin(resourceCapManager, gcmManager);
     // The new task schedule overrides the old one
 
