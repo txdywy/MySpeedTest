@@ -26,8 +26,8 @@ public class GlobalConstants {
 
 	public static final String PYTHON_MAIN_SCRIPT_NAME = "centinel.py";
 	public static final String PYTHON_PROJECT_ZIP_NAME = "centinel.zip";
-	public static final String PYTHON_ZIP_NAME = "python_27.zip";
-	public static final String PYTHON_EXTRAS_ZIP_NAME = "python_extras_27.zip";
+	public static final String PYTHON_ZIP_NAME = "python_26.zip";
+	public static final String PYTHON_EXTRAS_ZIP_NAME = "python_extras_26.zip";
 
 	public static final boolean IS_FOREGROUND_SERVICE = true;
 	public static final String LOG_TAG = "My Speed Test";

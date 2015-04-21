@@ -1,34 +1,15 @@
 package com.num.view.activities;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.android.python27.BackgroundScriptService;
-import com.android.python27.ScriptService;
-import com.android.python27.config.GlobalConstants;
-import com.android.python27.support.Utils;
 import com.num.Constants;
 import com.num.R;
-import com.num.controller.managers.CensorshipManager;
 import com.num.controller.managers.MeasurementManager;
-import com.num.controller.utils.CommandLineUtil;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Activity describing the application and asking users to rate the app

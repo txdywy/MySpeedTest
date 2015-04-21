@@ -24,27 +24,20 @@ package com.android.python27;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.android.python27.config.GlobalConstants;
 import com.android.python27.process.MyScriptProcess;
 import com.googlecode.android_scripting.AndroidProxy;
-import com.googlecode.android_scripting.Constants;
-import com.googlecode.android_scripting.FeaturedInterpreters;
-import com.googlecode.android_scripting.ForegroundService;
 import com.googlecode.android_scripting.NotificationIdFactory;
-import com.googlecode.android_scripting.interpreter.Interpreter;
-import com.googlecode.android_scripting.jsonrpc.RpcReceiverManager;
 import com.googlecode.android_scripting.interpreter.InterpreterConfiguration;
-import com.googlecode.android_scripting.BaseApplication;
+import com.googlecode.android_scripting.jsonrpc.RpcReceiverManager;
 import com.num.R;
 
 import java.io.File;
@@ -53,7 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-public class ScriptService extends ForegroundService {
+public class ScriptService extends Service {
 	private final static int NOTIFICATION_ID = NotificationIdFactory.create();
 	private final CountDownLatch mLatch = new CountDownLatch(1);
 	private final IBinder mBinder;
@@ -89,7 +82,7 @@ public class ScriptService extends ForegroundService {
     // ------------------------------------------------------------------------------------------------------
 
 	public ScriptService() {
-		super(NOTIFICATION_ID);
+		super();
 		mBinder = new LocalBinder();
 	}
 
@@ -174,18 +167,19 @@ public class ScriptService extends ForegroundService {
 		// arguments
 		ArrayList<String> args = new ArrayList<String>();
 		args.add(scriptName);
-		args.add("--foreground");
+		//args.add("--foreground");
 
 		File pythonBinary = new File(this.getFilesDir().getAbsolutePath() + "/python/bin/python");
 
 		// env var
 		Map<String, String> environmentVariables = null;	
 		environmentVariables = new HashMap<String, String>();
-		environmentVariables.put("PYTHONPATH", Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + this.getPackageName() + "/extras/python" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.7/lib-dynload" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.7");		
+		environmentVariables.put("PYTHONPATH", Environment.getExternalStorageDirectory().getAbsolutePath()+ "/" + this.getPackageName() + "/extras/python" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6/lib-dynload" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6");
 		environmentVariables.put("TEMP", Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + this.getPackageName() + "/extras/tmp");		
 		environmentVariables.put("PYTHONHOME", this.getFilesDir().getAbsolutePath() + "/python");		
-		environmentVariables.put("LD_LIBRARY_PATH", this.getFilesDir().getAbsolutePath() + "/python/lib" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.7/lib-dynload");		
-		
+		environmentVariables.put("LD_LIBRARY_PATH", this.getFilesDir().getAbsolutePath() + "/python/lib" + ":" + this.getFilesDir().getAbsolutePath() + "/python/lib/python2.6/lib-dynload");
+		environmentVariables.put("HOME", this.getFilesDir().getAbsolutePath() + "");
+
 		// launch script
 		mProxy = new AndroidProxy(this, null, true);
 		mProxy.startLocal();
@@ -217,19 +211,4 @@ public class ScriptService extends ForegroundService {
 		}
 		return mFacadeManager;
 	}
-
-    // ------------------------------------------------------------------------------------------------------
-
-	@Override
-	protected Notification createNotification() {
-	    Notification notification =
-	        new Notification(R.drawable.icon, this.getString(R.string.loading), System.currentTimeMillis());
-	    // This contentIntent is a noop.
-	    PendingIntent contentIntent = PendingIntent.getService(this, 0, new Intent(), 0);
-	    notification.setLatestEventInfo(this, this.getString(R.string.app_name), this.getString(R.string.loading), contentIntent);
-	    notification.flags = Notification.FLAG_AUTO_CANCEL;
-		return notification;
-	}
-
-	
 }

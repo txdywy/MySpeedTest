@@ -78,17 +78,12 @@
             android:label="@string/title_activity_censorship" >
         </activity>
 
-        <!--service 	android:name="com.android.python27.ScriptService">
+        <service 	android:name="com.android.python27.ScriptService">
             <intent-filter>
                 <action android:name="com.android.python27.ScriptService" />
             </intent-filter>
         </service>
-        <service    android:name="com.android.python27.BackgroundScriptService">
-            <intent-filter>
-                <action android:name="com.android.python27.BackgroundScriptService" />
-            </intent-filter>
-        </service>
-        <service android:name="com.android.python27.RpcServerService" /-->
+        <service android:name="com.android.python27.RpcServerService" />
         <service
             android:name=".controller.services.SignalService"
             android:enabled="true" >
