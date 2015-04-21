@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.num.Constants;
 import com.num.R;
-import com.num.controller.receivers.AlarmReceiver;
+import com.num.controller.receivers.MeasurementAlarmReceiver;
 import com.num.controller.receivers.MonthlyResetAlarmReceiver;
-import com.num.controller.services.BackgroundService;
+import com.num.controller.services.SignalService;
 import com.num.controller.utils.DeviceUtil;
 
 public class TermsAndConditionsActivity extends Activity {
@@ -44,15 +44,18 @@ public class TermsAndConditionsActivity extends Activity {
                 e.commit();
                 finish();
 
-                // start background service
-                AlarmReceiver alarm = new AlarmReceiver();
-                alarm.setAlarm(getApplicationContext());
+                Context context = getApplicationContext();
+
+                // Setting up signal strength listener
+                context.startService(new Intent(context, SignalService.class));
+
+                // Set alarms for resetting data usage and periodic measurement
                 MonthlyResetAlarmReceiver monthlyAlarm = new MonthlyResetAlarmReceiver();
-                monthlyAlarm.setAlarm(getApplicationContext());
+                MeasurementAlarmReceiver alarm = new MeasurementAlarmReceiver();
+                monthlyAlarm.setAlarm(context);
+                alarm.setAlarm(context);
 
-                startService(new Intent(getApplicationContext(), BackgroundService.class));
-
-                Intent myIntent = new Intent(getApplicationContext(), DataCapActivity.class);
+                Intent myIntent = new Intent(context, DataCapActivity.class);
                 startActivity(myIntent);
             }
         });

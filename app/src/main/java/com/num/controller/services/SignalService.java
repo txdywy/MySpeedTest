@@ -10,8 +10,7 @@ import android.telephony.TelephonyManager;
 
 import com.num.model.Signal;
 
-public class BackgroundService extends Service {
-
+public class SignalService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -26,7 +25,6 @@ public class BackgroundService extends Service {
     }
 
     private class SignalListener extends PhoneStateListener {
-
         @Override
         public void onSignalStrengthsChanged(SignalStrength signal) {
             super.onSignalStrengthsChanged(signal);

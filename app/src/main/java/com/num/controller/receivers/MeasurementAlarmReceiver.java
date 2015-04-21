@@ -15,7 +15,7 @@ import com.num.controller.managers.DataUsageManager;
 import com.num.controller.managers.MeasurementManager;
 import com.num.controller.utils.DataUsageUtil;
 
-public class AlarmReceiver extends BroadcastReceiver {
+public class MeasurementAlarmReceiver extends BroadcastReceiver {
 
     final static String TAG = "AlarmReceiver";
 
@@ -31,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             // run only when background_service is set to run (true)
             SharedPreferences prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-            if (prefs.contains("background_service") && prefs.getBoolean("background_service", false)) {
+            if (prefs.getBoolean("accept_conditions", false) && prefs.getBoolean("background_service", false)) {
                 Log.d(TAG, "background service");
                 MeasurementManager manager = new MeasurementManager(context);
                 manager.execute();
@@ -41,24 +41,21 @@ public class AlarmReceiver extends BroadcastReceiver {
                     e.printStackTrace();
                 }
             }
-
             wakeLock.release();
         }catch(Exception e){
             Log.d(TAG, "onReceive");
         }
     }
 
-    public void setAlarm(Context context)
-    {
+    public void setAlarm(Context context) {
         AlarmManager manager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
+        Intent intent = new Intent(context, MeasurementAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), Constants.UPDATE_INTERVAL, pendingIntent);
     }
 
-    public void cancelAlarm(Context context)
-    {
-        Intent intent = new Intent(context, AlarmReceiver.class);
+    public void cancelAlarm(Context context) {
+        Intent intent = new Intent(context, MeasurementAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);

@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
 
 public class MonthlyResetAlarmReceiver extends BroadcastReceiver {
 
-    final static String TAG = "MonthlyResetAlarmReceiver";
+    final static String TAG = "MonthlyAlarm";
 
     @Override
     public void onReceive(Context context, Intent arg1) {
@@ -32,7 +32,7 @@ public class MonthlyResetAlarmReceiver extends BroadcastReceiver {
             SharedPreferences prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 
             //monthly alarm resets the data usage table
-            if(prefs.getInt(Constants.NEXT_MONTHLY_RESET, 0)== (new DeviceUtil().getCurrentMonth())){
+            if(prefs.getInt(Constants.NEXT_MONTHLY_RESET, 0) == (new DeviceUtil().getCurrentMonth())){
                 //reset usage data
                 DataUsageUtil.resetMobileData(context);
                 DataUsageUtil.clearTable(context);
@@ -48,16 +48,14 @@ public class MonthlyResetAlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    public void cancelAlarm(Context context)
-    {
+    public void cancelAlarm(Context context) {
         Intent intent = new Intent(context, MonthlyResetAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
     }
 
-    public void setAlarm(Context context)
-    {
+    public void setAlarm(Context context) {
         AlarmManager manager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, MonthlyResetAlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);

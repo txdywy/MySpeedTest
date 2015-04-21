@@ -78,36 +78,31 @@
             android:label="@string/title_activity_censorship" >
         </activity>
 
-        <service
-            android:name=".controller.services.BackgroundService"
-            android:enabled="true" >
-        </service>
-        <service 	android:name="com.android.python27.ScriptService">
+        <!--service 	android:name="com.android.python27.ScriptService">
             <intent-filter>
                 <action android:name="com.android.python27.ScriptService" />
             </intent-filter>
         </service>
-        <service 	android:name="com.android.python27.BackgroundScriptService">
+        <service    android:name="com.android.python27.BackgroundScriptService">
             <intent-filter>
                 <action android:name="com.android.python27.BackgroundScriptService" />
             </intent-filter>
         </service>
-        <service android:name="com.android.python27.RpcServerService" />
-        <service android:name=".controller.services.DataUsageService" >
+        <service android:name="com.android.python27.RpcServerService" /-->
+        <service
+            android:name=".controller.services.SignalService"
+            android:enabled="true" >
         </service>
         <receiver android:name=".controller.receivers.BootUpReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".controller.receivers.AlarmReceiver"
-            android:process=":remote" >
-        </receiver>
+            android:name=".controller.receivers.MeasurementAlarmReceiver" />
         <receiver
-            android:name=".controller.receivers.MonthlyResetAlarmReceiver"
-            android:process=":remote" >
-        </receiver>
+            android:name=".controller.receivers.MonthlyResetAlarmReceiver" />
     </application>
 </manifest>

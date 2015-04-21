@@ -3,29 +3,15 @@ package com.num.model;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
 import android.telephony.CellLocation;
-import android.telephony.PhoneStateListener;
-import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 
 import com.num.Constants;
-import com.num.controller.tasks.SignalTask;
-import com.num.controller.utils.Logger;
 
 import org.json.JSONObject;
 import org.json.JSONException;
-
-import java.lang.reflect.Method;
-import java.util.Timer;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 public class Network implements BaseModel {
 

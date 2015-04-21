@@ -22,7 +22,7 @@ public class Battery implements BaseModel {
 
     public Battery(Context context) {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Intent batteryStatus = context.registerReceiver(null, filter);
+        Intent batteryStatus = context.getApplicationContext().registerReceiver(null, filter);
 
         isPresent = batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, false);
         technology = batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY);

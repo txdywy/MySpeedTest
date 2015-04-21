@@ -3,11 +3,14 @@ package com.num.controller.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.util.Calendar;
 
 public class DeviceUtil {
     private static DeviceUtil sInstance = new DeviceUtil();
+    final static String TAG = "DeviceUtil";
+
     public static DeviceUtil getInstance() {
         return sInstance;
     }
@@ -35,7 +38,7 @@ public class DeviceUtil {
     public int getNextMonth(){
         Calendar date = Calendar.getInstance();
         date.add(Calendar.MONTH, 1);
-        System.out.println("Monthly reset set to "+date.get(Calendar.MONTH));
+        Log.d(TAG, "Monthly reset set to " + date.get(Calendar.MONTH));
         return date.get(Calendar.MONTH);
     }
 
