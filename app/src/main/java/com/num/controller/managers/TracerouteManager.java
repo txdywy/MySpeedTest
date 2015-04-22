@@ -57,5 +57,26 @@ public class  TracerouteManager {
     public void execute(String address, int type) {
         TracerouteTask task = new TracerouteTask(address, type, handler);
         tracerouteThreadPool.execute(task);
+        handler.removeCallbacksAndMessages(task);
+    }
+
+    /**
+     * Execute traceroute for a single target
+     * @param task TracerouteTask to be run
+     */
+    public void execute(TracerouteTask task) {
+        tracerouteThreadPool.execute(task);
+    }
+
+    /**
+     * Interrupt given task
+     * @param task
+     */
+    public void interrupt(TracerouteTask task){
+        handler.removeCallbacksAndMessages(task);
+    }
+
+    public int getSize(){
+        return tracerouteThreadPool.getQueue().size();
     }
 }
