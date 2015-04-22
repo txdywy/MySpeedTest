@@ -8,8 +8,8 @@ android {
         applicationId "com.num"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 411
-        versionName "4.11"
+        versionCode 412
+        versionName "4.12"
         ndk {
             moduleName "ping"
             moduleName "traceroute"

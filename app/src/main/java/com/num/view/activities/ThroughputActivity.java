@@ -170,7 +170,7 @@ public class ThroughputActivity extends ActionBarActivity {
                 isRunningDown = false;
             }
 
-            if (!isRunningDown && !isRunningUp) {
+            if (!isRunningDown && !isRunningUp && upLink != null && downLink != null) {
                 testSuccessful = true;
                 startButtonImage.setImageResource(R.drawable.ic_action_replay);
                 startButtonTxt.setText("Start");
