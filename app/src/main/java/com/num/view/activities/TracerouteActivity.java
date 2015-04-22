@@ -103,9 +103,11 @@ public class TracerouteActivity extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             Hop hop = msg.getData().getParcelable("hop");
-            if(hop == null || msg.getData().getBoolean("isDone")) {
+            if(hop == null) {
                 progressBar.setVisibility(View.INVISIBLE);
                 return;
+            } else if(msg.getData().getBoolean("isDone")) {
+                progressBar.setVisibility(View.INVISIBLE);
             }
             adapter.add(hop);
         }

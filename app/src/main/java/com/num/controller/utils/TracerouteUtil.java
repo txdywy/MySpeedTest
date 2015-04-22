@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.num.model.Hop;
 import com.num.model.Traceroute;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -37,13 +39,35 @@ public class TracerouteUtil {
         int traceType = (params.containsKey("-I")) ? Traceroute.ICMP : Traceroute.UDP;
         String srcIp = PingUtil.getSrcIp();
         try {
-            InetAddress ip = InetAddress.getByName(hostname);
+            InetAddress ip = null;
+            InetAddress[] ipArray = Inet4Address.getAllByName(hostname);
+            for(InetAddress i: ipArray) {
+                if(i instanceof Inet4Address) {
+                    ip = i;
+                }
+            }
             for(String flag : params.keySet()){
                 options += (flag + " " + params.get(flag) + " ");
             }
             BufferedReader reader = CommandLineUtil.runBufferedCommand(cmd + options + ip.getHostAddress());
             String line = reader.readLine();
-            if(line == null || line.contains("No address associated")) {
+            if(line == null) {
+                Hop hop = new Hop("Unsupported traceroute type", "", 0, 0);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("hostname", hostname);
+                bundle.putString("srcIp", srcIp);
+                bundle.putString("dstIp", ip.getHostAddress());
+                bundle.putInt("traceType", traceType);
+                bundle.putParcelable("hop", hop);
+                bundle.putBoolean("isDone", true);
+
+                Message msg = new Message();
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+                return;
+            }
+            else if(line.contains("No address associated")) {
                 Hop hop = new Hop("Unknown Host", "", 0, 0);
 
                 Bundle bundle = new Bundle();
@@ -60,6 +84,7 @@ public class TracerouteUtil {
                 return;
             }
             while((line=reader.readLine())!=null) {
+                Log.d("TracerouteUtil", line);
                 Hop hop = parseTracerouteResult(line);
 
                 Bundle bundle = new Bundle();
@@ -124,16 +149,18 @@ public class TracerouteUtil {
         int hop = Integer.parseInt(split[0]);
         String address = split[1];
         double sum = 0.0;
-
+        int count = split.length-2;
         for(int i=2; i<split.length; i++) {
             try {
                 sum += Double.parseDouble(split[i]);
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+                count--;
+            }
         }
         double rtt = -1;
-        if(split.length-2 != 0) {
-            rtt = sum / (split.length-2);
+        if(count > 0) {
+            rtt = sum / (count);
         }
         String hostname = address;
         try {
