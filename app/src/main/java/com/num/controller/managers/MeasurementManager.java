@@ -32,7 +32,8 @@ public class MeasurementManager {
     private int count;
     private List<Ping> pings;
     private List<Traceroute> traceroutes;
-    private HashMap<String,List<Hop>> traceMap;
+    private HashMap<String,List<Hop>> traceMapIcmp;
+    private HashMap<String,List<Hop>> traceMapUdp;
     private Usage usage;
     private Measurement measurement;
 
@@ -43,7 +44,8 @@ public class MeasurementManager {
         this.context = context;
         pings = new ArrayList<>();
         traceroutes = new ArrayList<>();
-        traceMap = new HashMap<>();
+        traceMapIcmp = new HashMap<>();
+        traceMapUdp = new HashMap<>();
     }
 
     public void execute() {
@@ -101,7 +103,15 @@ public class MeasurementManager {
             String dstIp = msg.getData().getString("dstIp");
             String hostname = msg.getData().getString("hostname");
             Hop hop = msg.getData().getParcelable("hop");
+            int traceType = msg.getData().getInt("traceType");
 
+            HashMap<String,List<Hop>> traceMap;
+            if(traceType == Traceroute.ICMP) {
+                traceMap = traceMapIcmp;
+            }
+            else {
+                traceMap = traceMapUdp;
+            }
             if(traceMap.containsKey(dstIp)) {
                 if(hop != null) {
                     traceMap.get(dstIp).add(hop);
@@ -114,7 +124,6 @@ public class MeasurementManager {
                 }
             }
             if(msg.getData().getBoolean("isDone")) {
-                int traceType = msg.getData().getInt("traceType");
                 Traceroute traceroute = new Traceroute(hostname, srcIp, dstIp, traceType);
                 traceroute.setHops(traceMap.get(dstIp));
                 traceroutes.add(traceroute);

@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.num.Constants;
 import com.num.R;
 import com.num.controller.managers.MeasurementManager;
+import com.num.controller.managers.TracerouteManager;
+import com.num.controller.utils.ServerUtil;
+import com.num.model.Traceroute;
 
 /**
  * Activity describing the application and asking users to rate the app
@@ -36,6 +40,7 @@ public class AboutUsActivity extends Activity {
         if(Constants.DEBUG) {
             MeasurementManager manager = new MeasurementManager(this.getApplicationContext());
             manager.execute();
+//            new TracerouteManager(this, new Handler()).execute(ServerUtil.getTargets(), Traceroute.ICMP);
         }
     }
 }
