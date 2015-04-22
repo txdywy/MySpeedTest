@@ -78,6 +78,8 @@ public class ThroughputActivity extends ActionBarActivity {
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
         historyButton = (LinearLayout) findViewById(R.id.button_history);
 
+        progressBar.setProgress(0);
+
         countDownTimer = new CountDownTimer(progressLength, progressInterval) {
             @Override
             public void onTick(long millisUntilFinished_) {
