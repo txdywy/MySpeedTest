@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import com.num.model.Throughput;
 
 public class ThroughputActivity extends ActionBarActivity {
 
+    private static String TAG = "ThroughputActivity";
     private DatabaseHelper dbHelper;
     private TextView downSpeed, upSpeed, percentage;
     private TextView startButtonTxt;
@@ -69,6 +71,8 @@ public class ThroughputActivity extends ActionBarActivity {
         isRunningUp = false;
         isRunningDown = false;
         testSuccessful = false;
+//        Log.d(TAG, "isRunningUp: " + isRunningUp + " isRunningDown: " + isRunningDown + " testSuccessful: " + testSuccessful);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         percentage = (TextView) findViewById(R.id.text_pvalue);
         downSpeed = (TextView) findViewById(R.id.text_dvalue);
@@ -77,8 +81,6 @@ public class ThroughputActivity extends ActionBarActivity {
         startButtonImage = (ImageView) findViewById(R.id.button_start_image);
         startButtonTxt = (TextView) findViewById(R.id.button_start_txt);
         historyButton = (LinearLayout) findViewById(R.id.button_history);
-
-        progressBar.setProgress(0);
 
         countDownTimer = new CountDownTimer(progressLength, progressInterval) {
             @Override
@@ -99,9 +101,8 @@ public class ThroughputActivity extends ActionBarActivity {
                     startButton.setClickable(true);
                     downSpeed.setText("0.0 Mbps");
                     upSpeed.setText("0.0 Mbps");
-                } else {
-                    testSuccessful = false;
                 }
+                testSuccessful = false;
             }
 
         };
@@ -112,22 +113,33 @@ public class ThroughputActivity extends ActionBarActivity {
                 if (!DeviceUtil.getInstance().isInternetAvailable(context)) {
                     percentage.setText("No Connection");
                 } else {
-                    if (!isRunningUp && !isRunningDown) {
-                        isRunningUp = true;
-                        isRunningDown = true;
-                        startButtonImage.setImageResource(R.drawable.ic_action_stop);
-                        startButtonTxt.setText("Running");
-                        startButton.setClickable(false);
-                        percentage.setText("In progress...");
-                        downSpeed.setText("Running");
-                        upSpeed.setText("Running");
-                        ThroughputManager.execute(context);
-                        countDownTimer.start();
-                    } else {
-                        isRunningUp = false;
-                        isRunningDown = false;
-                        unregisterReceiver(br);
-                    }
+                    isRunningUp = true;
+                    isRunningDown = true;
+                    downLink = null;
+                    upLink = null;
+                    startButtonImage.setImageResource(R.drawable.ic_action_stop);
+                    startButtonTxt.setText("Running");
+                    startButton.setClickable(false);
+                    percentage.setText("In progress...");
+                    downSpeed.setText("Running");
+                    upSpeed.setText("Running");
+                    ThroughputManager.execute(context);
+                    countDownTimer.start();
+//                    if (!isRunningUp && !isRunningDown) {
+//                        isRunningUp = true;
+//                        isRunningDown = true;
+//                        startButtonImage.setImageResource(R.drawable.ic_action_stop);
+//                        startButtonTxt.setText("Running");
+//                        startButton.setClickable(false);
+//                        percentage.setText("In progress...");
+//                        downSpeed.setText("Running");
+//                        upSpeed.setText("Running");
+//                        ThroughputManager.execute(context);
+//                        countDownTimer.start();
+//                    } else {
+//                        isRunningUp = false;
+//                        isRunningDown = false;
+//                    }
                 }
             }
         });
@@ -160,31 +172,45 @@ public class ThroughputActivity extends ActionBarActivity {
             String throughputJSON = result.getValues().get("tcp_speed_results");
             long tp = (long) desc.calMedianSpeedFromTCPThroughputOutput(throughputJSON);
 
-            if (desc.dir_up == true) {
-                upLink = new Link(1, tp, desc.duration_period_sec, desc.target, TCPThroughputTask.PORT_UPLINK + "");
-                upSpeed.setText(ThroughputManager.outputString(tp));
-                isRunningUp = false;
-            } else {
+            Log.d(TAG, "something received");
+
+            if (isRunningDown && !desc.dir_up) {
                 downLink = new Link(1, tp, desc.duration_period_sec, desc.target, TCPThroughputTask.PORT_DOWNLINK + "");
                 downSpeed.setText(ThroughputManager.outputString(tp));
                 isRunningDown = false;
-            }
+                Log.d(TAG, "downlink");
+            } else if(isRunningUp && desc.dir_up){
+                if(null!=downLink){
+                    upLink = new Link(1, tp, desc.duration_period_sec, desc.target, TCPThroughputTask.PORT_UPLINK + "");
+                    upSpeed.setText(ThroughputManager.outputString(tp));
 
-            if (!isRunningDown && !isRunningUp && upLink != null && downLink != null) {
-                testSuccessful = true;
-                startButtonImage.setImageResource(R.drawable.ic_action_replay);
-                startButtonTxt.setText("Start");
-                startButton.setClickable(true);
-                progressBar.setProgress(100);
-                percentage.setText("Test Complete");
-                String dateTime = dbHelper.getDateTime();
-                Throughput throughput =
-                        new Throughput(downLink, upLink, dateTime);
-                dbHelper.insertThroughput(throughput);
-                Measurement measurement = new Measurement(context,true);
-                measurement.setThroughput(throughput);
-                MeasurementManager manager = new MeasurementManager(context);
-                manager.sendMeasurement(measurement);
+                    //update display
+                    startButtonImage.setImageResource(R.drawable.ic_action_replay);
+                    startButtonTxt.setText("Start");
+                    startButton.setClickable(true);
+                    progressBar.setProgress(100);
+                    percentage.setText("Test Complete");
+
+
+                    String dateTime = dbHelper.getDateTime();
+                    Throughput throughput =
+                            new Throughput(downLink, upLink, dateTime);
+
+                    dbHelper.insertThroughput(throughput);
+                    Measurement measurement = new Measurement(context,true);
+                    measurement.setThroughput(throughput);
+                    MeasurementManager manager = new MeasurementManager(context);
+                    manager.sendMeasurement(measurement);
+
+                    testSuccessful = true;
+
+                    Log.d(TAG, "uplink if");
+                }else{
+                    Log.d(TAG, "uplink else");
+                }
+                isRunningUp = false;
+                upLink = null;
+                downLink = null;
             }
         }
     }
