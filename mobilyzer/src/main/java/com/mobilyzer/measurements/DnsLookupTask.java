@@ -18,6 +18,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.InvalidClassException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.InvalidParameterException;
@@ -162,7 +163,13 @@ public class DnsLookupTask extends MeasurementTask{
         DnsLookupDesc taskDesc = (DnsLookupDesc) this.measurementDesc;
         Logger.i("Running DNS Lookup for target " + taskDesc.target);
         t1 = System.currentTimeMillis();
-        InetAddress inet = InetAddress.getByName(taskDesc.target);
+        InetAddress inet = null;
+        InetAddress[] inetArray = InetAddress.getAllByName(taskDesc.target);
+        for(InetAddress ia:inetArray) {
+            if(ia instanceof Inet4Address) {
+                inet = ia;
+            }
+        }
         t2 = System.currentTimeMillis();
         if (inet != null) {
           totalTime += (t2 - t1);
