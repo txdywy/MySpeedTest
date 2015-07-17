@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "com.num"
         minSdkVersion 12
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 412
         versionName "4.12"
         ndk {
@@ -27,9 +27,9 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':mobilyzer')
     compile project(':netalyzrtest')
-    compile 'com.android.support:appcompat-v7:21.0.0'
-    compile 'com.android.support:support-v4:21.0.0'
-    compile 'com.google.guava:guava:16.0.1'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.google.guava:guava:18.0'
     compile files('libs/libGoogleAnalytics.jar')
     compile files('libs/locale_platform.jar')
     compile files('libs/script.jar')
